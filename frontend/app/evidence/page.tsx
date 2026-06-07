@@ -4,6 +4,7 @@ import { api } from "@/lib/api-client";
 import type { EvidenceResponse } from "@/lib/types";
 
 const SOURCE_TYPES = ["bloomberg", "sec", "utility_filing", "public"] as const;
+const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
 export default function EvidencePage() {
   const [url, setUrl] = useState("");
@@ -13,8 +14,31 @@ export default function EvidencePage() {
   const [tags, setTags] = useState("");
   const [trustScore, setTrustScore] = useState(0.7);
   const [loading, setLoading] = useState(false);
+  const [parsing, setParsing] = useState(false);
   const [result, setResult] = useState<EvidenceResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [parsedEntities, setParsedEntities] = useState<string[]>([]);
+
+  async function handleParseUrl() {
+    if (!url) { setError("Enter a URL first."); return; }
+    setParsing(true);
+    setError(null);
+    try {
+      const res = await fetch(`${API_BASE}/evidence/parse-url?url=${encodeURIComponent(url)}`);
+      const data = await res.json();
+      if (data.title) setTitle(data.title);
+      if (data.topic_tags?.length) {
+        const newTags = data.topic_tags.join(", ");
+        setTags((prev) => prev ? `${prev}, ${newTags}` : newTags);
+      }
+      if (data.detected_entities?.length) setParsedEntities(data.detected_entities);
+      setSourceType(data.source_type === "bloomberg" ? "bloomberg" : sourceType);
+    } catch (e: any) {
+      setError("URL parse failed: " + (e.message ?? "unknown error"));
+    } finally {
+      setParsing(false);
+    }
+  }
 
   async function handleSubmit() {
     if (!url || !title || note.length < 20) {
@@ -51,12 +75,26 @@ export default function EvidencePage() {
         <div className="grid grid-cols-2 gap-4">
           <div className="col-span-2">
             <label className="block text-xs text-slate-400 mb-1">URL</label>
-            <input
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              placeholder="https://..."
-              className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
+            <div className="flex gap-2">
+              <input
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                placeholder="https://bloomberg.com/..."
+                className="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+              <button
+                onClick={handleParseUrl}
+                disabled={parsing || !url}
+                className="px-3 py-2 rounded-lg bg-slate-700 text-slate-200 text-xs font-medium disabled:opacity-40 hover:bg-slate-600 transition-colors whitespace-nowrap"
+              >
+                {parsing ? "Parsing..." : "Parse URL"}
+              </button>
+            </div>
+            {parsedEntities.length > 0 && (
+              <p className="text-xs text-indigo-400 mt-1">
+                Detected entities: {parsedEntities.join(", ")}
+              </p>
+            )}
           </div>
           <div className="col-span-2">
             <label className="block text-xs text-slate-400 mb-1">Title</label>
@@ -126,7 +164,7 @@ export default function EvidencePage() {
 
       {result && (
         <div className="mt-4 bg-slate-900 border border-emerald-800/40 rounded-xl p-4 space-y-2">
-          <p className="text-sm font-medium text-emerald-400">✓ Evidence accepted — pipeline running</p>
+          <p className="text-sm font-medium text-emerald-400">Evidence accepted — pipeline running</p>
           <p className="text-xs text-slate-400">Source ID: {result.source_id}</p>
           <p className="text-xs text-slate-400">Note ID: {result.note_id}</p>
           <p className="text-xs text-slate-400">Status: {result.status}</p>
