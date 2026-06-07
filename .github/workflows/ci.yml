@@ -28,9 +28,13 @@ jobs:
       - name: Run pytest
         run: python -m pytest backend/tests/ -v --tb=short
         env:
-          ANTHROPIC_API_KEY: placeholder-set-in-env
-          GOOGLE_API_KEY: placeholder-set-in-env
-          GOOGLE_CLOUD_PROJECT: placeholder-project
+          ANTHROPIC_API_KEY: sk-test-placeholder
+          GOOGLE_API_KEY: test-placeholder
+          OPENAI_API_KEY: sk-test-placeholder
+          BIGQUERY_PROJECT_ID: ""
+          BIGQUERY_DATASET: ai_transmission_map
+          GOOGLE_CLOUD_PROJECT: ""
+          AITM_API_KEY: dev-key-change-in-production
 
       - name: Set up Node.js 20
         uses: actions/setup-node@v4
