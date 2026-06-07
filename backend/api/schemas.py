@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Optional, List, Literal
 from datetime import datetime
 
@@ -90,6 +90,7 @@ class MemoRequest(BaseModel):
     max_words: int = 800
 
 class MemoResponse(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())
     memo_id: str
     memo_text: str
     regime: str

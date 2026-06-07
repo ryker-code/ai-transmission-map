@@ -1,4 +1,5 @@
 import logging
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from backend.api.routes import evidence, entities, graph, bottlenecks, thesis, memo, house_view, regime
@@ -6,7 +7,15 @@ from backend.api.routes import evidence, entities, graph, bottlenecks, thesis, m
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-app = FastAPI(title="AI Transmission Map API", version="0.1.0")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    logger.info("AITM Backend starting...")
+    yield
+    logger.info("AITM Backend shutting down.")
+
+
+app = FastAPI(title="AI Transmission Map API", version="0.1.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -25,10 +34,7 @@ app.include_router(memo.router, prefix="/memo", tags=["memo"])
 app.include_router(house_view.router, prefix="/house-view", tags=["house-view"])
 app.include_router(regime.router, prefix="/regime", tags=["regime"])
 
+
 @app.get("/health")
 async def health():
     return {"status": "ok", "version": "0.1.0"}
-
-@app.on_event("startup")
-async def startup():
-    logger.info("AITM Backend starting...")
