@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const API_URL = '/api/proxy';
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY ?? "dev-key-change-in-production";
 
 export default function DigestPage() {

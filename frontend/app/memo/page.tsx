@@ -11,7 +11,7 @@ const STYLE_OPTIONS = [
 
 type MemoStyle = typeof STYLE_OPTIONS[number]["value"];
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const API_URL = '/api/proxy';
 
 export default function MemoPage() {
   const [style, setStyle] = useState<MemoStyle>("buyside_lp");

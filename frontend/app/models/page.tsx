@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Cpu, RefreshCw, CheckCircle, AlertCircle } from "lucide-react";
 import type { ModelStatusEntry, ModelStatusResponse } from "@/lib/types";
 
-const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const API = '/api/proxy';
 
 function getModelColor(name: string): string {
   if (name.includes("gemini")) return "bg-blue-900/40 text-blue-300 border-blue-700/40";

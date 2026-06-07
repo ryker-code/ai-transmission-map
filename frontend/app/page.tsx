@@ -43,7 +43,7 @@ function HouseViewNarrative({ apiBase }: { apiBase: string }) {
 }
 
 export default function Home() {
-  const apiBase = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+  const apiBase = '/api/proxy';
   const { data: regime, isLoading: regimeLoading } = useSWR(`${apiBase}/regime/`, fetcher, {
     refreshInterval: 60000,
     revalidateOnFocus: false,

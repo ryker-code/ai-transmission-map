@@ -3,7 +3,7 @@ import useSWR from "swr";
 import Link from "next/link";
 import type { WatchlistResponse } from "@/lib/types";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const API_URL = '/api/proxy';
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 const MOMENTUM_COLORS: Record<string, string> = {

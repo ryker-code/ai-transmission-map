@@ -2,7 +2,7 @@
 import useSWR from "swr";
 import type { RegimeTimelineResponse, RegimeTimelineEntry } from "@/lib/types";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const API_BASE = '/api/proxy';
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 const REGIME_COLORS: Record<string, string> = {

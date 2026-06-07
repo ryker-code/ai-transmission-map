@@ -3,7 +3,7 @@ import { useState } from "react";
 import { api } from "@/lib/api-client";
 import type { ThesisRunResponse, ScenarioResponse } from "@/lib/types";
 
-const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const API = '/api/proxy';
 
 const PRESET_SCENARIOS = [
   {

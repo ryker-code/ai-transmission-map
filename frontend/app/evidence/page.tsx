@@ -4,7 +4,7 @@ import { api } from "@/lib/api-client";
 import type { EvidenceResponse } from "@/lib/types";
 
 const SOURCE_TYPES = ["bloomberg", "sec", "utility_filing", "public", "news"] as const;
-const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const API_BASE = '/api/proxy';
 
 export default function EvidencePage() {
   const [url, setUrl] = useState("");

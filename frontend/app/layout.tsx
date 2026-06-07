@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import Link from "next/link";
 import { LayoutDashboard, Network, Brain, FileText, Inbox, Star, TrendingUp, Cpu, Bookmark, Mail } from "lucide-react";
 import EntitySearch from "@/components/EntitySearch";
+import { SWRProvider } from "@/lib/swr-config";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -32,7 +33,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={inter.className} suppressHydrationWarning={true}>
+        <SWRProvider>
         <div className="flex h-screen bg-slate-950 text-white overflow-hidden">
           <aside className="w-14 md:w-60 bg-slate-900 border-r border-slate-800 flex flex-col shrink-0 transition-all">
             <div className="p-3 md:p-6 border-b border-slate-800">
@@ -79,6 +81,7 @@ export default function RootLayout({
             </main>
           </div>
         </div>
+        </SWRProvider>
       </body>
     </html>
   );

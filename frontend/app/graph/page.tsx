@@ -5,7 +5,7 @@ import useSWR from "swr";
 import dynamic from "next/dynamic";
 import type { GraphResponse, GraphNode } from "@/lib/types";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_BASE = '/api/proxy';
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 // Dynamic import avoids SSR crash (react-force-graph-2d needs window)

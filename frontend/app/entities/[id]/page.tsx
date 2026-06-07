@@ -4,9 +4,9 @@ import useSWR from "swr";
 import Link from "next/link";
 import type { EntityDetailResponse, ClaimSummary, MarketSignalEntry } from "@/lib/types";
 
-const API_URL_GLOBAL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const API_URL_GLOBAL = '/api/proxy';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const API_BASE = '/api/proxy';
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 const TYPE_COLORS: Record<string, string> = {
