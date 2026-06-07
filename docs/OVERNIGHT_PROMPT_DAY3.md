@@ -1,6 +1,5 @@
 # OVERNIGHT_PROMPT_DAY3.md
 # AI Transmission Map — Day 3 Autonomous Execution Prompt
-# Run this after rate limit resets (~3:48 AM EDT)
 # Start with: claude --dangerously-skip-permissions
 # Then paste EVERYTHING below this line into Claude Code
 
