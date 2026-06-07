@@ -69,6 +69,54 @@ async def generate_memo(payload: MemoRequest):
     return response
 
 
+@router.post("/stream")
+async def stream_memo(payload: MemoRequest):
+    """
+    Stream memo generation via Server-Sent Events.
+    Client should use fetch() with ReadableStream (not EventSource, which is GET-only).
+    Emits: data: {"chunk": "text", "tokens": N}  per token
+    Final:  data: {"done": true, "memo_id": "...", "run_id": "..."}
+    """
+    from backend.agents.memo_agent import generate_memo_stream
+    from backend.db.run_cache import get as get_run
+
+    run_data = get_run(payload.thesis_run_id) or {}
+
+    thesis = run_data.get("thesis", "AI infrastructure thesis")
+    support_score = run_data.get("support_score", 0.72)
+    contradiction_score = run_data.get("contradiction_score", 0.28)
+    regime = run_data.get("regime", "AI_CAPEX_EXPANSION")
+    key_bottlenecks = run_data.get("key_bottlenecks", [
+        "Transformer Lead Times (80-120 week backlog)",
+        "Grid Interconnection Queue (5+ year clearance)",
+    ])
+    exposed_entities = run_data.get("exposed_entities", ["GE Vernova", "Vertiv Holdings"])
+    falsification_triggers = run_data.get("falsification_triggers", [
+        "Transformer imports from Asia ramp faster than expected",
+    ])
+
+    return StreamingResponse(
+        generate_memo_stream(
+            thesis_run_id=payload.thesis_run_id,
+            thesis=thesis,
+            support_score=support_score,
+            contradiction_score=contradiction_score,
+            key_bottlenecks=key_bottlenecks,
+            exposed_entities=exposed_entities,
+            falsification_triggers=falsification_triggers,
+            regime=regime,
+            style=payload.style,
+            max_words=payload.max_words,
+        ),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "X-Accel-Buffering": "no",
+            "Access-Control-Allow-Origin": "*",
+        },
+    )
+
+
 @router.get("/{memo_id}/pdf")
 async def download_memo_pdf(memo_id: str):
     """Generate and stream a PDF of the investment memo identified by memo_id."""
