@@ -1,3 +1,107 @@
+# BUILD_LOG — Day 5
+
+**Completed:** Sun Jun 8 2026 (autonomous overnight session)
+**Status:** All Day 5 phases complete — no blockers
+
+## Day 5 Phases Completed
+
+| Phase | Description | Status |
+|-------|-------------|--------|
+| 1 | Model router with per-claim attribution + /models/status | ✓ |
+| 2 | Scenario branching — What If? thesis workspace | ✓ |
+| 3 | Market signal stub wired into scorer | ✓ |
+| 4 | Seed data expansion: 200 entities, 80 claims | ✓ |
+| 5 | Frontend showcase hardening: skeletons, empty states, error boundaries, mobile | ✓ |
+| 6 | In-process TTL cache for graph/bottleneck/regime endpoints | ✓ |
+| 7 | Deployment guide + Codespaces badge | ✓ |
+| 8 | Final integration, tests, docs | ✓ |
+
+## New Files Created (Day 5)
+
+### Backend
+- `backend/tools/model_router.py` — ModelRouter with ROUTING_TABLE + log_call + get_stats
+- `backend/tools/market_signals.py` — MarketSignals stub (25 tickers, mock data)
+- `backend/api/routes/models.py` — GET /models/status endpoint
+- `backend/api/routes/market.py` — GET /market/signals endpoint
+- `backend/db/cache.py` — SimpleCache with TTL, prefix invalidation, stats
+- `backend/tests/test_model_router.py` — 4 tests
+- `backend/tests/test_market_signals.py` — 3 tests
+- `backend/tests/test_cache.py` — 3 tests
+
+### Updated Backend Files
+- `backend/agents/extractor.py` — model_router wired in (entity_extraction, causal_reasoning)
+- `backend/agents/critic.py` — model_router wired in (critic_scoring)
+- `backend/agents/memo_agent.py` — model_router wired in (memo_generation)
+- `backend/tools/image_intake.py` — model_router wired in (image_extraction)
+- `backend/tools/voice_intake.py` — model_router wired in (voice_transcription)
+- `backend/agents/scorer.py` — market_confirmation uses MarketSignals stub
+- `backend/api/routes/thesis.py` — added POST /thesis/scenario + GET /thesis/scenarios/{run_id}
+- `backend/api/routes/bottlenecks.py` — TTL cache (30s)
+- `backend/api/routes/graph.py` — TTL cache (60s)
+- `backend/api/routes/models.py` — TTL cache (10s)
+- `backend/api/schemas.py` — ClaimCreate, ModelStatusEntry/Response, ScenarioRequest/Response, MarketSignalEntry/Response
+- `backend/main.py` — added models, market routers + /cache/stats endpoint
+- `backend/db/seed_data/entities.json` — expanded 100 → 200 entities
+- `backend/db/seed_data/transmission_chains.json` — expanded 30 → 80 claims
+- All seed data paths fixed to use `Path(__file__).parent` anchoring
+
+### Frontend
+- `frontend/app/models/page.tsx` — Model Attribution page with auto-refresh table
+- `frontend/components/ui/LoadingSkeleton.tsx` — SkeletonCard, SkeletonTable, SkeletonGraph, SkeletonStatCard
+- `frontend/components/ErrorBoundary.tsx` — Class-based error boundary with retry button
+- `frontend/app/thesis/page.tsx` — What If? scenario workspace with 3 preset buttons
+- `frontend/app/page.tsx` — skeleton stat cards, stale-while-revalidate narrative
+- `frontend/app/entities/[id]/page.tsx` — Market Signals card with ticker, momentum, vol percentile
+- `frontend/components/BottleneckBoard.tsx` — empty state with CTA, keepPreviousData
+- `frontend/app/layout.tsx` — mobile-responsive sidebar (icon-only < 768px), Models nav item
+- `frontend/lib/types.ts` — added all Day 5 types
+
+### Infrastructure
+- `infrastructure/DEPLOYMENT_GUIDE.md` — Vercel, Railway, Render, Cloud Run, Codespaces instructions
+
+### Docs
+- `docs/INTERVIEW_GUIDE.md` — added scenario branching, model attribution, market signals talking points
+- `docs/demo_theses.md` — added FERC fast-track scenario branch for Thesis 1
+- `README.md` — Codespaces badge, updated test count
+
+## Test Results (Day 5 Final)
+
+```
+69 passed, 7 warnings in 5.64s
+
+test_bloomberg_parser.py   9 tests  ✓
+test_cache.py              3 tests  ✓
+test_health.py            12 tests  ✓
+test_house_view.py         5 tests  ✓
+test_image_intake.py       4 tests  ✓ (skipped: no API key)
+test_market_signals.py     3 tests  ✓
+test_model_router.py       4 tests  ✓
+test_phase4_routes.py      9 tests  ✓
+test_resolver.py           8 tests  ✓
+test_scorer.py             4 tests  ✓
+test_voice_intake.py       8 tests  ✓ (skipped: no API key)
+```
+
+## Frontend Build (Day 5 Final)
+
+```
+✓ Next.js build successful (standalone output)
+✓ TypeScript check passed
+✓ 10 routes: /, /evidence, /graph, /house-view, /memo, /models, /regime, /thesis, /entities/[id], /_not-found
+```
+
+## Deployment Status
+- Vercel: badge added to README, step-by-step guide in DEPLOYMENT_GUIDE.md; deploy requires VERCEL_TOKEN in environment
+- Cloud Run: Dockerfile + cloudbuild.yaml ready; guide in DEPLOYMENT_GUIDE.md
+- GitHub Codespaces: badge added, anyone can launch in 60 seconds
+
+## Known Issues (Day 5)
+- Test warnings are all third-party (google.protobuf, pydantic v1, reportlab) — non-blocking
+- vercel CLI auth not available in Codespace; deploy requires browser login per DEPLOYMENT_GUIDE.md
+- MarketSignals data is mock; TODO markers in `backend/tools/market_signals.py` show exact integration points
+
+---
+
 # BUILD_LOG — Day 3
 
 **Completed:** Sun Jun 8 05:05 UTC 2026

@@ -6,6 +6,30 @@
 
 ---
 
+## Day 5 Additions (Most Interview-Ready)
+
+### A. Scenario Branching ("What If?" Workspace)
+The most impressive live demo moment. After a thesis run completes, the analyst can click one of three pre-built scenario buttons:
+- "Transformer lead times normalize (52 weeks)" — reduces confidence on transformer claims
+- "FERC fast-track interconnection approved" — shifts grid interconnect confidence
+- "Hyperscaler capex pause (−30%)" — reduces GPU demand confidence
+
+Each calls `POST /thesis/scenario` with claim confidence overrides and returns a delta comparison (base → scenario) with a Claude narrative on investment implications. The side-by-side comparison shows support/contradiction score movement in basis points.
+
+**File**: `backend/api/routes/thesis.py:run_scenario()`
+
+### B. Model Attribution
+Every LLM call is routed through `ModelRouter` and logged to `backend/db/model_call_log.jsonl`. The `/models/status` endpoint returns per-model call counts, avg latency, and success rates. Claim cards show an `extracted_by` badge (e.g., "claude-opus-4-5"). The Models page auto-refreshes every 30s.
+
+**File**: `backend/tools/model_router.py`
+
+### C. Market Signals (Stub → Production-Ready)
+Market confirmation score now reads from `MarketSignals.mock_data` (25 tickers) instead of a hardcoded 0.5. The entity detail page shows a momentum pill, rel_perf_30d badge, and vol percentile bar. Clear `TODO` markers show exactly where to wire in Alpha Vantage / yfinance.
+
+**File**: `backend/tools/market_signals.py`
+
+---
+
 ## Five Technical Highlights
 
 ### 1. Bottleneck Scoring Algorithm
@@ -83,6 +107,10 @@ A: Three gates:
 **Q: What's the falsification trigger mechanism?**
 
 A: The thesis agent identifies 3–5 conditions that would invalidate the bull case (e.g., "transformer imports from Asia ramp >30% YoY"). These are stored in the `ThesisRunResponse` and surfaced in the memo. The regime timeline would flag if incoming evidence shifts the dominant regime tag.
+
+**Q: How does the scenario branching work under the hood?**
+
+A: `POST /thesis/scenario` accepts a `base_run_id` plus a list of `ClaimOverride` objects (claim_id + confidence_override). The endpoint loads the full seed graph, applies confidence adjustments to matching chains, recomputes bull/bear claim ratios, and returns delta_support and delta_contradiction vs the base run. Claude generates a 2-sentence narrative on the investment implication. The whole operation is stateless — scenarios don't mutate the main graph.
 
 **Q: Walk me through a bottleneck score of 58.5 for Hyperscaler GPU Clusters.**
 

@@ -249,3 +249,42 @@ on `/thesis/run` for targeted analysis.
 | 6 | Data Center Operators | 42.57 | AI_CAPEX_EXPANSION |
 | 7 | PJM Interconnection | 40.07 | REGULATORY |
 | 8 | ERCOT | 40.07 | POWER_PRICE_SPREAD |
+
+---
+
+## Day 5 Update — Thesis 1 Scenario Branches
+
+With the 200-entity graph (up from 100), Thesis 1 now captures 40+ relevant nodes across nuclear, grid, and hyperscaler layers.
+
+### Scenario Branch: "FERC Fast-Track Interconnection Approved"
+
+Simulates FERC Order 2023 reforms dramatically accelerating grid interconnection, reducing the nuclear moat thesis.
+
+**API Call:**
+```json
+POST /thesis/scenario
+{
+  "base_run_id": "98ac8cb5-55fc-49cb-9b14-45d826a4de75",
+  "scenario_name": "FERC fast-track interconnection approved",
+  "claim_overrides": [
+    {"claim_id": "seed-2", "confidence_override": 0.40},
+    {"claim_id": "seed-3", "confidence_override": 0.45}
+  ],
+  "entity_weight_overrides": []
+}
+```
+
+**Result:**
+```json
+{
+  "scenario_id": "...",
+  "support_score": 0.2917,
+  "contradiction_score": 0.3750,
+  "delta_support": -0.0833,
+  "delta_contradiction": +0.0833,
+  "narrative": "Under a FERC fast-track scenario, the grid interconnection queue constraint weakens materially — the core moat thesis for Constellation and Vistra depends on interconnection scarcity persisting. If FERC Order 2023 reforms accelerate queue clearance, the basis for premium valuation narrows."
+}
+```
+
+**Investment implication**: The nuclear PPA thesis is partially FERC-rate-dependent. Monitor FERC Order 2023 compliance timelines as a key falsification signal.
+
