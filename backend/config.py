@@ -1,0 +1,16 @@
+from pydantic_settings import BaseSettings
+from typing import Optional
+
+class Settings(BaseSettings):
+    anthropic_api_key: str = "placeholder-set-in-env"
+    google_api_key: str = "placeholder-set-in-env"
+    openai_api_key: str = "placeholder-set-in-env"
+    google_cloud_project: str = "placeholder-project"
+    bigquery_dataset: str = "aitm"
+    next_public_api_url: str = "http://localhost:8000"
+
+    class Config:
+        env_file = ".env"
+        extra = "ignore"
+
+settings = Settings()

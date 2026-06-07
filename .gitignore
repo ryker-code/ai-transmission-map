@@ -1,0 +1,11 @@
+node_modules
+.env
+__pycache__
+.next
+dist
+*.pyc
+.DS_Store
+venv
+.vercel
+*.egg-info
+.pytest_cache
