@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
-from backend.api.routes import evidence, entities, graph, bottlenecks, thesis, memo, house_view, regime, claims, models, market, watchlist
+from backend.api.routes import evidence, entities, graph, bottlenecks, thesis, memo, house_view, regime, claims, models, market, watchlist, digest
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -46,6 +46,7 @@ app.include_router(claims.router, prefix="/claims", tags=["claims"])
 app.include_router(models.router, prefix="/models", tags=["models"])
 app.include_router(market.router, prefix="/market", tags=["market"])
 app.include_router(watchlist.router, prefix="/watchlist", tags=["watchlist"])
+app.include_router(digest.router, prefix="/digest", tags=["digest"])
 
 
 @app.get("/health")
