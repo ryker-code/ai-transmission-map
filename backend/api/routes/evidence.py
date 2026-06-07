@@ -90,6 +90,12 @@ async def _run_pipeline_background(source_id: str, note_id: str,
         )
         if result.get("error"):
             logger.warning(f"Pipeline completed with error: {result['error']}")
+        # Invalidate stale caches after new evidence is ingested
+        from backend.db.cache import get_cache
+        cache = get_cache()
+        cache.invalidate_prefix("graph:")
+        cache.invalidate_prefix("bottlenecks:")
+        cache.invalidate_prefix("regime:")
     except Exception as e:
         logger.error(f"Pipeline background task failed for note_id={note_id}: {e}")
 

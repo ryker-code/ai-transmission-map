@@ -3,10 +3,12 @@ import logging
 from pathlib import Path
 from fastapi import APIRouter, Query
 from backend.api.schemas import GraphResponse, GraphNode, GraphEdge
+from backend.db.cache import get_cache
 from datetime import datetime, timezone
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
+_cache = get_cache()
 
 
 def _load_graph_from_seed() -> GraphResponse:
@@ -66,6 +68,10 @@ def _load_graph_from_seed() -> GraphResponse:
 @router.get("/", response_model=GraphResponse)
 async def get_graph(regime: str = Query(None, description="Filter by regime tag")):
     """Return the transmission graph with nodes and edges from the seed data store."""
+    cache_key = f"graph:{regime or 'all'}"
+    cached = _cache.get(cache_key)
+    if cached is not None:
+        return cached
     try:
         graph = _load_graph_from_seed()
         if regime:
@@ -95,6 +101,7 @@ async def get_graph(regime: str = Query(None, description="Filter by regime tag"
                     regime_tag=regime,
                     computed_at=datetime.now(timezone.utc),
                 )
+        _cache.set(cache_key, graph, ttl_seconds=60)
         return graph
     except Exception as e:
         logger.error(f"Graph query failed: {e}")

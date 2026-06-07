@@ -4,9 +4,11 @@ from datetime import datetime, timezone
 from fastapi import APIRouter
 from backend.api.schemas import ModelStatusEntry, ModelStatusResponse
 from backend.tools.model_router import get_router
+from backend.db.cache import get_cache
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
+_cache = get_cache()
 
 ROUTING_TABLE = get_router().ROUTING_TABLE
 
@@ -14,6 +16,9 @@ ROUTING_TABLE = get_router().ROUTING_TABLE
 @router.get("/status", response_model=ModelStatusResponse)
 async def get_model_status():
     """Return per-model call counts, avg latency, and success rate from the call log."""
+    cached = _cache.get("models:status")
+    if cached is not None:
+        return cached
     try:
         stats = get_router().get_stats()
         entries = []
@@ -43,11 +48,13 @@ async def get_model_status():
                     success_rate=1.0,
                 ))
 
-        return ModelStatusResponse(
+        result = ModelStatusResponse(
             models=entries,
             is_live=True,
             last_updated=datetime.now(timezone.utc),
         )
+        _cache.set("models:status", result, ttl_seconds=10)
+        return result
     except Exception as e:
         logger.error(f"model status failed: {e}")
         return ModelStatusResponse(models=[], is_live=False, last_updated=datetime.now(timezone.utc))

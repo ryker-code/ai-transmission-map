@@ -57,6 +57,11 @@ async def update_house_view(payload: HouseViewUpdate):
         "pinned_thesis": payload.pinned_thesis,
     })
     _persist_to_sqlite(payload)
+    # Invalidate caches affected by house view changes
+    from backend.db.cache import get_cache
+    cache = get_cache()
+    cache.invalidate_prefix("bottlenecks:")
+    cache.invalidate("narrative:current")
     logger.info(f"House view updated: entity={payload.entity_id} weight={payload.weight_override} conviction={payload.conviction}")
     return {
         "status": "updated",

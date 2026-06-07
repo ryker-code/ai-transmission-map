@@ -41,3 +41,10 @@ app.include_router(market.router, prefix="/market", tags=["market"])
 @app.get("/health")
 async def health():
     return {"status": "ok", "version": "0.1.0"}
+
+
+@app.get("/cache/stats")
+async def cache_stats():
+    """Return cache hit/miss stats (dev endpoint)."""
+    from backend.db.cache import get_cache
+    return get_cache().stats()
