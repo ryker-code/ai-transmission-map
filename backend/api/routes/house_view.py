@@ -123,8 +123,12 @@ async def get_house_view_narrative():
     context += f"Medium ({len(medium)}): {', '.join(eid for eid, _ in medium[:5])}"
 
     try:
-        import anthropic
-        client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
+        import google.generativeai as genai
+        api_key = settings.get_gemini_key()
+        if "placeholder" in api_key.lower():
+            raise ValueError("placeholder key")
+        genai.configure(api_key=api_key)
+        client = genai.GenerativeModel("gemini-1.5-pro")
         prompt = (
             f"You are a senior equity analyst writing a 3-paragraph house view narrative for an investor. "
             f"The AI infrastructure transmission map shows these conviction positions:\n{context}\n\n"
@@ -133,14 +137,8 @@ async def get_house_view_narrative():
             f"(3) Key underweights and falsification risks. Be specific, concise, and investor-grade. "
             f"No headers or bullet points — flowing prose only."
         )
-        if "placeholder" in settings.anthropic_api_key.lower():
-            raise ValueError("placeholder key")
-        resp = client.messages.create(
-            model="claude-opus-4-5",
-            max_tokens=600,
-            messages=[{"role": "user", "content": prompt}],
-        )
-        narrative = resp.content[0].text
+        resp = client.generate_content(prompt)
+        narrative = resp.text
     except Exception as e:
         logger.warning(f"House view narrative LLM call failed: {e}")
         high_names = ", ".join(eid for eid, _ in high[:3]) or "none set"

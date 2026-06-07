@@ -74,9 +74,11 @@ async def extract_claims_from_image(
 
     try:
         from backend.config import settings
-        import anthropic
+        import google.generativeai as genai
 
-        b64_image = base64.standard_b64encode(image_bytes).decode("utf-8")
+        api_key = settings.get_gemini_key()
+        if "placeholder" in api_key.lower():
+            raise ValueError("placeholder key")
 
         # Detect image media type (PNG vs JPEG)
         media_type = "image/png"
@@ -84,34 +86,14 @@ async def extract_claims_from_image(
             media_type = "image/jpeg"
 
         model = _router.route("image_extraction")
-        client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
+        genai.configure(api_key=api_key)
+        client = genai.GenerativeModel("gemini-1.5-pro")
+        image_part = {"mime_type": media_type, "data": image_bytes}
         t0 = time.monotonic()
-        message = client.messages.create(
-            model=model,
-            max_tokens=2048,
-            messages=[
-                {
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "image",
-                            "source": {
-                                "type": "base64",
-                                "media_type": media_type,
-                                "data": b64_image,
-                            },
-                        },
-                        {
-                            "type": "text",
-                            "text": IMAGE_PROMPT.format(context=analyst_context),
-                        },
-                    ],
-                }
-            ],
-        )
+        response = client.generate_content([IMAGE_PROMPT.format(context=analyst_context), image_part])
 
         latency_ms = int((time.monotonic() - t0) * 1000)
-        content = message.content[0].text.strip()
+        content = response.text.strip()
         if content.startswith("```"):
             content = content.split("```")[1]
             if content.startswith("json"):

@@ -126,7 +126,7 @@ def test_pdf_export_tool_directly():
         "regime": "AI_CAPEX_EXPANSION",
         "key_bottlenecks": ["Transformer Lead Times"],
         "affected_names": ["GE Vernova"],
-        "model_used": "claude-opus-4-5",
+        "model_used": "gemma-4-31b-it",
     }
     pdf = generate_memo_pdf(memo, "Test thesis")
     assert pdf[:4] == b"%PDF"

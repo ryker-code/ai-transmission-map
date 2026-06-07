@@ -12,22 +12,22 @@ _LOG_PATH = Path("backend/db/model_call_log.jsonl")
 
 class ModelRouter:
     ROUTING_TABLE = {
-        "entity_extraction": "gemini-2.0-flash",
-        "causal_reasoning": "claude-opus-4-5",
-        "critic_scoring": "claude-opus-4-5",
-        "memo_generation": "claude-opus-4-5",
-        "image_extraction": "claude-opus-4-5",
-        "voice_transcription": "whisper-1",
-        "structured_json": "gemini-2.0-flash",
-        "house_view_narrative": "claude-opus-4-5",
+        "entity_extraction": "gemini-2.5-flash",
+        "causal_reasoning": "gemma-4-31b-it",
+        "critic_scoring": "gemini-3.1-flash-lite",
+        "memo_generation": "gemma-4-31b-it",
+        "image_extraction": "gemini-2.5-flash",
+        "voice_transcription": "gemini-3.1-flash-lite",
+        "structured_json": "gemini-2.5-flash",
+        "house_view_narrative": "gemma-4-31b-it",
     }
 
     def route(self, task_type: str) -> str:
         """Return model name for the given task type."""
         model = self.ROUTING_TABLE.get(task_type)
         if model is None:
-            logger.warning(f"Unknown task_type '{task_type}', defaulting to claude-opus-4-5")
-            return "claude-opus-4-5"
+            logger.warning(f"Unknown task_type '{task_type}', defaulting to gemini-2.5-flash")
+            return "gemini-2.5-flash"
         return model
 
     def log_call(

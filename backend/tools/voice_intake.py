@@ -56,29 +56,36 @@ async def transcribe_audio(audio_bytes: bytes, filename: str) -> str:
 
     try:
         from backend.config import settings
-        if "placeholder" in settings.openai_api_key:
-            logger.info("voice_intake: OpenAI key is placeholder, using stub transcript")
+        import google.generativeai as genai
+
+        api_key = settings.get_gemini_key()
+        if "placeholder" in api_key.lower():
+            logger.info("voice_intake: GEMINI_API_KEY is placeholder, using stub transcript")
             return STUB_TRANSCRIPT
 
-        import openai
-        whisper_model = _router.route("voice_transcription")
-        client = openai.OpenAI(api_key=settings.openai_api_key)
-        audio_file = io.BytesIO(audio_bytes)
-        audio_file.name = filename
+        model_name = _router.route("voice_transcription")
+        genai.configure(api_key=api_key)
+        client = genai.GenerativeModel("gemini-1.5-flash")
+
+        # Detect MIME type from filename extension
+        ext = filename.rsplit(".", 1)[-1].lower() if "." in filename else "mp3"
+        mime_map = {"mp3": "audio/mp3", "wav": "audio/wav", "m4a": "audio/mp4",
+                    "ogg": "audio/ogg", "flac": "audio/flac", "webm": "audio/webm"}
+        mime_type = mime_map.get(ext, "audio/mp3")
+
+        audio_part = {"mime_type": mime_type, "data": audio_bytes}
         t0 = time.monotonic()
-        transcript = client.audio.transcriptions.create(
-            model=whisper_model,
-            file=audio_file,
-            response_format="text",
+        response = client.generate_content(
+            ["Please transcribe this audio recording verbatim:", audio_part]
         )
         latency_ms = int((time.monotonic() - t0) * 1000)
-        text = str(transcript)
-        _router.log_call("voice_transcription", whisper_model, len(audio_bytes), len(text), latency_ms, True)
+        text = response.text.strip()
+        _router.log_call("voice_transcription", model_name, len(audio_bytes), len(text), latency_ms, True)
         logger.info(f"voice_intake: transcribed {len(audio_bytes)} bytes → {len(text)} chars")
         return text
 
     except Exception as e:
-        logger.warning(f"voice_intake: Whisper transcription failed ({e}), using stub")
+        logger.warning(f"voice_intake: Gemini transcription failed ({e}), using stub")
         _router.log_call("voice_transcription", _router.route("voice_transcription"), 0, 0, 0, False)
         return STUB_TRANSCRIPT
 
@@ -104,20 +111,19 @@ async def extract_claims_from_transcript(transcript: str, analyst_context: str) 
 
     try:
         from backend.config import settings
-        from langchain_anthropic import ChatAnthropic
+        import google.generativeai as genai
 
         model = _router.route("causal_reasoning")
-        client = ChatAnthropic(
-            model=model,
-            anthropic_api_key=settings.anthropic_api_key,
-            temperature=0.2,
-            max_tokens=2048,
-        )
+        api_key = settings.get_gemini_key()
+        if "placeholder" in api_key.lower():
+            raise ValueError("placeholder key")
+        genai.configure(api_key=api_key)
+        client = genai.GenerativeModel("gemini-1.5-pro")
         prompt = VOICE_CLAIM_PROMPT.format(transcript=transcript, context=analyst_context)
         t0 = time.monotonic()
-        response = client.invoke(prompt)
+        response = client.generate_content(prompt)
         latency_ms = int((time.monotonic() - t0) * 1000)
-        content = response.content.strip()
+        content = response.text.strip()
         if content.startswith("```"):
             content = content.split("```")[1]
             if content.startswith("json"):

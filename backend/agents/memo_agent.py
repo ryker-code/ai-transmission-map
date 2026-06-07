@@ -121,18 +121,17 @@ async def generate_memo(
     )
 
     try:
-        from langchain_anthropic import ChatAnthropic
+        import google.generativeai as genai
         model = _router.route("memo_generation")
-        client = ChatAnthropic(
-            model=model,
-            anthropic_api_key=settings.anthropic_api_key,
-            temperature=0.4,
-            max_tokens=min(max_words * 2, 4096),
-        )
+        api_key = settings.get_gemini_key()
+        if "placeholder" in api_key.lower():
+            raise ValueError("placeholder key")
+        genai.configure(api_key=api_key)
+        client = genai.GenerativeModel("gemini-1.5-pro")
         t0 = time.monotonic()
-        response = client.invoke(prompt)
+        response = client.generate_content(prompt)
         latency_ms = int((time.monotonic() - t0) * 1000)
-        content = response.content.strip()
+        content = response.text.strip()
         _router.log_call("memo_generation", model, len(prompt), len(content), latency_ms, True)
         return content
     except Exception as e:
@@ -159,7 +158,7 @@ FALSIFICATION TRIGGERS:
 
 REGIME: {regime}
 
-Configure ANTHROPIC_API_KEY in .env to enable full LLM memo generation via Claude claude-opus-4-5."""
+Configure GEMINI_API_KEY in .env (free at aistudio.google.com) to enable full LLM memo generation."""
 
 
 async def generate_memo_stream(
@@ -200,19 +199,22 @@ async def generate_memo_stream(
     total_tokens = 0
 
     try:
-        import anthropic
-        client = anthropic.AsyncAnthropic(api_key=settings.anthropic_api_key)
-        if "placeholder" in settings.anthropic_api_key.lower():
+        import google.generativeai as genai
+        import asyncio
+        api_key = settings.get_gemini_key()
+        if "placeholder" in api_key.lower():
             raise ValueError("placeholder key")
+        genai.configure(api_key=api_key)
+        client = genai.GenerativeModel("gemini-1.5-pro")
 
-        async with client.messages.stream(
-            model=_router.route("memo_generation"),
-            max_tokens=min(max_words * 2, 4096),
-            messages=[{"role": "user", "content": prompt}],
-        ) as stream:
-            async for text in stream.text_stream:
+        def _stream_sync():
+            return client.generate_content(prompt, stream=True)
+
+        response = await asyncio.to_thread(_stream_sync)
+        for chunk in response:
+            if chunk.text:
                 total_tokens += 1
-                yield f"data: {json.dumps({'chunk': text, 'tokens': total_tokens})}\n\n"
+                yield f"data: {json.dumps({'chunk': chunk.text, 'tokens': total_tokens})}\n\n"
 
         yield f"data: {json.dumps({'done': True, 'memo_id': memo_id, 'run_id': thesis_run_id, 'tokens': total_tokens})}\n\n"
         return
@@ -225,7 +227,7 @@ async def generate_memo_stream(
         f"[STUB MEMO — API key not configured]\n\nTHESIS: {thesis}\n\n"
         f"SUPPORT SCORE: {support_score:.0%}\n\nKEY BOTTLENECKS:\n{bottlenecks_str}\n\n"
         f"EXPOSED NAMES:\n{entities_str}\n\nFALSIFICATION TRIGGERS:\n{triggers_str}\n\n"
-        f"REGIME: {regime}\n\nConfigure ANTHROPIC_API_KEY to enable full streaming generation."
+        f"REGIME: {regime}\n\nConfigure GEMINI_API_KEY at aistudio.google.com (free) to enable full streaming generation."
     )
     import asyncio
     for word in stub.split(" "):

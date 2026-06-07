@@ -61,21 +61,20 @@ def run_critic(resolved_claims: List[dict], analyst_note: str) -> List[dict]:
         return []
 
     try:
-        from langchain_anthropic import ChatAnthropic
+        import google.generativeai as genai
         import json
         model = _router.route("critic_scoring")
-        client = ChatAnthropic(
-            model=model,
-            anthropic_api_key=settings.anthropic_api_key,
-            temperature=0.1,
-            max_tokens=4096,
-        )
+        api_key = settings.get_gemini_key()
+        if "placeholder" in api_key.lower():
+            raise ValueError("placeholder key — using heuristic fallback")
+        genai.configure(api_key=api_key)
+        client = genai.GenerativeModel("gemini-1.5-flash")
         claims_json = json.dumps(resolved_claims, indent=2)
         prompt = CRITIC_PROMPT.format(note=analyst_note, claims=claims_json)
         t0 = time.monotonic()
-        response = client.invoke(prompt)
+        response = client.generate_content(prompt)
         latency_ms = int((time.monotonic() - t0) * 1000)
-        content = response.content.strip()
+        content = response.text.strip()
         if content.startswith("```"):
             content = content.split("```")[1]
             if content.startswith("json"):

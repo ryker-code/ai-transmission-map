@@ -84,37 +84,27 @@ If no match, keep the original name.
 Return the same JSON array with updated subject/object fields. Return ONLY the JSON array."""
 
 
-def _get_gemini_client():
-    """Initialize Gemini Flash client for fast extraction tasks."""
+def _get_gemini_client(model_name: str = "gemini-2.0-flash"):
+    """Initialize Gemini client for extraction tasks."""
     try:
-        from langchain_google_genai import ChatGoogleGenerativeAI
-        return ChatGoogleGenerativeAI(
-            model="gemini-2.0-flash",
-            google_api_key=settings.google_api_key,
-            temperature=0.1,
-        )
+        import google.generativeai as genai
+        api_key = settings.get_gemini_key()
+        if "placeholder" in api_key.lower():
+            return None
+        genai.configure(api_key=api_key)
+        return genai.GenerativeModel(model_name)
     except Exception as e:
         logger.warning(f"Gemini client unavailable: {e}. Using stub.")
         return None
 
 
-def _get_claude_client():
-    """Initialize Claude claude-opus-4-5 client for complex reasoning tasks."""
-    try:
-        from langchain_anthropic import ChatAnthropic
-        return ChatAnthropic(
-            model="claude-opus-4-5",
-            anthropic_api_key=settings.anthropic_api_key,
-            temperature=0.2,
-            max_tokens=4096,
-        )
-    except Exception as e:
-        logger.warning(f"Claude client unavailable: {e}. Using stub.")
-        return None
+def _get_reasoning_client():
+    """Initialize Gemini 1.5 Pro client for complex causal reasoning tasks."""
+    return _get_gemini_client("gemini-1.5-pro")
 
 
 def _invoke_llm(client, prompt: str, stub_response: list, task_type: str = "structured_json") -> list:
-    """Invoke an LLM and parse JSON response; return stub_response on failure."""
+    """Invoke a Gemini model and parse JSON response; return stub_response on failure."""
     model = _router.route(task_type)
     if client is None:
         logger.info("LLM client not available — returning stub response")
@@ -122,9 +112,9 @@ def _invoke_llm(client, prompt: str, stub_response: list, task_type: str = "stru
         return stub_response
     t0 = time.monotonic()
     try:
-        response = client.invoke(prompt)
+        response = client.generate_content(prompt)
         latency_ms = int((time.monotonic() - t0) * 1000)
-        content = response.content.strip()
+        content = response.text.strip()
         if content.startswith("```"):
             content = content.split("```")[1]
             if content.startswith("json"):
@@ -161,10 +151,10 @@ def run_scout(analyst_note: str, source_type: str) -> List[dict]:
 def run_extractor(analyst_note: str, entity_candidates: List[dict], source_type: str) -> List[dict]:
     """
     Extractor agent: extract structured transmission claims from an analyst note.
-    Uses Claude claude-opus-4-5 for multi-hop reasoning across the infrastructure stack.
+    Uses Gemini 1.5 Pro for multi-hop reasoning across the infrastructure stack.
     Returns a list of raw claim dicts.
     """
-    client = _get_claude_client()
+    client = _get_reasoning_client()
     entity_list = "\n".join(
         f"- {e.get('name', '')} ({e.get('type', '')}, ticker: {e.get('ticker', 'N/A')})"
         for e in entity_candidates
