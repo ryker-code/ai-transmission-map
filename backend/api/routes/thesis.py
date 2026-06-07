@@ -171,6 +171,20 @@ async def run_thesis(payload: ThesisRunRequest):
         for c in sub_chains if entity_map.get(c["subject"]) and entity_map.get(c["object"])
     ]
 
+    from backend.tools.regime_detector import detect_regime
+    regime_result = detect_regime()
+
+    from backend.db.run_cache import put as cache_run
+    cache_run(run_id, {
+        "thesis": payload.thesis,
+        "support_score": round(support_score, 4),
+        "contradiction_score": round(contradiction_score, 4),
+        "regime": regime_result["regime"],
+        "key_bottlenecks": [e.get("canonical_name", e.get("label", "")) for e in exposed_entities[:4]],
+        "exposed_entities": [e.get("canonical_name", e.get("label", "")) for e in exposed_entities],
+        "falsification_triggers": falsification_triggers[:5],
+    })
+
     return ThesisRunResponse(
         run_id=run_id,
         thesis=payload.thesis,

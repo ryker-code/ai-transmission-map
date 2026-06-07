@@ -9,6 +9,16 @@ from typing import Optional
 
 logger = logging.getLogger(__name__)
 
+# Runtime claims appended by the pipeline scorer; included in regime computation alongside seed data.
+_dynamic_claims: list = []
+
+
+def add_runtime_claims(claims: list) -> None:
+    """Append pipeline-extracted claims to the dynamic claim pool for live regime updates."""
+    _dynamic_claims.extend(claims)
+    logger.debug(f"regime_detector: added {len(claims)} runtime claims (total={len(_dynamic_claims)})")
+
+
 REGIME_DESCRIPTIONS = {
     "AI_CAPEX_EXPANSION": "Hyperscaler capex is expanding rapidly; GPU clusters, data centers, and power infrastructure are all in demand surge.",
     "SUPPLY_CHAIN_STRESS": "Transformer, HBM memory, or other supply chain bottlenecks are the binding constraint on AI infrastructure growth.",
@@ -28,7 +38,7 @@ def detect_regime(regime_filter: Optional[str] = None) -> dict:
     if not chains_path.exists():
         return {"regime": "AI_CAPEX_EXPANSION", "confidence": 0.7, "description": REGIME_DESCRIPTIONS["AI_CAPEX_EXPANSION"], "scores": {}}
 
-    chains = json.loads(chains_path.read_text())
+    chains = json.loads(chains_path.read_text()) + _dynamic_claims
 
     # Weight by confidence
     regime_scores: dict = {}

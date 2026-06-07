@@ -1,6 +1,6 @@
 import json, uuid, logging
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -42,8 +42,8 @@ def load_seed_data():
             "horizon": chain["horizon"],
             "regime_tag": chain["regime_tag"],
             "status": "accepted",
-            "created_at": datetime.utcnow().isoformat(),
-            "updated_at": datetime.utcnow().isoformat()
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(timezone.utc).isoformat()
         })
 
     client.insert_rows("claims", claims)

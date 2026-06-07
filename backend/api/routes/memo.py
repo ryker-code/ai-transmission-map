@@ -7,26 +7,17 @@ from datetime import datetime, timezone
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
-# In-memory thesis run cache for demo purposes
-# In production this would query aitm.thesis_runs in BigQuery
-_thesis_run_cache: dict = {}
-
-
-def cache_thesis_run(run_id: str, run_data: dict):
-    """Cache a thesis run result for memo generation."""
-    _thesis_run_cache[run_id] = run_data
-
 
 @router.post("/generate", response_model=MemoResponse)
 async def generate_memo(payload: MemoRequest):
     """
     Generate an investor-style memo from a thesis run using Claude claude-opus-4-5.
-    Looks up the thesis run by ID, then invokes the memo agent with style-specific prompting.
+    Looks up the thesis run by ID from the shared run cache, then invokes the memo agent.
     """
     from backend.agents.memo_agent import generate_memo as _generate
+    from backend.db.run_cache import get as get_run
 
-    # Look up thesis run (from cache or use stub data)
-    run_data = _thesis_run_cache.get(payload.thesis_run_id, {})
+    run_data = get_run(payload.thesis_run_id) or {}
 
     thesis = run_data.get("thesis", "AI infrastructure thesis — transformer lead times and grid interconnection as primary bottlenecks")
     support_score = run_data.get("support_score", 0.72)
@@ -38,7 +29,9 @@ async def generate_memo(payload: MemoRequest):
         "HBM Memory Supply (SK Hynix CoW yield constraints)",
         "Skilled Construction Labor (IBEW shortage in NoVA)",
     ])
-    exposed_entities = run_data.get("exposed_entities", ["GE Vernova", "Vertiv Holdings", "Constellation Energy", "NextEra Energy"])
+    exposed_entities = run_data.get("exposed_entities", [
+        "GE Vernova", "Vertiv Holdings", "Constellation Energy", "NextEra Energy",
+    ])
     falsification_triggers = run_data.get("falsification_triggers", [
         "Transformer imports from Asia ramp faster than expected",
         "FERC Order 2023 reforms accelerate queue clearing beyond base case",

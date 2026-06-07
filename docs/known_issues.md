@@ -12,8 +12,8 @@
 **Fix:** Use `python -m backend.db.seed_loader` from repo root. Makefile `seed` target updated accordingly.  
 **Status:** Resolved.
 
-### 3. Deprecation warnings (non-blocking)
-- `datetime.utcnow()` deprecated in Python 3.12 — use `datetime.now(datetime.UTC)` in Day 2 refactor.
-- FastAPI `@app.on_event("startup")` deprecated — migrate to `lifespan` handler in Day 2.
-- Pydantic `model_used` field name conflicts with `model_` namespace — add `model_config['protected_namespaces'] = ()` to MemoResponse in Day 2.  
-**Status:** Deferred to Day 2.
+### 3. Deprecation warnings
+- `datetime.utcnow()` → fixed in seed_loader.py and entities.py with `datetime.now(timezone.utc)` (Day 2 Phase 5).
+- FastAPI `@app.on_event("startup")` → migrated to `lifespan` context manager in main.py (Day 2 Phase 4).
+- Pydantic `model_` namespace conflict → fixed with `ConfigDict(protected_namespaces=())` on MemoResponse (Day 2 Phase 4).  
+**Status:** Resolved.

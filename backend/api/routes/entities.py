@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from backend.api.schemas import EntityCreate, EntityResponse
 from typing import List
-from datetime import datetime
+from datetime import datetime, timezone
 import uuid
 
 router = APIRouter()
@@ -15,4 +15,4 @@ async def list_entities():
 @router.post("/", response_model=EntityResponse)
 async def create_entity(payload: EntityCreate):
     """Create a new entity node in the graph."""
-    return EntityResponse(**payload.model_dump(), id=str(uuid.uuid4()), updated_at=datetime.utcnow())
+    return EntityResponse(**payload.model_dump(), id=str(uuid.uuid4()), updated_at=datetime.now(timezone.utc))

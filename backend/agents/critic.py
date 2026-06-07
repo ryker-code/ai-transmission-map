@@ -172,6 +172,13 @@ def run_scorer(critiqued_claims: List[dict]) -> List[dict]:
         if score_entry:
             bottleneck_scores.append(score_entry)
 
+    # Update live regime state with newly accepted claims
+    try:
+        from backend.tools.regime_detector import add_runtime_claims
+        add_runtime_claims(accepted_claims)
+    except Exception as e:
+        logger.warning(f"Regime update failed: {e}")
+
     # Persist to DB
     if bottleneck_scores:
         try:
