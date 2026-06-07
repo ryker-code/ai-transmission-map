@@ -194,36 +194,22 @@ def run_extractor(analyst_note: str, entity_candidates: List[dict], source_type:
 
 def run_resolver(raw_claims: List[dict]) -> List[dict]:
     """
-    Resolver agent: canonicalize entity names in claims against the entity registry.
-    Uses Gemini Flash for structured name matching.
+    Resolver agent: canonicalize entity names in claims using the EntityResolver.
+    Resolves tickers, aliases, and partial names to canonical entity records.
     Returns claims with canonical subject/object names.
     """
-    import json as _json
-    from pathlib import Path
-
-    registry_path = Path("backend/db/seed_data/entities.json")
-    if not registry_path.exists():
-        return raw_claims
-
     try:
-        entities = _json.loads(registry_path.read_text())
-        registry_names = [e["canonical_name"] for e in entities]
-        # Build alias map for fast lookup without LLM on simple cases
-        alias_map = {}
-        for e in entities:
-            alias_map[e["canonical_name"].lower()] = e["canonical_name"]
-            for alias in e.get("aliases", []):
-                alias_map[alias.lower()] = e["canonical_name"]
-
+        from backend.agents.resolver import get_resolver
+        resolver = get_resolver()
         resolved = []
         for claim in raw_claims:
             claim = dict(claim)
             for field in ["subject", "object"]:
                 raw = claim.get(field, "")
-                canonical = alias_map.get(raw.lower(), raw)
-                claim[field] = canonical
+                canonical = resolver.canonical_name(raw)
+                claim[field] = canonical if canonical else raw
             resolved.append(claim)
         return resolved
     except Exception as e:
-        logger.error(f"Resolver alias lookup failed: {e}")
+        logger.error(f"EntityResolver failed ({e}), keeping raw names")
         return raw_claims
