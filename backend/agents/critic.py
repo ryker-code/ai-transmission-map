@@ -178,6 +178,13 @@ def run_scorer(critiqued_claims: List[dict]) -> List[dict]:
         if score_entry:
             bottleneck_scores.append(score_entry)
 
+    # Persist accepted claims so the full scorer can include them in future runs
+    try:
+        from backend.db.claims_store import add as store_claims
+        store_claims(accepted_claims)
+    except Exception as e:
+        logger.warning(f"Claims store update failed: {e}")
+
     # Update live regime state with newly accepted claims
     try:
         from backend.tools.regime_detector import add_runtime_claims
