@@ -46,7 +46,7 @@ def test_voice_endpoint_accepts_wav():
     """POST /evidence/voice with minimal WAV bytes returns 200."""
     from fastapi.testclient import TestClient
     from backend.main import app
-    from tests.conftest import AUTH_HEADERS
+    from backend.tests.conftest import AUTH_HEADERS
     client = TestClient(app)
 
     wav_bytes = b"RIFF" + (36).to_bytes(4, "little") + b"WAVEfmt " + (16).to_bytes(4, "little") + b"\x01\x00\x01\x00\x44\xac\x00\x00\x88\x58\x01\x00\x02\x00\x10\x00data" + (0).to_bytes(4, "little")

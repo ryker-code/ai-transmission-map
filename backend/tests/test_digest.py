@@ -2,7 +2,7 @@
 import pytest
 from fastapi.testclient import TestClient
 from backend.main import app
-from tests.conftest import AUTH_HEADERS
+from backend.tests.conftest import AUTH_HEADERS
 
 client = TestClient(app)
 
