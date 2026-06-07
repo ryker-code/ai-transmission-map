@@ -3,6 +3,7 @@
 > Maps how AI demand propagates through semiconductors, data centers, transformers, utilities, grid infrastructure, and public markets — built for equity investors running thesis interrogation.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/ryker-code/ai-transmission-map)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/ryker-code/ai-transmission-map)
 
 ![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi)
@@ -12,7 +13,7 @@
 ![BigQuery](https://img.shields.io/badge/BigQuery-Google_Cloud-4285F4?logo=google-cloud)
 ![Claude AI](https://img.shields.io/badge/Claude-Opus--4--5-orange)
 ![Gemini](https://img.shields.io/badge/Gemini-2.0_Flash-blue?logo=google)
-![Tests](https://img.shields.io/badge/tests-59_passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-69_passing-brightgreen)
 
 ## Live Demo
 
