@@ -181,6 +181,18 @@ class ClaimAuditResponse(BaseModel):
     supporting_sources: int
     analyst_summary: str
 
+class MarketSignalEntry(BaseModel):
+    ticker: str
+    rel_perf_30d: float
+    momentum: str
+    vol_percentile: int
+    market_confirmation_score: float
+
+class MarketSignalsResponse(BaseModel):
+    signals: List[MarketSignalEntry]
+    last_updated: datetime
+    is_live: bool = False
+
 class ClaimOverride(BaseModel):
     claim_id: str
     confidence_override: float = Field(ge=0.0, le=1.0)

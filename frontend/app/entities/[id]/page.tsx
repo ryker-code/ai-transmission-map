@@ -2,7 +2,7 @@
 import { use } from "react";
 import useSWR from "swr";
 import Link from "next/link";
-import type { EntityDetailResponse, ClaimSummary } from "@/lib/types";
+import type { EntityDetailResponse, ClaimSummary, MarketSignalEntry } from "@/lib/types";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
@@ -73,6 +73,15 @@ export default function EntityDetailPage({ params }: { params: Promise<{ id: str
     `${API_BASE}/entities/${id}`,
     fetcher
   );
+  const { data: marketData } = useSWR<{ signals: MarketSignalEntry[] }>(
+    `${API_BASE}/market/signals`,
+    fetcher,
+    { revalidateOnFocus: false }
+  );
+
+  const marketSignal = data?.ticker
+    ? marketData?.signals.find((s) => s.ticker === data.ticker?.toUpperCase())
+    : null;
 
   if (isLoading) return (
     <div className="text-slate-400 text-sm animate-pulse">Loading entity...</div>
@@ -129,6 +138,47 @@ export default function EntityDetailPage({ params }: { params: Promise<{ id: str
             </div>
           )}
         </div>
+
+        {/* Market Signals card */}
+        {data.ticker && (
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">
+            <p className="text-xs text-slate-400 mb-3">Market Signals</p>
+            {marketSignal ? (
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-mono text-white">{data.ticker}</span>
+                  <span className={`text-sm font-mono font-bold ${marketSignal.rel_perf_30d >= 0 ? "text-emerald-400" : "text-red-400"}`}>
+                    {marketSignal.rel_perf_30d >= 0 ? "+" : ""}{(marketSignal.rel_perf_30d * 100).toFixed(1)}%
+                  </span>
+                  <span className="text-xs text-slate-500">vs SPY 30d</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className={`text-xs px-2 py-0.5 rounded-full border font-medium ${
+                    marketSignal.momentum === "strong_bull" ? "bg-emerald-900/40 text-emerald-300 border-emerald-700/40" :
+                    marketSignal.momentum === "bull" ? "bg-emerald-900/20 text-emerald-400 border-emerald-800/40" :
+                    marketSignal.momentum === "bear" ? "bg-red-900/40 text-red-300 border-red-700/40" :
+                    marketSignal.momentum === "strong_bear" ? "bg-red-900/60 text-red-200 border-red-700/60" :
+                    "bg-slate-700/40 text-slate-300 border-slate-600/40"
+                  }`}>
+                    {marketSignal.momentum.replace("_", " ")}
+                  </span>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-500 mb-1">Vol percentile</p>
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                      <div className="h-full bg-amber-500 rounded-full" style={{ width: `${marketSignal.vol_percentile}%` }} />
+                    </div>
+                    <span className="text-xs text-slate-400 font-mono">{marketSignal.vol_percentile}p</span>
+                  </div>
+                </div>
+                <p className="text-xs text-slate-600">Mock data — not live</p>
+              </div>
+            ) : (
+              <p className="text-xs text-slate-500">No market data for {data.ticker}</p>
+            )}
+          </div>
+        )}
 
         {/* House View card */}
         <div className="bg-slate-900 border border-slate-800 rounded-xl p-5">

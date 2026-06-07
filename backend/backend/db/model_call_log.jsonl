@@ -20,3 +20,14 @@
 {"ts": 1780831984.3144753, "task_type": "causal_reasoning", "model": "claude-opus-4-5", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
 {"ts": 1780831984.4440138, "task_type": "causal_reasoning", "model": "claude-opus-4-5", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
 {"ts": 1780831984.573567, "task_type": "critic_scoring", "model": "claude-opus-4-5", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780832120.8675413, "task_type": "entity_extraction", "model": "gemini-2.0-flash", "tokens_in": 796, "tokens_out": 0, "latency_ms": 63, "success": false}
+{"ts": 1780832122.0230126, "task_type": "causal_reasoning", "model": "claude-opus-4-5", "tokens_in": 1344, "tokens_out": 0, "latency_ms": 97, "success": false}
+{"ts": 1780832122.177974, "task_type": "critic_scoring", "model": "claude-opus-4-5", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780832122.6890366, "task_type": "memo_generation", "model": "claude-opus-4-5", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780832122.8253775, "task_type": "image_extraction", "model": "claude-opus-4-5", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780832122.9420333, "task_type": "image_extraction", "model": "claude-opus-4-5", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780832123.1007407, "task_type": "image_extraction", "model": "claude-opus-4-5", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780832123.540787, "task_type": "causal_reasoning", "model": "claude-opus-4-5", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780832123.708269, "task_type": "causal_reasoning", "model": "claude-opus-4-5", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780832123.8496006, "task_type": "causal_reasoning", "model": "claude-opus-4-5", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780832123.9905481, "task_type": "critic_scoring", "model": "claude-opus-4-5", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}

@@ -97,9 +97,14 @@ def _cross_source_agreement(claims: list[dict]) -> float:
     return round((pred_score + src_score) / 2.0, 4)
 
 
-def _market_confirmation() -> float:
-    """Placeholder 0.5 — TODO: integrate live price feed."""
-    return 0.5
+def _market_confirmation(entity_id: str = "", ticker: Optional[str] = None) -> float:
+    """Return market confirmation score from MarketSignals stub (0.0-1.0).
+    TODO: replace mock data with live feed before production use."""
+    try:
+        from backend.tools.market_signals import get_signals
+        return get_signals().market_confirmation_score(entity_id, ticker)
+    except Exception:
+        return 0.5
 
 
 def _house_view_weight(entity_id: str, entity_name: str) -> float:
@@ -146,10 +151,11 @@ def compute_bottleneck_scores(entity_ids: Optional[list] = None) -> list[Bottlen
         if not entity_claims:
             continue
 
+        ticker = entity.get("ticker")
         ei = _evidence_intensity(entity_claims)
         rs = _recency_score(entity_claims)
         csa = _cross_source_agreement(entity_claims)
-        mc = _market_confirmation()
+        mc = _market_confirmation(eid, ticker)
         hvw = _house_view_weight(eid, name)
 
         raw = (
