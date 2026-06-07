@@ -19,9 +19,13 @@
 
 | Surface | URL |
 |---------|-----|
-| Frontend (Vercel) | *Coming soon — deploy with button above* |
-| Backend API (Cloud Run) | *See [infrastructure/cloud_run/](infrastructure/cloud_run/)* |
+| Frontend (Vercel) | Run `railway up` from local machine — see [QUICK_DEPLOY.md](infrastructure/QUICK_DEPLOY.md) |
+| Backend API (Railway) | `railway up` — deploys in ~3 minutes, auto-seeds 200 entities + 80 claims |
 | API docs (local) | http://localhost:8000/docs |
+| Health check (local) | http://localhost:8000/health |
+
+> **3-command deploy**: `npm i -g @railway/cli && railway login && railway up`
+> See [infrastructure/QUICK_DEPLOY.md](infrastructure/QUICK_DEPLOY.md) for full Vercel + Railway guide.
 
 ## Quick Start
 
