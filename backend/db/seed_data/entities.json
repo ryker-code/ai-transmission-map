@@ -1,102 +1,2888 @@
 [
-  {"id": "e0000001-0000-0000-0000-000000000001", "canonical_name": "Microsoft", "aliases": ["MSFT", "Microsoft Corporation"], "entity_type": "public_co", "ticker": "MSFT", "sector": "Technology", "sub_sector": "Cloud & Hyperscaler", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000002", "canonical_name": "Amazon (AWS)", "aliases": ["AWS", "Amazon Web Services", "AMZN"], "entity_type": "public_co", "ticker": "AMZN", "sector": "Technology", "sub_sector": "Cloud & Hyperscaler", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000003", "canonical_name": "Google (Alphabet)", "aliases": ["Alphabet", "GOOGL", "GCP"], "entity_type": "public_co", "ticker": "GOOGL", "sector": "Technology", "sub_sector": "Cloud & Hyperscaler", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000004", "canonical_name": "Meta Platforms", "aliases": ["Meta", "Facebook", "META"], "entity_type": "public_co", "ticker": "META", "sector": "Technology", "sub_sector": "Cloud & Hyperscaler", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000005", "canonical_name": "Oracle", "aliases": ["ORCL", "Oracle Cloud"], "entity_type": "public_co", "ticker": "ORCL", "sector": "Technology", "sub_sector": "Cloud & Hyperscaler", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000006", "canonical_name": "Apple", "aliases": ["AAPL", "Apple Inc."], "entity_type": "public_co", "ticker": "AAPL", "sector": "Technology", "sub_sector": "Cloud & Hyperscaler", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000007", "canonical_name": "Salesforce", "aliases": ["CRM", "Salesforce Inc."], "entity_type": "public_co", "ticker": "CRM", "sector": "Technology", "sub_sector": "Cloud & Hyperscaler", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000008", "canonical_name": "IBM", "aliases": ["International Business Machines"], "entity_type": "public_co", "ticker": "IBM", "sector": "Technology", "sub_sector": "Cloud & Hyperscaler", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000009", "canonical_name": "OpenAI", "aliases": ["Open AI"], "entity_type": "private_co", "ticker": null, "sector": "Technology", "sub_sector": "AI Lab", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000010", "canonical_name": "Anthropic", "aliases": [], "entity_type": "private_co", "ticker": null, "sector": "Technology", "sub_sector": "AI Lab", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000011", "canonical_name": "xAI", "aliases": ["Grok"], "entity_type": "private_co", "ticker": null, "sector": "Technology", "sub_sector": "AI Lab", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000012", "canonical_name": "Mistral AI", "aliases": ["Mistral"], "entity_type": "private_co", "ticker": null, "sector": "Technology", "sub_sector": "AI Lab", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000013", "canonical_name": "Cohere", "aliases": [], "entity_type": "private_co", "ticker": null, "sector": "Technology", "sub_sector": "AI Lab", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000014", "canonical_name": "Scale AI", "aliases": ["Scale"], "entity_type": "private_co", "ticker": null, "sector": "Technology", "sub_sector": "AI Lab", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000015", "canonical_name": "Google DeepMind", "aliases": ["DeepMind"], "entity_type": "public_co", "ticker": "GOOGL", "sector": "Technology", "sub_sector": "AI Lab", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000016", "canonical_name": "Nvidia", "aliases": ["NVDA", "Nvidia Corporation"], "entity_type": "public_co", "ticker": "NVDA", "sector": "Semiconductors", "sub_sector": "GPU & AI Accelerators", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000017", "canonical_name": "AMD", "aliases": ["Advanced Micro Devices", "AMD Inc."], "entity_type": "public_co", "ticker": "AMD", "sector": "Semiconductors", "sub_sector": "GPU & AI Accelerators", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000018", "canonical_name": "Intel", "aliases": ["Intel Corporation", "INTC"], "entity_type": "public_co", "ticker": "INTC", "sector": "Semiconductors", "sub_sector": "CPU & Data Center", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000019", "canonical_name": "Broadcom", "aliases": ["AVGO"], "entity_type": "public_co", "ticker": "AVGO", "sector": "Semiconductors", "sub_sector": "Networking Silicon", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000020", "canonical_name": "Marvell Technology", "aliases": ["MRVL"], "entity_type": "public_co", "ticker": "MRVL", "sector": "Semiconductors", "sub_sector": "Networking Silicon", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000021", "canonical_name": "Qualcomm", "aliases": ["QCOM"], "entity_type": "public_co", "ticker": "QCOM", "sector": "Semiconductors", "sub_sector": "Mobile & Edge AI", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000022", "canonical_name": "TSMC", "aliases": ["Taiwan Semiconductor Manufacturing", "TSM"], "entity_type": "public_co", "ticker": "TSM", "sector": "Semiconductors", "sub_sector": "Foundry", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000023", "canonical_name": "SK Hynix", "aliases": ["SKH"], "entity_type": "public_co", "ticker": null, "sector": "Semiconductors", "sub_sector": "HBM Memory", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000024", "canonical_name": "Micron Technology", "aliases": ["MU"], "entity_type": "public_co", "ticker": "MU", "sector": "Semiconductors", "sub_sector": "HBM Memory", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000025", "canonical_name": "Coherent Corp", "aliases": ["COHR"], "entity_type": "public_co", "ticker": "COHR", "sector": "Semiconductors", "sub_sector": "Optical Components", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000026", "canonical_name": "Equinix", "aliases": ["EQIX"], "entity_type": "public_co", "ticker": "EQIX", "sector": "Data Centers", "sub_sector": "Colocation REIT", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000027", "canonical_name": "Digital Realty", "aliases": ["DLR"], "entity_type": "public_co", "ticker": "DLR", "sector": "Data Centers", "sub_sector": "Colocation REIT", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000028", "canonical_name": "Iron Mountain", "aliases": ["IRM"], "entity_type": "public_co", "ticker": "IRM", "sector": "Data Centers", "sub_sector": "Colocation REIT", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000029", "canonical_name": "Switch (DigitalBridge)", "aliases": ["Switch Inc."], "entity_type": "private_co", "ticker": null, "sector": "Data Centers", "sub_sector": "Hyperscale Operator", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000030", "canonical_name": "QTS Realty", "aliases": ["QTS"], "entity_type": "private_co", "ticker": null, "sector": "Data Centers", "sub_sector": "Hyperscale Operator", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000031", "canonical_name": "CyrusOne", "aliases": [], "entity_type": "private_co", "ticker": null, "sector": "Data Centers", "sub_sector": "Hyperscale Operator", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000032", "canonical_name": "CoreSite Realty", "aliases": ["CoreSite"], "entity_type": "private_co", "ticker": null, "sector": "Data Centers", "sub_sector": "Colocation", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000033", "canonical_name": "Aligned Data Centers", "aliases": ["Aligned"], "entity_type": "private_co", "ticker": null, "sector": "Data Centers", "sub_sector": "Hyperscale Operator", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000034", "canonical_name": "NextEra Energy", "aliases": ["NEE"], "entity_type": "utility", "ticker": "NEE", "sector": "Utilities", "sub_sector": "Renewable Utility", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000035", "canonical_name": "Dominion Energy", "aliases": ["D", "Dominion"], "entity_type": "utility", "ticker": "D", "sector": "Utilities", "sub_sector": "Regulated Utility", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000036", "canonical_name": "Constellation Energy", "aliases": ["CEG"], "entity_type": "utility", "ticker": "CEG", "sector": "Utilities", "sub_sector": "Nuclear & Clean Power", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000037", "canonical_name": "Vistra Corp", "aliases": ["VST", "Vistra"], "entity_type": "utility", "ticker": "VST", "sector": "Utilities", "sub_sector": "Merchant Power", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000038", "canonical_name": "NRG Energy", "aliases": ["NRG"], "entity_type": "utility", "ticker": "NRG", "sector": "Utilities", "sub_sector": "Merchant Power", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000039", "canonical_name": "Talen Energy", "aliases": ["TLN"], "entity_type": "utility", "ticker": "TLN", "sector": "Utilities", "sub_sector": "Nuclear & Merchant Power", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000040", "canonical_name": "Southern Company", "aliases": ["SO"], "entity_type": "utility", "ticker": "SO", "sector": "Utilities", "sub_sector": "Regulated Utility", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000041", "canonical_name": "Duke Energy", "aliases": ["DUK"], "entity_type": "utility", "ticker": "DUK", "sector": "Utilities", "sub_sector": "Regulated Utility", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000042", "canonical_name": "Exelon", "aliases": ["EXC"], "entity_type": "utility", "ticker": "EXC", "sector": "Utilities", "sub_sector": "Nuclear Regulated Utility", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000043", "canonical_name": "AES Corp", "aliases": ["AES"], "entity_type": "utility", "ticker": "AES", "sector": "Utilities", "sub_sector": "Renewable Utility", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000044", "canonical_name": "PG&E", "aliases": ["PCG", "Pacific Gas and Electric"], "entity_type": "utility", "ticker": "PCG", "sector": "Utilities", "sub_sector": "Regulated Utility", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000045", "canonical_name": "Sempra Energy", "aliases": ["SRE"], "entity_type": "utility", "ticker": "SRE", "sector": "Utilities", "sub_sector": "Regulated Utility", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000046", "canonical_name": "PJM Interconnection", "aliases": ["PJM"], "entity_type": "geo", "ticker": null, "sector": "Grid Infrastructure", "sub_sector": "Regional Transmission Organization", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000047", "canonical_name": "MISO", "aliases": ["Midcontinent Independent System Operator"], "entity_type": "geo", "ticker": null, "sector": "Grid Infrastructure", "sub_sector": "Regional Transmission Organization", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000048", "canonical_name": "SPP", "aliases": ["Southwest Power Pool"], "entity_type": "geo", "ticker": null, "sector": "Grid Infrastructure", "sub_sector": "Regional Transmission Organization", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000049", "canonical_name": "CAISO", "aliases": ["California ISO"], "entity_type": "geo", "ticker": null, "sector": "Grid Infrastructure", "sub_sector": "Regional Transmission Organization", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000050", "canonical_name": "ERCOT", "aliases": ["Electric Reliability Council of Texas"], "entity_type": "geo", "ticker": null, "sector": "Grid Infrastructure", "sub_sector": "Regional Transmission Organization", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000051", "canonical_name": "ISO-NE", "aliases": ["ISO New England"], "entity_type": "geo", "ticker": null, "sector": "Grid Infrastructure", "sub_sector": "Regional Transmission Organization", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000052", "canonical_name": "Eaton Corporation", "aliases": ["ETN", "Eaton"], "entity_type": "public_co", "ticker": "ETN", "sector": "Infrastructure Equipment", "sub_sector": "Power Management", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000053", "canonical_name": "Vertiv Holdings", "aliases": ["VRT", "Vertiv"], "entity_type": "public_co", "ticker": "VRT", "sector": "Infrastructure Equipment", "sub_sector": "Data Center Power & Cooling", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000054", "canonical_name": "Schneider Electric", "aliases": ["SBGSY"], "entity_type": "public_co", "ticker": "SBGSY", "sector": "Infrastructure Equipment", "sub_sector": "Power Management", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000055", "canonical_name": "ABB", "aliases": ["ABB Ltd"], "entity_type": "public_co", "ticker": "ABB", "sector": "Infrastructure Equipment", "sub_sector": "Power & Automation", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000056", "canonical_name": "Siemens Energy", "aliases": ["SMEGF"], "entity_type": "public_co", "ticker": "SMEGF", "sector": "Infrastructure Equipment", "sub_sector": "Grid Transformation", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000057", "canonical_name": "GE Vernova", "aliases": ["GEV"], "entity_type": "public_co", "ticker": "GEV", "sector": "Infrastructure Equipment", "sub_sector": "Power Transformers & Grid", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000058", "canonical_name": "Hitachi Energy", "aliases": ["Hitachi ABB Power Grids"], "entity_type": "public_co", "ticker": null, "sector": "Infrastructure Equipment", "sub_sector": "Power Transformers & Grid", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000059", "canonical_name": "SPX Technologies", "aliases": ["SPXC"], "entity_type": "public_co", "ticker": "SPXC", "sector": "Infrastructure Equipment", "sub_sector": "Specialty Infrastructure", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000060", "canonical_name": "Carrier Global", "aliases": ["CARR"], "entity_type": "public_co", "ticker": "CARR", "sector": "Cooling", "sub_sector": "HVAC & Thermal Management", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000061", "canonical_name": "Trane Technologies", "aliases": ["TT", "Trane"], "entity_type": "public_co", "ticker": "TT", "sector": "Cooling", "sub_sector": "HVAC & Thermal Management", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000062", "canonical_name": "Johnson Controls", "aliases": ["JCI"], "entity_type": "public_co", "ticker": "JCI", "sector": "Cooling", "sub_sector": "Building Systems", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000063", "canonical_name": "Stulz", "aliases": ["Stulz GmbH"], "entity_type": "private_co", "ticker": null, "sector": "Cooling", "sub_sector": "Precision Cooling", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000064", "canonical_name": "Airedale", "aliases": ["Airedale International Air Conditioning"], "entity_type": "private_co", "ticker": null, "sector": "Cooling", "sub_sector": "Precision Cooling", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000065", "canonical_name": "Arista Networks", "aliases": ["ANET"], "entity_type": "public_co", "ticker": "ANET", "sector": "Networking", "sub_sector": "Data Center Networking", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000066", "canonical_name": "Cisco Systems", "aliases": ["CSCO", "Cisco"], "entity_type": "public_co", "ticker": "CSCO", "sector": "Networking", "sub_sector": "Enterprise Networking", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000067", "canonical_name": "Juniper Networks", "aliases": ["JNPR"], "entity_type": "public_co", "ticker": "JNPR", "sector": "Networking", "sub_sector": "Enterprise Networking", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000068", "canonical_name": "Ciena", "aliases": ["CIEN"], "entity_type": "public_co", "ticker": "CIEN", "sector": "Networking", "sub_sector": "Optical Networking", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000069", "canonical_name": "Blackstone", "aliases": ["BX"], "entity_type": "public_co", "ticker": "BX", "sector": "Financing", "sub_sector": "Alternative Asset Manager", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000070", "canonical_name": "KKR", "aliases": ["KKR & Co."], "entity_type": "public_co", "ticker": "KKR", "sector": "Financing", "sub_sector": "Alternative Asset Manager", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000071", "canonical_name": "Brookfield Asset Management", "aliases": ["BAM"], "entity_type": "public_co", "ticker": "BAM", "sector": "Financing", "sub_sector": "Alternative Asset Manager", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000072", "canonical_name": "Goldman Sachs", "aliases": ["GS"], "entity_type": "public_co", "ticker": "GS", "sector": "Financing", "sub_sector": "Investment Bank", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000073", "canonical_name": "JPMorgan Chase", "aliases": ["JPM"], "entity_type": "public_co", "ticker": "JPM", "sector": "Financing", "sub_sector": "Investment Bank", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000074", "canonical_name": "Ares Management", "aliases": ["ARES"], "entity_type": "public_co", "ticker": "ARES", "sector": "Financing", "sub_sector": "Alternative Asset Manager", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000075", "canonical_name": "FERC", "aliases": ["Federal Energy Regulatory Commission"], "entity_type": "geo", "ticker": null, "sector": "Regulatory", "sub_sector": "Federal Energy Regulator", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000076", "canonical_name": "NERC", "aliases": ["North American Electric Reliability Corporation"], "entity_type": "geo", "ticker": null, "sector": "Regulatory", "sub_sector": "Grid Reliability Standards", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000077", "canonical_name": "US DOE", "aliases": ["Department of Energy", "DOE"], "entity_type": "geo", "ticker": null, "sector": "Regulatory", "sub_sector": "Federal Energy Policy", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000078", "canonical_name": "US EPA", "aliases": ["Environmental Protection Agency", "EPA"], "entity_type": "geo", "ticker": null, "sector": "Regulatory", "sub_sector": "Environmental Regulator", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000079", "canonical_name": "FCC", "aliases": ["Federal Communications Commission"], "entity_type": "geo", "ticker": null, "sector": "Regulatory", "sub_sector": "Telecom Regulator", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000080", "canonical_name": "DigitalBridge", "aliases": ["DBRG"], "entity_type": "public_co", "ticker": "DBRG", "sector": "Real Estate", "sub_sector": "Digital Infrastructure REIT", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000081", "canonical_name": "American Tower", "aliases": ["AMT"], "entity_type": "public_co", "ticker": "AMT", "sector": "Real Estate", "sub_sector": "Tower REIT", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000082", "canonical_name": "Crown Castle", "aliases": ["CCI"], "entity_type": "public_co", "ticker": "CCI", "sector": "Real Estate", "sub_sector": "Tower REIT", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000083", "canonical_name": "Landmark Infrastructure", "aliases": [], "entity_type": "private_co", "ticker": null, "sector": "Real Estate", "sub_sector": "Digital Infrastructure", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000084", "canonical_name": "Stargate Campus TX", "aliases": ["Stargate Texas"], "entity_type": "asset", "ticker": null, "sector": "Data Centers", "sub_sector": "Hyperscale Campus", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000085", "canonical_name": "Northern Virginia Data Center Corridor", "aliases": ["NOVA", "NoVA DC Corridor"], "entity_type": "asset", "ticker": null, "sector": "Data Centers", "sub_sector": "Geographic Cluster", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000086", "canonical_name": "Chicago Data Center Hub", "aliases": ["Chicago DC Hub"], "entity_type": "asset", "ticker": null, "sector": "Data Centers", "sub_sector": "Geographic Cluster", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000087", "canonical_name": "Phoenix Data Center Cluster", "aliases": ["Phoenix DC"], "entity_type": "asset", "ticker": null, "sector": "Data Centers", "sub_sector": "Geographic Cluster", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000088", "canonical_name": "Atlanta Data Center Hub", "aliases": ["Atlanta DC"], "entity_type": "asset", "ticker": null, "sector": "Data Centers", "sub_sector": "Geographic Cluster", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000089", "canonical_name": "Quincy WA Campus", "aliases": ["Quincy Washington"], "entity_type": "asset", "ticker": null, "sector": "Data Centers", "sub_sector": "Hyperscale Campus", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000090", "canonical_name": "Silicon Valley Campus", "aliases": ["Bay Area DC"], "entity_type": "asset", "ticker": null, "sector": "Data Centers", "sub_sector": "Geographic Cluster", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000091", "canonical_name": "Dallas-Fort Worth Campus", "aliases": ["DFW DC Campus"], "entity_type": "asset", "ticker": null, "sector": "Data Centers", "sub_sector": "Hyperscale Campus", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000092", "canonical_name": "New Albany OH Campus", "aliases": ["New Albany Ohio"], "entity_type": "asset", "ticker": null, "sector": "Data Centers", "sub_sector": "Hyperscale Campus", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000093", "canonical_name": "Ashburn VA Campus", "aliases": ["Ashburn Data Center"], "entity_type": "asset", "ticker": null, "sector": "Data Centers", "sub_sector": "Hyperscale Campus", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000094", "canonical_name": "Grid Interconnection Queue", "aliases": ["Interconnection Queue", "Generator Queue"], "entity_type": "technology", "ticker": null, "sector": "Grid Infrastructure", "sub_sector": "Interconnection Process", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000095", "canonical_name": "Transformer Lead Times", "aliases": ["Power Transformer Backlog"], "entity_type": "technology", "ticker": null, "sector": "Grid Infrastructure", "sub_sector": "Supply Chain Constraint", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000096", "canonical_name": "Liquid Cooling Technology", "aliases": ["Direct Liquid Cooling", "DLC", "Immersion Cooling"], "entity_type": "technology", "ticker": null, "sector": "Data Centers", "sub_sector": "Thermal Management", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000097", "canonical_name": "Hyperscaler GPU Clusters", "aliases": ["AI GPU Clusters", "AI Compute Clusters"], "entity_type": "asset", "ticker": null, "sector": "Data Centers", "sub_sector": "AI Compute Infrastructure", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000098", "canonical_name": "Data Center Operators", "aliases": ["DC Operators", "Colo Operators"], "entity_type": "market", "ticker": null, "sector": "Data Centers", "sub_sector": "Operator Segment", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000099", "canonical_name": "HBM Memory", "aliases": ["High Bandwidth Memory", "HBM3", "HBM3e"], "entity_type": "technology", "ticker": null, "sector": "Semiconductors", "sub_sector": "AI Memory Stack", "region": "US", "is_seed": true, "metadata": null},
-  {"id": "e0000001-0000-0000-0000-000000000100", "canonical_name": "Skilled Construction Labor", "aliases": ["Data Center Construction Labor", "Electricians"], "entity_type": "market", "ticker": null, "sector": "Grid Infrastructure", "sub_sector": "Labor Supply Chain", "region": "US", "is_seed": true, "metadata": null}
+  {
+    "id": "e0000001-0000-0000-0000-000000000001",
+    "canonical_name": "Microsoft",
+    "aliases": [
+      "MSFT",
+      "Microsoft Corporation"
+    ],
+    "entity_type": "public_co",
+    "ticker": "MSFT",
+    "sector": "Technology",
+    "sub_sector": "Cloud & Hyperscaler",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000002",
+    "canonical_name": "Amazon (AWS)",
+    "aliases": [
+      "AWS",
+      "Amazon Web Services",
+      "AMZN"
+    ],
+    "entity_type": "public_co",
+    "ticker": "AMZN",
+    "sector": "Technology",
+    "sub_sector": "Cloud & Hyperscaler",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000003",
+    "canonical_name": "Google (Alphabet)",
+    "aliases": [
+      "Alphabet",
+      "GOOGL",
+      "GCP"
+    ],
+    "entity_type": "public_co",
+    "ticker": "GOOGL",
+    "sector": "Technology",
+    "sub_sector": "Cloud & Hyperscaler",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000004",
+    "canonical_name": "Meta Platforms",
+    "aliases": [
+      "Meta",
+      "Facebook",
+      "META"
+    ],
+    "entity_type": "public_co",
+    "ticker": "META",
+    "sector": "Technology",
+    "sub_sector": "Cloud & Hyperscaler",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000005",
+    "canonical_name": "Oracle",
+    "aliases": [
+      "ORCL",
+      "Oracle Cloud"
+    ],
+    "entity_type": "public_co",
+    "ticker": "ORCL",
+    "sector": "Technology",
+    "sub_sector": "Cloud & Hyperscaler",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000006",
+    "canonical_name": "Apple",
+    "aliases": [
+      "AAPL",
+      "Apple Inc."
+    ],
+    "entity_type": "public_co",
+    "ticker": "AAPL",
+    "sector": "Technology",
+    "sub_sector": "Cloud & Hyperscaler",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000007",
+    "canonical_name": "Salesforce",
+    "aliases": [
+      "CRM",
+      "Salesforce Inc."
+    ],
+    "entity_type": "public_co",
+    "ticker": "CRM",
+    "sector": "Technology",
+    "sub_sector": "Cloud & Hyperscaler",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000008",
+    "canonical_name": "IBM",
+    "aliases": [
+      "International Business Machines"
+    ],
+    "entity_type": "public_co",
+    "ticker": "IBM",
+    "sector": "Technology",
+    "sub_sector": "Cloud & Hyperscaler",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000009",
+    "canonical_name": "OpenAI",
+    "aliases": [
+      "Open AI"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Technology",
+    "sub_sector": "AI Lab",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000010",
+    "canonical_name": "Anthropic",
+    "aliases": [],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Technology",
+    "sub_sector": "AI Lab",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000011",
+    "canonical_name": "xAI",
+    "aliases": [
+      "Grok"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Technology",
+    "sub_sector": "AI Lab",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000012",
+    "canonical_name": "Mistral AI",
+    "aliases": [
+      "Mistral"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Technology",
+    "sub_sector": "AI Lab",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000013",
+    "canonical_name": "Cohere",
+    "aliases": [],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Technology",
+    "sub_sector": "AI Lab",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000014",
+    "canonical_name": "Scale AI",
+    "aliases": [
+      "Scale"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Technology",
+    "sub_sector": "AI Lab",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000015",
+    "canonical_name": "Google DeepMind",
+    "aliases": [
+      "DeepMind"
+    ],
+    "entity_type": "public_co",
+    "ticker": "GOOGL",
+    "sector": "Technology",
+    "sub_sector": "AI Lab",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000016",
+    "canonical_name": "Nvidia",
+    "aliases": [
+      "NVDA",
+      "Nvidia Corporation"
+    ],
+    "entity_type": "public_co",
+    "ticker": "NVDA",
+    "sector": "Semiconductors",
+    "sub_sector": "GPU & AI Accelerators",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000017",
+    "canonical_name": "AMD",
+    "aliases": [
+      "Advanced Micro Devices",
+      "AMD Inc."
+    ],
+    "entity_type": "public_co",
+    "ticker": "AMD",
+    "sector": "Semiconductors",
+    "sub_sector": "GPU & AI Accelerators",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000018",
+    "canonical_name": "Intel",
+    "aliases": [
+      "Intel Corporation",
+      "INTC"
+    ],
+    "entity_type": "public_co",
+    "ticker": "INTC",
+    "sector": "Semiconductors",
+    "sub_sector": "CPU & Data Center",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000019",
+    "canonical_name": "Broadcom",
+    "aliases": [
+      "AVGO"
+    ],
+    "entity_type": "public_co",
+    "ticker": "AVGO",
+    "sector": "Semiconductors",
+    "sub_sector": "Networking Silicon",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000020",
+    "canonical_name": "Marvell Technology",
+    "aliases": [
+      "MRVL"
+    ],
+    "entity_type": "public_co",
+    "ticker": "MRVL",
+    "sector": "Semiconductors",
+    "sub_sector": "Networking Silicon",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000021",
+    "canonical_name": "Qualcomm",
+    "aliases": [
+      "QCOM"
+    ],
+    "entity_type": "public_co",
+    "ticker": "QCOM",
+    "sector": "Semiconductors",
+    "sub_sector": "Mobile & Edge AI",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000022",
+    "canonical_name": "TSMC",
+    "aliases": [
+      "Taiwan Semiconductor Manufacturing",
+      "TSM"
+    ],
+    "entity_type": "public_co",
+    "ticker": "TSM",
+    "sector": "Semiconductors",
+    "sub_sector": "Foundry",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000023",
+    "canonical_name": "SK Hynix",
+    "aliases": [
+      "SKH"
+    ],
+    "entity_type": "public_co",
+    "ticker": null,
+    "sector": "Semiconductors",
+    "sub_sector": "HBM Memory",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000024",
+    "canonical_name": "Micron Technology",
+    "aliases": [
+      "MU"
+    ],
+    "entity_type": "public_co",
+    "ticker": "MU",
+    "sector": "Semiconductors",
+    "sub_sector": "HBM Memory",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000025",
+    "canonical_name": "Coherent Corp",
+    "aliases": [
+      "COHR"
+    ],
+    "entity_type": "public_co",
+    "ticker": "COHR",
+    "sector": "Semiconductors",
+    "sub_sector": "Optical Components",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000026",
+    "canonical_name": "Equinix",
+    "aliases": [
+      "EQIX"
+    ],
+    "entity_type": "public_co",
+    "ticker": "EQIX",
+    "sector": "Data Centers",
+    "sub_sector": "Colocation REIT",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000027",
+    "canonical_name": "Digital Realty",
+    "aliases": [
+      "DLR"
+    ],
+    "entity_type": "public_co",
+    "ticker": "DLR",
+    "sector": "Data Centers",
+    "sub_sector": "Colocation REIT",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000028",
+    "canonical_name": "Iron Mountain",
+    "aliases": [
+      "IRM"
+    ],
+    "entity_type": "public_co",
+    "ticker": "IRM",
+    "sector": "Data Centers",
+    "sub_sector": "Colocation REIT",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000029",
+    "canonical_name": "Switch (DigitalBridge)",
+    "aliases": [
+      "Switch Inc."
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Data Centers",
+    "sub_sector": "Hyperscale Operator",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000030",
+    "canonical_name": "QTS Realty",
+    "aliases": [
+      "QTS"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Data Centers",
+    "sub_sector": "Hyperscale Operator",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000031",
+    "canonical_name": "CyrusOne",
+    "aliases": [],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Data Centers",
+    "sub_sector": "Hyperscale Operator",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000032",
+    "canonical_name": "CoreSite Realty",
+    "aliases": [
+      "CoreSite"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Data Centers",
+    "sub_sector": "Colocation",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000033",
+    "canonical_name": "Aligned Data Centers",
+    "aliases": [
+      "Aligned"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Data Centers",
+    "sub_sector": "Hyperscale Operator",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000034",
+    "canonical_name": "NextEra Energy",
+    "aliases": [
+      "NEE"
+    ],
+    "entity_type": "utility",
+    "ticker": "NEE",
+    "sector": "Utilities",
+    "sub_sector": "Renewable Utility",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000035",
+    "canonical_name": "Dominion Energy",
+    "aliases": [
+      "D",
+      "Dominion"
+    ],
+    "entity_type": "utility",
+    "ticker": "D",
+    "sector": "Utilities",
+    "sub_sector": "Regulated Utility",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000036",
+    "canonical_name": "Constellation Energy",
+    "aliases": [
+      "CEG"
+    ],
+    "entity_type": "utility",
+    "ticker": "CEG",
+    "sector": "Utilities",
+    "sub_sector": "Nuclear & Clean Power",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000037",
+    "canonical_name": "Vistra Corp",
+    "aliases": [
+      "VST",
+      "Vistra"
+    ],
+    "entity_type": "utility",
+    "ticker": "VST",
+    "sector": "Utilities",
+    "sub_sector": "Merchant Power",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000038",
+    "canonical_name": "NRG Energy",
+    "aliases": [
+      "NRG"
+    ],
+    "entity_type": "utility",
+    "ticker": "NRG",
+    "sector": "Utilities",
+    "sub_sector": "Merchant Power",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000039",
+    "canonical_name": "Talen Energy",
+    "aliases": [
+      "TLN"
+    ],
+    "entity_type": "utility",
+    "ticker": "TLN",
+    "sector": "Utilities",
+    "sub_sector": "Nuclear & Merchant Power",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000040",
+    "canonical_name": "Southern Company",
+    "aliases": [
+      "SO"
+    ],
+    "entity_type": "utility",
+    "ticker": "SO",
+    "sector": "Utilities",
+    "sub_sector": "Regulated Utility",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000041",
+    "canonical_name": "Duke Energy",
+    "aliases": [
+      "DUK"
+    ],
+    "entity_type": "utility",
+    "ticker": "DUK",
+    "sector": "Utilities",
+    "sub_sector": "Regulated Utility",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000042",
+    "canonical_name": "Exelon",
+    "aliases": [
+      "EXC"
+    ],
+    "entity_type": "utility",
+    "ticker": "EXC",
+    "sector": "Utilities",
+    "sub_sector": "Nuclear Regulated Utility",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000043",
+    "canonical_name": "AES Corp",
+    "aliases": [
+      "AES"
+    ],
+    "entity_type": "utility",
+    "ticker": "AES",
+    "sector": "Utilities",
+    "sub_sector": "Renewable Utility",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000044",
+    "canonical_name": "PG&E",
+    "aliases": [
+      "PCG",
+      "Pacific Gas and Electric"
+    ],
+    "entity_type": "utility",
+    "ticker": "PCG",
+    "sector": "Utilities",
+    "sub_sector": "Regulated Utility",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000045",
+    "canonical_name": "Sempra Energy",
+    "aliases": [
+      "SRE"
+    ],
+    "entity_type": "utility",
+    "ticker": "SRE",
+    "sector": "Utilities",
+    "sub_sector": "Regulated Utility",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000046",
+    "canonical_name": "PJM Interconnection",
+    "aliases": [
+      "PJM"
+    ],
+    "entity_type": "geo",
+    "ticker": null,
+    "sector": "Grid Infrastructure",
+    "sub_sector": "Regional Transmission Organization",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000047",
+    "canonical_name": "MISO",
+    "aliases": [
+      "Midcontinent Independent System Operator"
+    ],
+    "entity_type": "geo",
+    "ticker": null,
+    "sector": "Grid Infrastructure",
+    "sub_sector": "Regional Transmission Organization",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000048",
+    "canonical_name": "SPP",
+    "aliases": [
+      "Southwest Power Pool"
+    ],
+    "entity_type": "geo",
+    "ticker": null,
+    "sector": "Grid Infrastructure",
+    "sub_sector": "Regional Transmission Organization",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000049",
+    "canonical_name": "CAISO",
+    "aliases": [
+      "California ISO"
+    ],
+    "entity_type": "geo",
+    "ticker": null,
+    "sector": "Grid Infrastructure",
+    "sub_sector": "Regional Transmission Organization",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000050",
+    "canonical_name": "ERCOT",
+    "aliases": [
+      "Electric Reliability Council of Texas"
+    ],
+    "entity_type": "geo",
+    "ticker": null,
+    "sector": "Grid Infrastructure",
+    "sub_sector": "Regional Transmission Organization",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000051",
+    "canonical_name": "ISO-NE",
+    "aliases": [
+      "ISO New England"
+    ],
+    "entity_type": "geo",
+    "ticker": null,
+    "sector": "Grid Infrastructure",
+    "sub_sector": "Regional Transmission Organization",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000052",
+    "canonical_name": "Eaton Corporation",
+    "aliases": [
+      "ETN",
+      "Eaton"
+    ],
+    "entity_type": "public_co",
+    "ticker": "ETN",
+    "sector": "Infrastructure Equipment",
+    "sub_sector": "Power Management",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000053",
+    "canonical_name": "Vertiv Holdings",
+    "aliases": [
+      "VRT",
+      "Vertiv"
+    ],
+    "entity_type": "public_co",
+    "ticker": "VRT",
+    "sector": "Infrastructure Equipment",
+    "sub_sector": "Data Center Power & Cooling",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000054",
+    "canonical_name": "Schneider Electric",
+    "aliases": [
+      "SBGSY"
+    ],
+    "entity_type": "public_co",
+    "ticker": "SBGSY",
+    "sector": "Infrastructure Equipment",
+    "sub_sector": "Power Management",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000055",
+    "canonical_name": "ABB",
+    "aliases": [
+      "ABB Ltd"
+    ],
+    "entity_type": "public_co",
+    "ticker": "ABB",
+    "sector": "Infrastructure Equipment",
+    "sub_sector": "Power & Automation",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000056",
+    "canonical_name": "Siemens Energy",
+    "aliases": [
+      "SMEGF"
+    ],
+    "entity_type": "public_co",
+    "ticker": "SMEGF",
+    "sector": "Infrastructure Equipment",
+    "sub_sector": "Grid Transformation",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000057",
+    "canonical_name": "GE Vernova",
+    "aliases": [
+      "GEV"
+    ],
+    "entity_type": "public_co",
+    "ticker": "GEV",
+    "sector": "Infrastructure Equipment",
+    "sub_sector": "Power Transformers & Grid",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000058",
+    "canonical_name": "Hitachi Energy",
+    "aliases": [
+      "Hitachi ABB Power Grids"
+    ],
+    "entity_type": "public_co",
+    "ticker": null,
+    "sector": "Infrastructure Equipment",
+    "sub_sector": "Power Transformers & Grid",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000059",
+    "canonical_name": "SPX Technologies",
+    "aliases": [
+      "SPXC"
+    ],
+    "entity_type": "public_co",
+    "ticker": "SPXC",
+    "sector": "Infrastructure Equipment",
+    "sub_sector": "Specialty Infrastructure",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000060",
+    "canonical_name": "Carrier Global",
+    "aliases": [
+      "CARR"
+    ],
+    "entity_type": "public_co",
+    "ticker": "CARR",
+    "sector": "Cooling",
+    "sub_sector": "HVAC & Thermal Management",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000061",
+    "canonical_name": "Trane Technologies",
+    "aliases": [
+      "TT",
+      "Trane"
+    ],
+    "entity_type": "public_co",
+    "ticker": "TT",
+    "sector": "Cooling",
+    "sub_sector": "HVAC & Thermal Management",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000062",
+    "canonical_name": "Johnson Controls",
+    "aliases": [
+      "JCI"
+    ],
+    "entity_type": "public_co",
+    "ticker": "JCI",
+    "sector": "Cooling",
+    "sub_sector": "Building Systems",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000063",
+    "canonical_name": "Stulz",
+    "aliases": [
+      "Stulz GmbH"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Cooling",
+    "sub_sector": "Precision Cooling",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000064",
+    "canonical_name": "Airedale",
+    "aliases": [
+      "Airedale International Air Conditioning"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Cooling",
+    "sub_sector": "Precision Cooling",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000065",
+    "canonical_name": "Arista Networks",
+    "aliases": [
+      "ANET"
+    ],
+    "entity_type": "public_co",
+    "ticker": "ANET",
+    "sector": "Networking",
+    "sub_sector": "Data Center Networking",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000066",
+    "canonical_name": "Cisco Systems",
+    "aliases": [
+      "CSCO",
+      "Cisco"
+    ],
+    "entity_type": "public_co",
+    "ticker": "CSCO",
+    "sector": "Networking",
+    "sub_sector": "Enterprise Networking",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000067",
+    "canonical_name": "Juniper Networks",
+    "aliases": [
+      "JNPR"
+    ],
+    "entity_type": "public_co",
+    "ticker": "JNPR",
+    "sector": "Networking",
+    "sub_sector": "Enterprise Networking",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000068",
+    "canonical_name": "Ciena",
+    "aliases": [
+      "CIEN"
+    ],
+    "entity_type": "public_co",
+    "ticker": "CIEN",
+    "sector": "Networking",
+    "sub_sector": "Optical Networking",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000069",
+    "canonical_name": "Blackstone",
+    "aliases": [
+      "BX"
+    ],
+    "entity_type": "public_co",
+    "ticker": "BX",
+    "sector": "Financing",
+    "sub_sector": "Alternative Asset Manager",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000070",
+    "canonical_name": "KKR",
+    "aliases": [
+      "KKR & Co."
+    ],
+    "entity_type": "public_co",
+    "ticker": "KKR",
+    "sector": "Financing",
+    "sub_sector": "Alternative Asset Manager",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000071",
+    "canonical_name": "Brookfield Asset Management",
+    "aliases": [
+      "BAM"
+    ],
+    "entity_type": "public_co",
+    "ticker": "BAM",
+    "sector": "Financing",
+    "sub_sector": "Alternative Asset Manager",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000072",
+    "canonical_name": "Goldman Sachs",
+    "aliases": [
+      "GS"
+    ],
+    "entity_type": "public_co",
+    "ticker": "GS",
+    "sector": "Financing",
+    "sub_sector": "Investment Bank",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000073",
+    "canonical_name": "JPMorgan Chase",
+    "aliases": [
+      "JPM"
+    ],
+    "entity_type": "public_co",
+    "ticker": "JPM",
+    "sector": "Financing",
+    "sub_sector": "Investment Bank",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000074",
+    "canonical_name": "Ares Management",
+    "aliases": [
+      "ARES"
+    ],
+    "entity_type": "public_co",
+    "ticker": "ARES",
+    "sector": "Financing",
+    "sub_sector": "Alternative Asset Manager",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000075",
+    "canonical_name": "FERC",
+    "aliases": [
+      "Federal Energy Regulatory Commission"
+    ],
+    "entity_type": "geo",
+    "ticker": null,
+    "sector": "Regulatory",
+    "sub_sector": "Federal Energy Regulator",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000076",
+    "canonical_name": "NERC",
+    "aliases": [
+      "North American Electric Reliability Corporation"
+    ],
+    "entity_type": "geo",
+    "ticker": null,
+    "sector": "Regulatory",
+    "sub_sector": "Grid Reliability Standards",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000077",
+    "canonical_name": "US DOE",
+    "aliases": [
+      "Department of Energy",
+      "DOE"
+    ],
+    "entity_type": "geo",
+    "ticker": null,
+    "sector": "Regulatory",
+    "sub_sector": "Federal Energy Policy",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000078",
+    "canonical_name": "US EPA",
+    "aliases": [
+      "Environmental Protection Agency",
+      "EPA"
+    ],
+    "entity_type": "geo",
+    "ticker": null,
+    "sector": "Regulatory",
+    "sub_sector": "Environmental Regulator",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000079",
+    "canonical_name": "FCC",
+    "aliases": [
+      "Federal Communications Commission"
+    ],
+    "entity_type": "geo",
+    "ticker": null,
+    "sector": "Regulatory",
+    "sub_sector": "Telecom Regulator",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000080",
+    "canonical_name": "DigitalBridge",
+    "aliases": [
+      "DBRG"
+    ],
+    "entity_type": "public_co",
+    "ticker": "DBRG",
+    "sector": "Real Estate",
+    "sub_sector": "Digital Infrastructure REIT",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000081",
+    "canonical_name": "American Tower",
+    "aliases": [
+      "AMT"
+    ],
+    "entity_type": "public_co",
+    "ticker": "AMT",
+    "sector": "Real Estate",
+    "sub_sector": "Tower REIT",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000082",
+    "canonical_name": "Crown Castle",
+    "aliases": [
+      "CCI"
+    ],
+    "entity_type": "public_co",
+    "ticker": "CCI",
+    "sector": "Real Estate",
+    "sub_sector": "Tower REIT",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000083",
+    "canonical_name": "Landmark Infrastructure",
+    "aliases": [],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Real Estate",
+    "sub_sector": "Digital Infrastructure",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000084",
+    "canonical_name": "Stargate Campus TX",
+    "aliases": [
+      "Stargate Texas"
+    ],
+    "entity_type": "asset",
+    "ticker": null,
+    "sector": "Data Centers",
+    "sub_sector": "Hyperscale Campus",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000085",
+    "canonical_name": "Northern Virginia Data Center Corridor",
+    "aliases": [
+      "NOVA",
+      "NoVA DC Corridor"
+    ],
+    "entity_type": "asset",
+    "ticker": null,
+    "sector": "Data Centers",
+    "sub_sector": "Geographic Cluster",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000086",
+    "canonical_name": "Chicago Data Center Hub",
+    "aliases": [
+      "Chicago DC Hub"
+    ],
+    "entity_type": "asset",
+    "ticker": null,
+    "sector": "Data Centers",
+    "sub_sector": "Geographic Cluster",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000087",
+    "canonical_name": "Phoenix Data Center Cluster",
+    "aliases": [
+      "Phoenix DC"
+    ],
+    "entity_type": "asset",
+    "ticker": null,
+    "sector": "Data Centers",
+    "sub_sector": "Geographic Cluster",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000088",
+    "canonical_name": "Atlanta Data Center Hub",
+    "aliases": [
+      "Atlanta DC"
+    ],
+    "entity_type": "asset",
+    "ticker": null,
+    "sector": "Data Centers",
+    "sub_sector": "Geographic Cluster",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000089",
+    "canonical_name": "Quincy WA Campus",
+    "aliases": [
+      "Quincy Washington"
+    ],
+    "entity_type": "asset",
+    "ticker": null,
+    "sector": "Data Centers",
+    "sub_sector": "Hyperscale Campus",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000090",
+    "canonical_name": "Silicon Valley Campus",
+    "aliases": [
+      "Bay Area DC"
+    ],
+    "entity_type": "asset",
+    "ticker": null,
+    "sector": "Data Centers",
+    "sub_sector": "Geographic Cluster",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000091",
+    "canonical_name": "Dallas-Fort Worth Campus",
+    "aliases": [
+      "DFW DC Campus"
+    ],
+    "entity_type": "asset",
+    "ticker": null,
+    "sector": "Data Centers",
+    "sub_sector": "Hyperscale Campus",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000092",
+    "canonical_name": "New Albany OH Campus",
+    "aliases": [
+      "New Albany Ohio"
+    ],
+    "entity_type": "asset",
+    "ticker": null,
+    "sector": "Data Centers",
+    "sub_sector": "Hyperscale Campus",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000093",
+    "canonical_name": "Ashburn VA Campus",
+    "aliases": [
+      "Ashburn Data Center"
+    ],
+    "entity_type": "asset",
+    "ticker": null,
+    "sector": "Data Centers",
+    "sub_sector": "Hyperscale Campus",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000094",
+    "canonical_name": "Grid Interconnection Queue",
+    "aliases": [
+      "Interconnection Queue",
+      "Generator Queue"
+    ],
+    "entity_type": "technology",
+    "ticker": null,
+    "sector": "Grid Infrastructure",
+    "sub_sector": "Interconnection Process",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000095",
+    "canonical_name": "Transformer Lead Times",
+    "aliases": [
+      "Power Transformer Backlog"
+    ],
+    "entity_type": "technology",
+    "ticker": null,
+    "sector": "Grid Infrastructure",
+    "sub_sector": "Supply Chain Constraint",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000096",
+    "canonical_name": "Liquid Cooling Technology",
+    "aliases": [
+      "Direct Liquid Cooling",
+      "DLC",
+      "Immersion Cooling"
+    ],
+    "entity_type": "technology",
+    "ticker": null,
+    "sector": "Data Centers",
+    "sub_sector": "Thermal Management",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000097",
+    "canonical_name": "Hyperscaler GPU Clusters",
+    "aliases": [
+      "AI GPU Clusters",
+      "AI Compute Clusters"
+    ],
+    "entity_type": "asset",
+    "ticker": null,
+    "sector": "Data Centers",
+    "sub_sector": "AI Compute Infrastructure",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000098",
+    "canonical_name": "Data Center Operators",
+    "aliases": [
+      "DC Operators",
+      "Colo Operators"
+    ],
+    "entity_type": "market",
+    "ticker": null,
+    "sector": "Data Centers",
+    "sub_sector": "Operator Segment",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000099",
+    "canonical_name": "HBM Memory",
+    "aliases": [
+      "High Bandwidth Memory",
+      "HBM3",
+      "HBM3e"
+    ],
+    "entity_type": "technology",
+    "ticker": null,
+    "sector": "Semiconductors",
+    "sub_sector": "AI Memory Stack",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000100",
+    "canonical_name": "Skilled Construction Labor",
+    "aliases": [
+      "Data Center Construction Labor",
+      "Electricians"
+    ],
+    "entity_type": "market",
+    "ticker": null,
+    "sector": "Grid Infrastructure",
+    "sub_sector": "Labor Supply Chain",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000101",
+    "canonical_name": "Samsung Semiconductor",
+    "aliases": [
+      "Samsung",
+      "Samsung Electronics Semiconductor"
+    ],
+    "entity_type": "public_co",
+    "ticker": "005930.KS",
+    "sector": "Semiconductors",
+    "sub_sector": "HBM Memory",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000102",
+    "canonical_name": "ASML",
+    "aliases": [
+      "ASML Holding",
+      "ASML NV"
+    ],
+    "entity_type": "public_co",
+    "ticker": "ASML",
+    "sector": "Semiconductors",
+    "sub_sector": "EUV Lithography",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000103",
+    "canonical_name": "Applied Materials",
+    "aliases": [
+      "AMAT",
+      "Applied Materials Inc"
+    ],
+    "entity_type": "public_co",
+    "ticker": "AMAT",
+    "sector": "Semiconductors",
+    "sub_sector": "Semiconductor Equipment",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000104",
+    "canonical_name": "Lam Research",
+    "aliases": [
+      "LRCX",
+      "Lam Research Corp"
+    ],
+    "entity_type": "public_co",
+    "ticker": "LRCX",
+    "sector": "Semiconductors",
+    "sub_sector": "Semiconductor Equipment",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000105",
+    "canonical_name": "KLA Corporation",
+    "aliases": [
+      "KLA Corp",
+      "KLA",
+      "KLAC"
+    ],
+    "entity_type": "public_co",
+    "ticker": "KLAC",
+    "sector": "Semiconductors",
+    "sub_sector": "Process Control Equipment",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000106",
+    "canonical_name": "Tokyo Electron",
+    "aliases": [
+      "TEL",
+      "Tokyo Electron Limited"
+    ],
+    "entity_type": "public_co",
+    "ticker": "8035.T",
+    "sector": "Semiconductors",
+    "sub_sector": "Semiconductor Equipment",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000107",
+    "canonical_name": "ASE Technology",
+    "aliases": [
+      "ASE Group",
+      "ASE Technology Holding"
+    ],
+    "entity_type": "public_co",
+    "ticker": "ASX",
+    "sector": "Semiconductors",
+    "sub_sector": "Advanced Packaging",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000108",
+    "canonical_name": "Amkor Technology",
+    "aliases": [
+      "Amkor",
+      "AMKR"
+    ],
+    "entity_type": "public_co",
+    "ticker": "AMKR",
+    "sector": "Semiconductors",
+    "sub_sector": "Advanced Packaging",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000109",
+    "canonical_name": "ON Semiconductor",
+    "aliases": [
+      "onsemi",
+      "ON Semi",
+      "ONSEMI"
+    ],
+    "entity_type": "public_co",
+    "ticker": "ON",
+    "sector": "Semiconductors",
+    "sub_sector": "Power Semiconductors",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000110",
+    "canonical_name": "Lattice Semiconductor",
+    "aliases": [
+      "Lattice",
+      "LSCC"
+    ],
+    "entity_type": "public_co",
+    "ticker": "LSCC",
+    "sector": "Semiconductors",
+    "sub_sector": "FPGA",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000111",
+    "canonical_name": "GlobalFoundries",
+    "aliases": [
+      "GlobalFoundries Inc",
+      "GFS"
+    ],
+    "entity_type": "public_co",
+    "ticker": "GFS",
+    "sector": "Semiconductors",
+    "sub_sector": "Foundry",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000112",
+    "canonical_name": "SkyWater Technology",
+    "aliases": [
+      "SkyWater",
+      "SKYT"
+    ],
+    "entity_type": "public_co",
+    "ticker": "SKYT",
+    "sector": "Semiconductors",
+    "sub_sector": "Specialty Foundry",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000113",
+    "canonical_name": "Wolfspeed",
+    "aliases": [
+      "WOLF",
+      "Wolfspeed Inc"
+    ],
+    "entity_type": "public_co",
+    "ticker": "WOLF",
+    "sector": "Semiconductors",
+    "sub_sector": "Power Semiconductors",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000114",
+    "canonical_name": "Indie Semiconductor",
+    "aliases": [
+      "INDI",
+      "Indie Semi"
+    ],
+    "entity_type": "public_co",
+    "ticker": "INDI",
+    "sector": "Semiconductors",
+    "sub_sector": "Edge AI",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000115",
+    "canonical_name": "Credo Technology",
+    "aliases": [
+      "CRDO",
+      "Credo"
+    ],
+    "entity_type": "public_co",
+    "ticker": "CRDO",
+    "sector": "Semiconductors",
+    "sub_sector": "Connectivity",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000116",
+    "canonical_name": "Compass Datacenters",
+    "aliases": [
+      "Compass DC"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Data Center Infrastructure",
+    "sub_sector": "Wholesale Colocation",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000117",
+    "canonical_name": "EdgeConneX",
+    "aliases": [
+      "EdgeConnex"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Data Center Infrastructure",
+    "sub_sector": "Edge Colocation",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000118",
+    "canonical_name": "Vantage Data Centers",
+    "aliases": [
+      "Vantage DC"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Data Center Infrastructure",
+    "sub_sector": "Wholesale Colocation",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000119",
+    "canonical_name": "nVent Electric",
+    "aliases": [
+      "NVEI",
+      "nVent",
+      "NVT"
+    ],
+    "entity_type": "public_co",
+    "ticker": "NVT",
+    "sector": "Data Center Infrastructure",
+    "sub_sector": "Thermal Management",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000120",
+    "canonical_name": "Legrand",
+    "aliases": [
+      "Legrand SA",
+      "LR.PA"
+    ],
+    "entity_type": "public_co",
+    "ticker": "LR.PA",
+    "sector": "Data Center Infrastructure",
+    "sub_sector": "Power Distribution",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000121",
+    "canonical_name": "Panduit",
+    "aliases": [],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Data Center Infrastructure",
+    "sub_sector": "Physical Infrastructure",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000122",
+    "canonical_name": "Chatsworth Products",
+    "aliases": [
+      "CPI",
+      "Chatsworth"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Data Center Infrastructure",
+    "sub_sector": "Rack Systems",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000123",
+    "canonical_name": "Submer Technologies",
+    "aliases": [
+      "Submer"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Data Center Infrastructure",
+    "sub_sector": "Immersion Cooling",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000124",
+    "canonical_name": "LiquidStack",
+    "aliases": [
+      "LiquidStack Inc"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Data Center Infrastructure",
+    "sub_sector": "Immersion Cooling",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000125",
+    "canonical_name": "Asetek",
+    "aliases": [
+      "ASTK",
+      "Asetek A/S"
+    ],
+    "entity_type": "public_co",
+    "ticker": "ASTK",
+    "sector": "Data Center Infrastructure",
+    "sub_sector": "Liquid Cooling",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000126",
+    "canonical_name": "CoolIT Systems",
+    "aliases": [
+      "CoolIT"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Data Center Infrastructure",
+    "sub_sector": "Liquid Cooling",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000127",
+    "canonical_name": "Rittal",
+    "aliases": [
+      "Rittal GmbH"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Data Center Infrastructure",
+    "sub_sector": "Enclosures & Cooling",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000128",
+    "canonical_name": "Colt Data Centre Services",
+    "aliases": [
+      "Colt DC"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Data Center Infrastructure",
+    "sub_sector": "Wholesale Colocation",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000129",
+    "canonical_name": "DataBank",
+    "aliases": [
+      "DataBank Ltd"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Data Center Infrastructure",
+    "sub_sector": "Colocation",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000130",
+    "canonical_name": "Sabey Data Centers",
+    "aliases": [
+      "Sabey"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Data Center Infrastructure",
+    "sub_sector": "Wholesale Colocation",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000131",
+    "canonical_name": "Xcel Energy",
+    "aliases": [
+      "XEL",
+      "Xcel Energy Inc"
+    ],
+    "entity_type": "utility",
+    "ticker": "XEL",
+    "sector": "Grid & Power",
+    "sub_sector": "Integrated Utility",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000132",
+    "canonical_name": "Entergy Corporation",
+    "aliases": [
+      "Entergy",
+      "ETR"
+    ],
+    "entity_type": "utility",
+    "ticker": "ETR",
+    "sector": "Grid & Power",
+    "sub_sector": "Integrated Utility",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000133",
+    "canonical_name": "American Electric Power",
+    "aliases": [
+      "AEP",
+      "AEP Ohio"
+    ],
+    "entity_type": "utility",
+    "ticker": "AEP",
+    "sector": "Grid & Power",
+    "sub_sector": "Transmission",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000134",
+    "canonical_name": "Evergy",
+    "aliases": [
+      "EVRG",
+      "Evergy Inc"
+    ],
+    "entity_type": "utility",
+    "ticker": "EVRG",
+    "sector": "Grid & Power",
+    "sub_sector": "Integrated Utility",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000135",
+    "canonical_name": "Avangrid",
+    "aliases": [
+      "AGR",
+      "Avangrid Inc"
+    ],
+    "entity_type": "utility",
+    "ticker": "AGR",
+    "sector": "Grid & Power",
+    "sub_sector": "Integrated Utility",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000136",
+    "canonical_name": "Quanta Services",
+    "aliases": [
+      "PWR",
+      "Quanta"
+    ],
+    "entity_type": "public_co",
+    "ticker": "PWR",
+    "sector": "Grid & Power",
+    "sub_sector": "Grid Construction",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000137",
+    "canonical_name": "MYR Group",
+    "aliases": [
+      "MYRG",
+      "MYR Group Inc"
+    ],
+    "entity_type": "public_co",
+    "ticker": "MYRG",
+    "sector": "Grid & Power",
+    "sub_sector": "Electrical Construction",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000138",
+    "canonical_name": "IEA Energy Services",
+    "aliases": [
+      "IEA",
+      "Infrastructure Energy Alternatives"
+    ],
+    "entity_type": "public_co",
+    "ticker": "IEA",
+    "sector": "Grid & Power",
+    "sub_sector": "Renewable Construction",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000139",
+    "canonical_name": "Primoris Services",
+    "aliases": [
+      "PRIM",
+      "Primoris"
+    ],
+    "entity_type": "public_co",
+    "ticker": "PRIM",
+    "sector": "Grid & Power",
+    "sub_sector": "Utility Construction",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000140",
+    "canonical_name": "Schweitzer Engineering Labs",
+    "aliases": [
+      "SEL",
+      "Schweitzer Engineering"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Grid & Power",
+    "sub_sector": "Grid Automation",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000141",
+    "canonical_name": "S&C Electric",
+    "aliases": [
+      "S&C Electric Company"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Grid & Power",
+    "sub_sector": "Switching Equipment",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000142",
+    "canonical_name": "Powell Industries",
+    "aliases": [
+      "POWL",
+      "Powell Industries Inc"
+    ],
+    "entity_type": "public_co",
+    "ticker": "POWL",
+    "sector": "Grid & Power",
+    "sub_sector": "Switchgear",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000143",
+    "canonical_name": "Hubbell",
+    "aliases": [
+      "HUBB",
+      "Hubbell Inc"
+    ],
+    "entity_type": "public_co",
+    "ticker": "HUBB",
+    "sector": "Grid & Power",
+    "sub_sector": "Electrical Equipment",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000144",
+    "canonical_name": "NV Energy",
+    "aliases": [
+      "NVE",
+      "NV Energy Inc"
+    ],
+    "entity_type": "utility",
+    "ticker": "NVE",
+    "sector": "Grid & Power",
+    "sub_sector": "Integrated Utility",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000145",
+    "canonical_name": "Portland General Electric",
+    "aliases": [
+      "POR",
+      "Portland General"
+    ],
+    "entity_type": "utility",
+    "ticker": "POR",
+    "sector": "Grid & Power",
+    "sub_sector": "Integrated Utility",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000146",
+    "canonical_name": "SAP",
+    "aliases": [
+      "SAP SE",
+      "SAP AG"
+    ],
+    "entity_type": "public_co",
+    "ticker": "SAP",
+    "sector": "Technology",
+    "sub_sector": "Enterprise AI",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000147",
+    "canonical_name": "ServiceNow",
+    "aliases": [
+      "NOW",
+      "ServiceNow Inc"
+    ],
+    "entity_type": "public_co",
+    "ticker": "NOW",
+    "sector": "Technology",
+    "sub_sector": "AI Workload",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000148",
+    "canonical_name": "Snowflake",
+    "aliases": [
+      "SNOW",
+      "Snowflake Inc"
+    ],
+    "entity_type": "public_co",
+    "ticker": "SNOW",
+    "sector": "Technology",
+    "sub_sector": "Data Cloud",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000149",
+    "canonical_name": "Databricks",
+    "aliases": [
+      "Databricks Inc"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Technology",
+    "sub_sector": "Data & AI Platform",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000150",
+    "canonical_name": "CoreWeave",
+    "aliases": [
+      "CoreWeave Inc"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Technology",
+    "sub_sector": "GPU Cloud",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000151",
+    "canonical_name": "Lambda Labs",
+    "aliases": [
+      "Lambda",
+      "Lambda Inc"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Technology",
+    "sub_sector": "GPU Cloud",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000152",
+    "canonical_name": "Crusoe Energy",
+    "aliases": [
+      "Crusoe Energy Systems"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Technology",
+    "sub_sector": "Stranded Gas Compute",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000153",
+    "canonical_name": "Together AI",
+    "aliases": [
+      "Together AI Inc"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Technology",
+    "sub_sector": "GPU Cloud",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000154",
+    "canonical_name": "Coreweave GPU Clusters",
+    "aliases": [
+      "CoreWeave Cluster"
+    ],
+    "entity_type": "asset",
+    "ticker": null,
+    "sector": "Technology",
+    "sub_sector": "AI Compute",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000155",
+    "canonical_name": "OCI (Oracle Cloud Infrastructure)",
+    "aliases": [
+      "OCI",
+      "Oracle Cloud"
+    ],
+    "entity_type": "public_co",
+    "ticker": "ORCL",
+    "sector": "Technology",
+    "sub_sector": "Cloud IaaS",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000156",
+    "canonical_name": "NYISO",
+    "aliases": [
+      "New York ISO",
+      "New York Independent System Operator"
+    ],
+    "entity_type": "market",
+    "ticker": null,
+    "sector": "Grid & Power",
+    "sub_sector": "RTO/ISO",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000157",
+    "canonical_name": "NRC",
+    "aliases": [
+      "Nuclear Regulatory Commission",
+      "US NRC"
+    ],
+    "entity_type": "market",
+    "ticker": null,
+    "sector": "Regulatory",
+    "sub_sector": "Nuclear Licensing",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000158",
+    "canonical_name": "DOE Grid Deployment Office",
+    "aliases": [
+      "DOE GDO",
+      "Grid Deployment Office"
+    ],
+    "entity_type": "market",
+    "ticker": null,
+    "sector": "Regulatory",
+    "sub_sector": "Grid Policy",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000159",
+    "canonical_name": "CISA",
+    "aliases": [
+      "Cybersecurity and Infrastructure Security Agency"
+    ],
+    "entity_type": "market",
+    "ticker": null,
+    "sector": "Regulatory",
+    "sub_sector": "Critical Infrastructure",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000160",
+    "canonical_name": "BlackRock Infrastructure",
+    "aliases": [
+      "BlackRock",
+      "BLK Infrastructure"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Financial Infrastructure",
+    "sub_sector": "Infrastructure Fund",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000161",
+    "canonical_name": "Global Infrastructure Partners",
+    "aliases": [
+      "GIP",
+      "GIP Infra"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Financial Infrastructure",
+    "sub_sector": "Infrastructure Fund",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000162",
+    "canonical_name": "Macquarie Asset Management",
+    "aliases": [
+      "Macquarie",
+      "Macquarie Group"
+    ],
+    "entity_type": "public_co",
+    "ticker": "MQG.AX",
+    "sector": "Financial Infrastructure",
+    "sub_sector": "Infrastructure Fund",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000163",
+    "canonical_name": "Stonepeak Infrastructure",
+    "aliases": [
+      "Stonepeak"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Financial Infrastructure",
+    "sub_sector": "Infrastructure Fund",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000164",
+    "canonical_name": "John Laing Group",
+    "aliases": [
+      "John Laing",
+      "JLG"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Financial Infrastructure",
+    "sub_sector": "Infrastructure Fund",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000165",
+    "canonical_name": "IFM Investors",
+    "aliases": [
+      "IFM"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Financial Infrastructure",
+    "sub_sector": "Infrastructure Fund",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000166",
+    "canonical_name": "Ancala Infrastructure",
+    "aliases": [
+      "Ancala"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Financial Infrastructure",
+    "sub_sector": "Infrastructure Fund",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000167",
+    "canonical_name": "Actis",
+    "aliases": [
+      "Actis Infrastructure"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Financial Infrastructure",
+    "sub_sector": "Infrastructure PE",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000168",
+    "canonical_name": "EQT Infrastructure",
+    "aliases": [
+      "EQT Infra",
+      "EQT"
+    ],
+    "entity_type": "public_co",
+    "ticker": "EQT.ST",
+    "sector": "Financial Infrastructure",
+    "sub_sector": "Infrastructure Fund",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000169",
+    "canonical_name": "Ardian Infrastructure",
+    "aliases": [
+      "Ardian"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Financial Infrastructure",
+    "sub_sector": "Infrastructure Fund",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000170",
+    "canonical_name": "Virginia Transformer",
+    "aliases": [
+      "Virginia Transformer Corp",
+      "VATCO"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Equipment & Materials",
+    "sub_sector": "Large Power Transformers",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000171",
+    "canonical_name": "WEG",
+    "aliases": [
+      "WEG SA",
+      "WEGE3.SA"
+    ],
+    "entity_type": "public_co",
+    "ticker": "WEGE3.SA",
+    "sector": "Equipment & Materials",
+    "sub_sector": "Transformers & Motors",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000172",
+    "canonical_name": "Sumitomo Electric",
+    "aliases": [
+      "Sumitomo Electric Industries"
+    ],
+    "entity_type": "public_co",
+    "ticker": "5802.T",
+    "sector": "Equipment & Materials",
+    "sub_sector": "High Voltage Cables",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000173",
+    "canonical_name": "Southwire",
+    "aliases": [
+      "Southwire Company"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Equipment & Materials",
+    "sub_sector": "Electrical Cable",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000174",
+    "canonical_name": "Prysmian",
+    "aliases": [
+      "Prysmian Group",
+      "PRY.MI"
+    ],
+    "entity_type": "public_co",
+    "ticker": "PRY.MI",
+    "sector": "Equipment & Materials",
+    "sub_sector": "Power Cables",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000175",
+    "canonical_name": "Nexans",
+    "aliases": [
+      "Nexans SA",
+      "NEX.PA"
+    ],
+    "entity_type": "public_co",
+    "ticker": "NEX.PA",
+    "sector": "Equipment & Materials",
+    "sub_sector": "Power Cables",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000176",
+    "canonical_name": "TE Connectivity",
+    "aliases": [
+      "TE",
+      "TEL",
+      "TEL.SW"
+    ],
+    "entity_type": "public_co",
+    "ticker": "TEL",
+    "sector": "Equipment & Materials",
+    "sub_sector": "Connectors",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000177",
+    "canonical_name": "EnerSys",
+    "aliases": [
+      "ENSY",
+      "EnerSys Inc"
+    ],
+    "entity_type": "public_co",
+    "ticker": "ENS",
+    "sector": "Equipment & Materials",
+    "sub_sector": "Battery Storage",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000178",
+    "canonical_name": "Fluence Energy",
+    "aliases": [
+      "FLNC",
+      "Fluence Energy Inc"
+    ],
+    "entity_type": "public_co",
+    "ticker": "FLNC",
+    "sector": "Equipment & Materials",
+    "sub_sector": "Battery Storage Systems",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000179",
+    "canonical_name": "Powin Energy",
+    "aliases": [
+      "Powin"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Equipment & Materials",
+    "sub_sector": "Battery Storage",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000180",
+    "canonical_name": "Form Energy",
+    "aliases": [
+      "Form Energy Inc"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Equipment & Materials",
+    "sub_sector": "Iron-Air Battery Storage",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000181",
+    "canonical_name": "Ambri",
+    "aliases": [
+      "Ambri Inc"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Equipment & Materials",
+    "sub_sector": "Liquid Metal Battery",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000182",
+    "canonical_name": "Shoals Technologies",
+    "aliases": [
+      "SHLS",
+      "Shoals"
+    ],
+    "entity_type": "public_co",
+    "ticker": "SHLS",
+    "sector": "Equipment & Materials",
+    "sub_sector": "BOS Components",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000183",
+    "canonical_name": "Array Technologies",
+    "aliases": [
+      "ARRY",
+      "Array Tech"
+    ],
+    "entity_type": "public_co",
+    "ticker": "ARRY",
+    "sector": "Equipment & Materials",
+    "sub_sector": "Solar Tracking",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000184",
+    "canonical_name": "Ideal Power",
+    "aliases": [
+      "IPWR",
+      "Ideal Power Inc"
+    ],
+    "entity_type": "public_co",
+    "ticker": "IPWR",
+    "sector": "Equipment & Materials",
+    "sub_sector": "Power Conversion",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000185",
+    "canonical_name": "Palantir Technologies",
+    "aliases": [
+      "PLTR",
+      "Palantir"
+    ],
+    "entity_type": "public_co",
+    "ticker": "PLTR",
+    "sector": "Technology",
+    "sub_sector": "AI Analytics",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000186",
+    "canonical_name": "C3.ai",
+    "aliases": [
+      "AI",
+      "C3 AI"
+    ],
+    "entity_type": "public_co",
+    "ticker": "AI",
+    "sector": "Technology",
+    "sub_sector": "Enterprise AI",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000187",
+    "canonical_name": "Nvidia AI Enterprise",
+    "aliases": [
+      "NVAIE"
+    ],
+    "entity_type": "technology",
+    "ticker": null,
+    "sector": "Technology",
+    "sub_sector": "AI Software",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000188",
+    "canonical_name": "NVIDIA DGX Cloud",
+    "aliases": [
+      "DGX Cloud"
+    ],
+    "entity_type": "technology",
+    "ticker": null,
+    "sector": "Technology",
+    "sub_sector": "AI Cloud",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000189",
+    "canonical_name": "Coherus BioSciences",
+    "aliases": [],
+    "entity_type": "public_co",
+    "ticker": "CHRS",
+    "sector": "Technology",
+    "sub_sector": "Biotech AI",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000190",
+    "canonical_name": "Cerebras Systems",
+    "aliases": [
+      "Cerebras"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Semiconductors",
+    "sub_sector": "AI Chips",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000191",
+    "canonical_name": "SambaNova Systems",
+    "aliases": [
+      "SambaNova"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Semiconductors",
+    "sub_sector": "AI Hardware",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000192",
+    "canonical_name": "Groq",
+    "aliases": [
+      "Groq Inc"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Semiconductors",
+    "sub_sector": "AI Inference Chips",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000193",
+    "canonical_name": "D-Wave Systems",
+    "aliases": [
+      "QBTS",
+      "D-Wave"
+    ],
+    "entity_type": "public_co",
+    "ticker": "QBTS",
+    "sector": "Semiconductors",
+    "sub_sector": "Quantum Computing",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000194",
+    "canonical_name": "IonQ",
+    "aliases": [
+      "IONQ",
+      "IonQ Inc"
+    ],
+    "entity_type": "public_co",
+    "ticker": "IONQ",
+    "sector": "Semiconductors",
+    "sub_sector": "Quantum Computing",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000195",
+    "canonical_name": "Arm Holdings",
+    "aliases": [
+      "ARM",
+      "Arm Ltd"
+    ],
+    "entity_type": "public_co",
+    "ticker": "ARM",
+    "sector": "Semiconductors",
+    "sub_sector": "IP Licensing",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000196",
+    "canonical_name": "Rambus",
+    "aliases": [
+      "RMBS",
+      "Rambus Inc"
+    ],
+    "entity_type": "public_co",
+    "ticker": "RMBS",
+    "sector": "Semiconductors",
+    "sub_sector": "Memory Interface",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000197",
+    "canonical_name": "Impinj",
+    "aliases": [
+      "PI",
+      "Impinj Inc"
+    ],
+    "entity_type": "public_co",
+    "ticker": "PI",
+    "sector": "Semiconductors",
+    "sub_sector": "RFID/IoT",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000198",
+    "canonical_name": "GenMark Diagnostics",
+    "aliases": [],
+    "entity_type": "public_co",
+    "ticker": null,
+    "sector": "Technology",
+    "sub_sector": "Diagnostics",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000199",
+    "canonical_name": "Clearway Energy",
+    "aliases": [
+      "CWEN",
+      "Clearway"
+    ],
+    "entity_type": "utility",
+    "ticker": "CWEN",
+    "sector": "Grid & Power",
+    "sub_sector": "Renewable Generation",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  },
+  {
+    "id": "e0000001-0000-0000-0000-000000000200",
+    "canonical_name": "Pattern Energy",
+    "aliases": [
+      "Pattern Energy Group"
+    ],
+    "entity_type": "private_co",
+    "ticker": null,
+    "sector": "Grid & Power",
+    "sub_sector": "Renewable Generation",
+    "region": "US",
+    "is_seed": true,
+    "metadata": null
+  }
 ]

@@ -66,10 +66,13 @@ class EntityResolver:
                 entity = next((e for e in self._entities if e["id"] == canonical_id), entity)
             return entity
 
-        # Substring match: key is contained in any index key
-        for idx_key, entity in self._index.items():
-            if key in idx_key or idx_key in key:
-                return entity
+        # Substring match: require minimum 4 chars to avoid spurious short-token hits
+        if len(key) >= 4:
+            for idx_key, entity in self._index.items():
+                if len(idx_key) < 4:
+                    continue
+                if key in idx_key or idx_key in key:
+                    return entity
 
         return None
 

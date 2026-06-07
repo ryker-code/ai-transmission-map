@@ -15,8 +15,8 @@ def test_graph_route():
     data = response.json()
     assert "nodes" in data
     assert "edges" in data
-    assert len(data["nodes"]) == 100
-    assert len(data["edges"]) == 30
+    assert len(data["nodes"]) >= 100
+    assert len(data["edges"]) >= 30
 
 def test_graph_regime_filter():
     response = client.get("/graph/?regime=AI_CAPEX_EXPANSION")
