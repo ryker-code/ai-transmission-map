@@ -14,12 +14,16 @@ async def get_bottlenecks(
 ):
     """
     Return ranked bottleneck nodes by 5-component composite score (normalized 0-100).
-    Scores: evidence_intensity×0.30 + recency×0.20 + cross_source×0.25 +
-            market_confirmation×0.15 + house_view_weight×0.10
+    Weights: evidence_intensity×0.30, recency×0.20, cross_source×0.25,
+             market_confirmation×0.15, house_view_weight×0.10.
+    Analyst house view conviction adjustments are applied before final ranking.
     """
     try:
         from backend.agents.scorer import compute_bottleneck_scores
+        from backend.agents.house_view import apply_house_view
+
         bottlenecks = compute_bottleneck_scores()
+        bottlenecks, pinned = apply_house_view(bottlenecks)
 
         if regime:
             bottlenecks = [b for b in bottlenecks if b.regime_tag == regime]
