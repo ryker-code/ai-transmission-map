@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
-import { LayoutDashboard, Network, Brain, FileText } from "lucide-react";
+import { LayoutDashboard, Network, Brain, FileText, Inbox } from "lucide-react";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -16,6 +16,7 @@ const navItems = [
   { href: "/graph", label: "Graph", icon: Network },
   { href: "/thesis", label: "Thesis", icon: Brain },
   { href: "/memo", label: "Memo", icon: FileText },
+  { href: "/evidence", label: "Evidence", icon: Inbox },
 ];
 
 export default function RootLayout({
