@@ -1,5 +1,17 @@
 # Known Issues
 
+## Day 7
+
+### Railway deploy requires manual auth
+**Symptom:** `railway up` prompts for device-code sign-in; cannot complete headlessly.
+**Fix:** Run `railway login` in an interactive terminal, then `railway up --detach`.
+**Status:** Documented. See `infrastructure/QUICK_DEPLOY.sh` for full flow.
+
+### google-generativeai version conflict with langchain-google-genai
+**Symptom:** pip warns that `langchain-google-genai 1.0.10` requires `google-generativeai<0.8.0` but 0.8.3 is installed.
+**Fix:** Conflict is benign — both packages work at runtime. No code changes needed.
+**Status:** Monitoring. Will resolve when langchain-google-genai releases a 0.8.x-compatible version.
+
 ## Day 1
 
 ### 1. langchain version conflict

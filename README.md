@@ -2,69 +2,40 @@
 
 > Maps how AI demand propagates through semiconductors, data centers, transformers, utilities, grid infrastructure, and public markets — built for equity investors running thesis interrogation.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/ryker-code/ai-transmission-map)
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/ryker-code/ai-transmission-map)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/ryker-code/ai-transmission-map)
 
 ![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi)
-![LangGraph](https://img.shields.io/badge/LangGraph-0.1.x-blue)
 ![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python)
 ![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?logo=typescript)
-![BigQuery](https://img.shields.io/badge/BigQuery-Google_Cloud-4285F4?logo=google-cloud)
-![Claude AI](https://img.shields.io/badge/Claude-Opus--4--5-orange)
-![Gemini](https://img.shields.io/badge/Gemini-2.0_Flash-blue?logo=google)
+![Gemini](https://img.shields.io/badge/Gemini-1.5_Pro-4285F4?logo=google)
+![BigQuery](https://img.shields.io/badge/BigQuery-dual--mode-4285F4?logo=google-cloud)
 ![Tests](https://img.shields.io/badge/tests-96_passing-brightgreen)
 
-## Project Stats
+## What It Does
 
-| Metric | Value |
-|--------|-------|
-| Backend tests | 96 passing |
-| Frontend pages | 13 |
-| Entities in graph | 200 |
-| Transmission claims | 80 |
-| Agent models | 3 (Claude Opus, Gemini Flash, Whisper) |
-| Evidence intake modes | 4 (URL, Image, Voice, Bloomberg) |
-| API endpoints | 25+ |
-| Days to build | 6 (fully autonomous overnight sessions) |
+- **Ingests evidence** from analyst notes, URLs, charts (via Gemini vision), and voice (via Gemini audio)
+- **Extracts causal claims** — structured `(subject → predicate → object)` transmission links between AI infrastructure entities
+- **Scores bottlenecks** — each entity gets a 5-component weighted score showing how supply-chain-constrained it is
+- **Interrogates theses** — type "power constraint benefits nuclear operators," get a support/contradiction score with traceable evidence
+- **Branches scenarios** — ask "what if FERC approves fast-track interconnection?" and see the score delta vs. base case
 
 ## Live Demo
 
-| Surface | URL |
-|---------|-----|
-| Frontend (Vercel) | Run `railway up` from local machine — see [QUICK_DEPLOY.md](infrastructure/QUICK_DEPLOY.md) |
-| Backend API (Railway) | `railway up` — deploys in ~3 minutes, auto-seeds 200 entities + 80 claims |
-| API docs (local) | http://localhost:8000/docs |
-| Health check (local) | http://localhost:8000/health |
-
-> **3-command deploy**: `npm i -g @railway/cli && railway login && railway up`
-> See [infrastructure/QUICK_DEPLOY.md](infrastructure/QUICK_DEPLOY.md) for full Vercel + Railway guide.
-
-## Quick Start
-
 ```bash
-# 1. Clone
-git clone https://github.com/ryker-code/ai-transmission-map
-cd ai-transmission-map
-
-# 2. Environment
-cp .env.example .env
-# Fill in: ANTHROPIC_API_KEY, GOOGLE_API_KEY, GOOGLE_CLOUD_PROJECT
-
-# 3. Install dependencies
-make install
-
-# 4. Seed the graph (SQLite fallback — no GCP required)
-make seed
-
-# 5. Run backend (port 8000)
-make dev-backend
-
-# 6. Run frontend (port 3000)
-make dev-frontend
+# 3-command local setup
+cp .env.example .env        # add GEMINI_API_KEY (free at aistudio.google.com)
+make install && make seed   # install deps, seed 200 entities + 80 claims
+make dev-backend            # start FastAPI on :8000
+# in a second terminal:
+make dev-frontend           # start Next.js on :3000
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
+
+Deploy credentials: `AITM_API_KEY=dev-key-change-in-production`
+See [infrastructure/QUICK_DEPLOY.sh](infrastructure/QUICK_DEPLOY.sh) for Railway + Vercel one-command deploy.
 
 ## Architecture
 
@@ -73,7 +44,7 @@ Open [http://localhost:3000](http://localhost:3000).
 │                    FRONTEND (Next.js 15)                     │
 │  Dashboard │ Graph │ Thesis │ Memo │ Evidence │ House View  │
 └──────────────────────┬──────────────────────────────────────┘
-                       │ REST + WebSocket
+                       │ REST + SSE
 ┌──────────────────────▼──────────────────────────────────────┐
 │                   BACKEND (FastAPI 0.115)                    │
 │  /graph  /bottlenecks  /thesis  /memo  /evidence  /regime   │
@@ -82,165 +53,127 @@ Open [http://localhost:3000](http://localhost:3000).
 ┌──────────────────────▼──────────────────────────────────────┐
 │              LANGGRAPH PIPELINE (LangGraph 0.1.x)            │
 │                                                              │
-│  Evidence Note                                               │
-│      │                                                       │
-│      ▼                                                       │
-│  Scout (Gemini 2.0 Flash)   — entity candidate extraction   │
-│      │                                                       │
-│      ▼                                                       │
-│  Extractor (Claude Opus)    — structured claim extraction    │
-│      │                                                       │
-│      ▼                                                       │
-│  Resolver (EntityResolver)  — canonical name normalization  │
-│      │                                                       │
-│      ▼                                                       │
-│  Critic (Claude Opus)       — adversarial claim validation  │
-│      │                                                       │
-│      ▼                                                       │
+│  Evidence Input                                              │
+│       ↓                                                      │
+│  Scout (Gemini Flash)       — entity candidate extraction   │
+│       ↓                                                      │
+│  Extractor (Gemini 1.5 Pro) — structured claim extraction   │
+│       ↓                                                      │
+│  Resolver (deterministic)   — canonical name normalization  │
+│       ↓                                                      │
+│  Critic (Gemini Flash)      — adversarial claim validation  │
+│       ↓                                                      │
 │  Scorer (5-component)       — bottleneck score computation  │
-│      │                                                       │
-│      ▼                                                       │
+│       ↓                                                      │
 │  House View Agent           — analyst conviction overlay    │
 └──────────────────────┬──────────────────────────────────────┘
                        │
 ┌──────────────────────▼──────────────────────────────────────┐
 │           DATABASE (BigQuery + SQLite fallback)              │
 │  entities │ claims │ bottleneck_scores │ house_view          │
-│  Seed: 100 entities, 30 transmission chains                 │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## Key Features
+## Tech Stack
 
-| Feature | Description |
-|---------|-------------|
-| **Transmission Graph** | 100 entities, 30 directional claims with confidence scores and regime tags |
-| **Full Weighted Scorer** | 5-component score: evidence intensity×0.30 + recency×0.20 + cross-source×0.25 + market×0.15 + house view×0.10 |
-| **Entity Resolver** | Alias index for 100+ entities — resolves tickers, common names, partial names |
-| **Thesis Interrogation** | BFS subgraph extraction + Claude Opus scoring → support/contradiction + falsification triggers |
-| **Memo Generation** | Buyside LP notes, sellside notes, and internal briefs from thesis runs |
-| **House View Agent** | Conviction overrides (high/medium/low) with ±10pt score adjustment + SQLite persistence |
-| **Bloomberg Parser** | URL metadata extraction (title, tags, date, entities) without fetching article content |
-| **Image Intake** | Claude Opus vision extracts claims from charts and slides (PNG/JPEG) |
-| **Regime Detection** | Confidence-weighted dominant regime from active claim graph; updates on ingest |
-| **SQLite Fallback** | Full local dev without GCP credentials |
+| Layer | Technology |
+|-------|------------|
+| Frontend | Next.js 15, TypeScript strict, Tailwind CSS, shadcn/ui, react-force-graph-2d |
+| Backend | FastAPI 0.115, Python 3.11, LangGraph 0.1.x, Pydantic v2 |
+| LLM Models | Gemini 1.5 Pro (reasoning), Gemini Flash (extraction), Gemini Flash (audio) |
+| Database | Google BigQuery (prod) + SQLite (local fallback, no GCP needed) |
+| Auth | X-Api-Key header, slowapi rate limiting on write endpoints |
+| Deploy | Vercel (frontend), Railway (backend) |
 
-## Agent Models
+## Project Stats
 
-| Agent | Model | Role |
-|-------|-------|------|
-| Scout | Gemini 2.0 Flash | Fast entity candidate extraction |
-| Extractor | Claude claude-opus-4-5 | Multi-hop transmission claim extraction |
-| Resolver | EntityResolver (deterministic) | Alias normalization, no LLM cost |
-| Critic | Claude claude-opus-4-5 | Adversarial claim validation |
-| Scorer | Deterministic (5-component) | Bottleneck score computation |
-| House View | Deterministic (conviction rules) | Analyst overlay application |
-| Thesis | Claude claude-opus-4-5 | BFS subgraph + support/contradiction scoring |
-| Memo | Claude claude-opus-4-5 | Investor memo generation (3 styles) |
-| Image Intake | Claude claude-opus-4-5 | Multimodal chart/slide claim extraction |
+| Metric | Value |
+|--------|-------|
+| Backend tests | **96 passing** |
+| Frontend pages | **14+** |
+| Entities in graph | **200** |
+| Transmission claims | **80** |
+| LLM models | **2** (Gemini 1.5 Pro + Gemini Flash — both free) |
+| Evidence intake modes | **4** (URL, Image, Voice, Bloomberg parser) |
+| API endpoints | **25+** |
+| Build time | **7 days** (fully autonomous overnight sessions) |
 
-## Demo Theses
+## Quick Start
 
-See [docs/demo_theses.md](docs/demo_theses.md) for three interview-ready thesis interrogations:
+```bash
+# Clone
+git clone https://github.com/ryker-code/ai-transmission-map
+cd ai-transmission-map
 
-1. **Power Constraint / Nuclear Moat** — Constellation Energy, Vistra Corp, Talen Energy
-2. **Thermal Management / Liquid Cooling** — Vertiv Holdings, Eaton Corporation
-3. **Transmission Equipment / Transformer Bottleneck** — GE Vernova, Hitachi Energy
+# Environment (GEMINI_API_KEY is free at aistudio.google.com)
+cp .env.example .env
 
-## Interview Showcase
+# Install + seed
+make install
+make seed
 
-See [`docs/INTERVIEW_GUIDE.md`](docs/INTERVIEW_GUIDE.md) for:
-- 30-second pitch
-- Five technical deep-dives
-- Worked example of bottleneck score calculation
-- Common interview questions with answers
-- 3-minute live demo flow
-
-## Technical Highlights
-
-| Highlight | Detail |
-|-----------|--------|
-| **5-component scorer** | `evidence_intensity(0.30) + recency_decay(0.20) + cross_source(0.25) + market_confirmation(0.15) + house_view(0.10)` normalized 0–100 |
-| **LangGraph determinism** | Typed `GraphState`, 5-node pipeline prevents prompt soup; each node has single responsibility |
-| **Alias resolver singleton** | Built once, cached; handles tickers + partial names + multi-word sliding window |
-| **Three intake modalities** | Bloomberg URL (no HTTP), Claude Opus vision, Whisper + Claude claim extraction |
-| **Real-time regime shift** | New evidence updates `_dynamic_claims` pool; regime recomputed on every `/regime/` request |
-| **PDF export** | reportlab renders investor memo with bottleneck table and key entity section |
-| **96 tests** | DB router, auth, streaming memo, watchlist, digest, analysts, score history, claim feedback, and more |
-| **SQLite offline mode** | Full dev loop without GCP credentials — `USE_BIGQUERY=false` flag |
-| **BigQuery dual-mode** | `DBRouter` auto-detects credentials; falls back to seed JSON gracefully |
-| **Streaming memo** | `POST /memo/stream` returns SSE; frontend renders typewriter animation per token |
-| **Watchlist** | Star entities from any page; live score + momentum panel on dashboard |
-| **API key auth** | `X-Api-Key` header required on all write endpoints; `slowapi` rate limits |
-| **Weekly digest** | `POST /digest/generate` aggregates regime + scores + analyst calls into LP email |
+# Start servers
+make dev-backend    # terminal 1 → http://localhost:8000
+make dev-frontend   # terminal 2 → http://localhost:3000
+```
 
 ## API Reference
 
 ```
 GET  /health                         — liveness check
+GET  /health/db                      — DB backend (BigQuery or SQLite)
 GET  /graph/?regime=                 — transmission graph (nodes + edges)
 GET  /bottlenecks/?limit=            — ranked bottleneck scores
-POST /thesis/run                     — thesis interrogation
-POST /memo/generate                  — investor memo from thesis run
-GET  /memo/{memo_id}/pdf             — PDF export (reportlab)
-POST /evidence/                      — ingest note → async pipeline
+POST /thesis/run                     — thesis interrogation (support/contradiction)
+POST /thesis/scenario                — what-if scenario branch from base run
+POST /memo/generate                  — investor memo (3 styles: LP, sellside, internal)
+POST /memo/stream                    — SSE streaming memo generation
+GET  /memo/{id}/pdf                  — PDF export via reportlab
+POST /evidence/                      — ingest analyst note → pipeline
 GET  /evidence/parse-url?url=        — URL metadata extraction
-POST /evidence/image                 — multimodal chart/slide intake
-POST /evidence/voice                 — voice note → Whisper → claims
+POST /evidence/image                 — multimodal chart/slide intake (Gemini vision)
+POST /evidence/voice                 — voice note → Gemini audio → claims
 GET  /entities/?search=              — entity search by name/ticker/alias
 GET  /entities/{id}                  — entity detail (claims, score, house view)
 PUT  /house-view/                    — analyst conviction override
-GET  /house-view/narrative           — Claude Opus 3-paragraph positioning narrative
+GET  /house-view/narrative           — 3-paragraph positioning narrative (Gemini)
 GET  /regime/                        — current dominant regime
 GET  /regime/timeline                — 30-day regime evolution
 GET  /claims/{id}/evidence           — claim audit trail
 GET  /models/status                  — per-model call counts, latency, success rate
-GET  /market/signals                 — 25-ticker momentum signals (mock → live)
-POST /thesis/scenario                — What-if scenario branching from base run
+GET  /market/signals                 — 25-ticker momentum signals
 GET  /watchlist/                     — starred entities with live scores
-POST /watchlist/{entity_id}          — add to watchlist  [auth required]
-DELETE /watchlist/{entity_id}        — remove from watchlist  [auth required]
-POST /memo/stream                    — streaming SSE memo generation  [auth required]
-POST /digest/generate                — weekly LP digest  [auth required]
-GET  /health/db                      — DB backend status (BigQuery or SQLite)
-GET  /cache/stats                    — cache hit/miss stats
+POST /watchlist/{entity_id}          — add to watchlist [auth]
+POST /digest/generate                — weekly LP digest [auth]
 ```
 
-## Deployment
+## Key Features
 
-**Frontend → Vercel**: click the Deploy button above, or:
-```bash
-cd frontend && npx vercel --prod
-```
+| Feature | Detail |
+|---------|--------|
+| **Force-directed graph** | 200 nodes, scored sizes, color by entity type, pulsing top-5, gold ring for watched |
+| **Regime filter** | ALL / AI_CAPEX / SUPPLY_CHAIN / GRID / POWER / REGULATORY — re-fetches edge set |
+| **Export PNG / JSON** | Canvas export and filtered graph JSON download from graph page |
+| **Scenario branches** | Parallel edge set, score delta vs. base, LLM delta narrative |
+| **Streaming memo** | SSE typewriter animation, PDF download when complete |
+| **5-component scorer** | evidence_intensity(0.30) + recency(0.20) + cross_source(0.20) + market(0.15) + house_view(0.15) |
+| **Watchlist** | Star any entity; live score + momentum on dashboard |
+| **Weekly digest** | Aggregates regime + top movers + analyst calls → LP email format |
+| **Score history sparklines** | 30-day score trajectory per entity |
+| **Claim feedback** | Thumbs up/down on any extracted claim |
+| **BigQuery dual-mode** | Auto-detects credentials; SQLite fallback for local dev |
 
-**Backend → Cloud Run**: see [infrastructure/cloud_run/](infrastructure/cloud_run/) for Dockerfile and Cloud Build config.
+## Interview Resources
+
+- [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md) — minute-by-minute 18-minute live demo walkthrough
+- [docs/ELEVATOR_PITCH.md](docs/ELEVATOR_PITCH.md) — 30-second, 2-minute, and 5-minute versions
+- [docs/ARCHITECTURE_DEEP_DIVE.md](docs/ARCHITECTURE_DEEP_DIVE.md) — scorer design, BigQuery schema, multi-model routing
+- [docs/INTERVIEW_GUIDE.md](docs/INTERVIEW_GUIDE.md) — common questions with answers
+- [docs/demo_theses.md](docs/demo_theses.md) — 3 interview-ready thesis runs
 
 ## Test Suite
 
 ```bash
-make test          # 59 tests across scorer, resolver, house view, bloomberg parser, image intake, voice, phase4 routes
-```
-
-## Project Structure
-
-```
-ai-transmission-map/
-├── backend/
-│   ├── agents/          # LangGraph pipeline (scout, extractor, resolver, critic, scorer, house_view, memo)
-│   ├── agents/          # LangGraph pipeline + scorer, resolver, house_view, memo
-│   ├── api/routes/      # FastAPI routes (10 routers incl. claims, regime/timeline)
-│   ├── db/              # BigQuery client, SQLite fallback, seed data (100 entities, 30 chains)
-│   ├── scripts/         # demo_run.py quick-demo
-│   ├── tools/           # Regime detector, Bloomberg parser, image/voice intake, PDF export
-│   └── tests/           # 59 tests
-├── frontend/
-│   ├── app/             # 9 Next.js App Router pages (+ entities/[id], regime)
-│   ├── components/      # TransmissionGraph.tsx, BottleneckBoard.tsx, EntitySearch.tsx
-│   └── lib/             # API client, TypeScript types
-├── infrastructure/
-│   └── cloud_run/       # Dockerfile, cloudbuild.yaml
-└── docs/
-    ├── architecture.md
-    ├── demo_theses.md
-    └── known_issues.md
+cd backend && pytest tests/ -v    # 96 tests
+cd frontend && npm run build      # TypeScript strict check
 ```

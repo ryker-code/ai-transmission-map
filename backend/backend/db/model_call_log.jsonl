@@ -201,3 +201,14 @@
 {"ts": 1780853175.2866442, "task_type": "causal_reasoning", "model": "gemma-4-31b-it", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
 {"ts": 1780853175.2903101, "task_type": "causal_reasoning", "model": "gemma-4-31b-it", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
 {"ts": 1780853175.2905285, "task_type": "critic_scoring", "model": "gemini-3.1-flash-lite", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780854198.8803375, "task_type": "entity_extraction", "model": "gemini-2.5-flash", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780854198.8848124, "task_type": "causal_reasoning", "model": "gemma-4-31b-it", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780854198.8877194, "task_type": "critic_scoring", "model": "gemini-3.1-flash-lite", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780854201.2669754, "task_type": "memo_generation", "model": "gemma-4-31b-it", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780854201.310854, "task_type": "image_extraction", "model": "gemini-2.5-flash", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780854201.312242, "task_type": "image_extraction", "model": "gemini-2.5-flash", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780854201.3147502, "task_type": "image_extraction", "model": "gemini-2.5-flash", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780854204.7190042, "task_type": "causal_reasoning", "model": "gemma-4-31b-it", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780854204.7204323, "task_type": "causal_reasoning", "model": "gemma-4-31b-it", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780854204.7242181, "task_type": "causal_reasoning", "model": "gemma-4-31b-it", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780854204.7244976, "task_type": "critic_scoring", "model": "gemini-3.1-flash-lite", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
