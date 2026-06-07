@@ -50,7 +50,7 @@ export default function BottleneckBoard({ limit = 20 }: { limit?: number }) {
   const { data, error, isLoading } = useSWR<BottlenecksResponse>(
     `${API_BASE}/bottlenecks/?limit=${limit}`,
     fetcher,
-    { refreshInterval: 60000 }
+    { refreshInterval: 60000, revalidateOnFocus: false, keepPreviousData: true }
   );
 
   if (isLoading) {
@@ -88,8 +88,11 @@ export default function BottleneckBoard({ limit = 20 }: { limit?: number }) {
         <span className="text-xs text-slate-500">{data.total} entities scored</span>
       </div>
       {data.bottlenecks.length === 0 ? (
-        <div className="px-4 py-8 text-center text-slate-500 text-sm">
-          No bottlenecks found. Run seed loader to populate data.
+        <div className="px-4 py-12 text-center">
+          <div className="text-slate-600 text-3xl mb-3">◎</div>
+          <p className="text-slate-400 text-sm font-medium">No bottlenecks scored yet.</p>
+          <p className="text-slate-500 text-xs mt-1">Ingest evidence to begin transmission chain analysis.</p>
+          <a href="/evidence" className="mt-3 inline-block text-xs text-indigo-400 hover:text-indigo-300">Add evidence →</a>
         </div>
       ) : (
         data.bottlenecks.map((entry) => (

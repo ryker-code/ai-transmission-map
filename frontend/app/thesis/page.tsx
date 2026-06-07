@@ -131,6 +131,24 @@ export default function ThesisPage() {
           </button>
         </div>
         {error && <p className="text-red-400 text-sm">{error}</p>}
+        {loading && (
+          <div className="pt-2 space-y-1.5">
+            {[
+              "BFS subgraph extraction",
+              "Claim matching against graph",
+              "Scoring & falsification analysis",
+            ].map((step, i) => (
+              <div key={step} className="flex items-center gap-2 text-xs text-slate-400">
+                <span className={`w-3 h-3 rounded-full border ${
+                  i === 0 ? "bg-indigo-500 border-indigo-400" :
+                  i === 1 ? "border-indigo-500 animate-pulse" :
+                  "border-slate-600"
+                }`} />
+                {step}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {result && (

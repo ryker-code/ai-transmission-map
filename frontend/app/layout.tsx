@@ -31,28 +31,32 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="flex h-screen bg-slate-950 text-white">
-          <aside className="w-60 bg-slate-900 border-r border-slate-800 flex flex-col">
-            <div className="p-6 border-b border-slate-800">
-              <h1 className="text-base font-bold text-white leading-tight">
+        <div className="flex h-screen bg-slate-950 text-white overflow-hidden">
+          <aside className="w-14 md:w-60 bg-slate-900 border-r border-slate-800 flex flex-col shrink-0 transition-all">
+            <div className="p-3 md:p-6 border-b border-slate-800">
+              <h1 className="hidden md:block text-base font-bold text-white leading-tight">
                 AI Transmission Map
               </h1>
-              <p className="text-xs text-slate-400 mt-1">
+              <p className="hidden md:block text-xs text-slate-400 mt-1">
                 AI Infrastructure · Bottleneck Intelligence
               </p>
+              <div className="md:hidden flex justify-center">
+                <span className="text-indigo-400 text-lg font-bold">AI</span>
+              </div>
             </div>
-            <nav className="flex-1 p-4 space-y-1">
+            <nav className="flex-1 p-2 md:p-4 space-y-1">
               {navItems.map(({ href, label, icon: Icon }) => (
                 <Link
                   key={href}
                   href={href}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-slate-300 hover:text-white hover:bg-indigo-600/20 transition-colors group"
+                  className="flex items-center gap-3 px-2 md:px-3 py-2.5 rounded-lg text-sm text-slate-300 hover:text-white hover:bg-indigo-600/20 transition-colors group"
+                  title={label}
                 >
-                  <Icon className="w-4 h-4 text-slate-400 group-hover:text-indigo-400" />
-                  {label}
+                  <Icon className="w-4 h-4 shrink-0 text-slate-400 group-hover:text-indigo-400" />
+                  <span className="hidden md:block">{label}</span>
                 </Link>
               ))}
-              <div className="pt-3">
+              <div className="hidden md:block pt-3">
                 <EntitySearch />
               </div>
             </nav>

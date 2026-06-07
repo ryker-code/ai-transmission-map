@@ -1,15 +1,31 @@
 "use client";
 import useSWR from "swr";
 import BottleneckBoard from "@/components/BottleneckBoard";
+import { SkeletonStatCard } from "@/components/ui/LoadingSkeleton";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 function HouseViewNarrative({ apiBase }: { apiBase: string }) {
   const { data, isLoading } = useSWR(`${apiBase}/house-view/narrative`, fetcher, {
     refreshInterval: 300000,
+    revalidateOnFocus: false,
   });
-  if (isLoading) return <p className="text-slate-500 text-xs animate-pulse">Loading narrative…</p>;
-  if (!data?.narrative) return null;
+  if (isLoading) return (
+    <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-6 animate-pulse">
+      <div className="h-3 bg-slate-800 rounded w-40 mb-4" />
+      <div className="space-y-2">
+        <div className="h-3 bg-slate-800 rounded w-full" />
+        <div className="h-3 bg-slate-800 rounded w-5/6" />
+        <div className="h-3 bg-slate-800 rounded w-4/6" />
+      </div>
+    </div>
+  );
+  if (!data?.narrative) return (
+    <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-6 text-center">
+      <p className="text-slate-500 text-sm">No house view overrides set. Add conviction calls above.</p>
+    </div>
+  );
   return (
     <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-6">
       <div className="flex items-center justify-between mb-3">
@@ -27,15 +43,18 @@ function HouseViewNarrative({ apiBase }: { apiBase: string }) {
 
 export default function Home() {
   const apiBase = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
-  const { data: regime } = useSWR(`${apiBase}/regime/`, fetcher, {
+  const { data: regime, isLoading: regimeLoading } = useSWR(`${apiBase}/regime/`, fetcher, {
     refreshInterval: 60000,
+    revalidateOnFocus: false,
   });
-  const { data: graph } = useSWR(`${apiBase}/graph/`, fetcher);
+  const { data: graph, isLoading: graphLoading } = useSWR(`${apiBase}/graph/`, fetcher, {
+    revalidateOnFocus: false,
+  });
 
   const statCards = [
-    { label: "Total Entities", value: graph?.nodes?.length?.toString() ?? "100" },
-    { label: "Active Claims", value: graph?.edges?.length?.toString() ?? "30" },
-    { label: "Current Regime", value: regime?.regime ?? "AI_CAPEX_EXPANSION" },
+    { label: "Total Entities", value: graph?.nodes?.length?.toString(), loading: graphLoading },
+    { label: "Active Claims", value: graph?.edges?.length?.toString(), loading: graphLoading },
+    { label: "Current Regime", value: regime?.regime, loading: regimeLoading },
   ];
 
   return (
@@ -46,16 +65,22 @@ export default function Home() {
       </p>
 
       <div className="grid grid-cols-3 gap-4 mb-6">
-        {statCards.map(({ label, value }) => (
-          <div key={label} className="bg-slate-900 border border-slate-800 rounded-xl p-4">
-            <p className="text-xs text-slate-400 mb-1">{label}</p>
-            <p className="text-xl font-semibold text-white">{value}</p>
-          </div>
-        ))}
+        {statCards.map(({ label, value, loading }) =>
+          loading ? (
+            <SkeletonStatCard key={label} />
+          ) : (
+            <div key={label} className="bg-slate-900 border border-slate-800 rounded-xl p-4">
+              <p className="text-xs text-slate-400 mb-1">{label}</p>
+              <p className="text-xl font-semibold text-white">{value ?? "—"}</p>
+            </div>
+          )
+        )}
       </div>
 
       <HouseViewNarrative apiBase={apiBase} />
-      <BottleneckBoard limit={20} />
+      <ErrorBoundary fallbackMessage="Bottleneck board failed to load">
+        <BottleneckBoard limit={20} />
+      </ErrorBoundary>
     </div>
   );
 }

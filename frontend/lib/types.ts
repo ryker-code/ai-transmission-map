@@ -29,6 +29,20 @@ export interface ClaimSummary {
   analyst_note?: string;
 }
 
+export interface MarketSignalEntry {
+  ticker: string;
+  rel_perf_30d: number;
+  momentum: string;
+  vol_percentile: number;
+  market_confirmation_score: number;
+}
+
+export interface MarketSignalsResponse {
+  signals: MarketSignalEntry[];
+  last_updated: string;
+  is_live: boolean;
+}
+
 export interface ModelStatusEntry {
   name: string;
   task_types: string[];
