@@ -17,6 +17,7 @@ class EvidenceResponse(BaseModel):
     extracted_entities: List[str]
     claims_created: int
     status: str
+    transcript: Optional[str] = None
 
 class EntityCreate(BaseModel):
     canonical_name: str

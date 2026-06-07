@@ -23,6 +23,15 @@ export default function EvidencePage() {
   const [imageResult, setImageResult] = useState<any>(null);
   const [imageLoading, setImageLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [voiceContext, setVoiceContext] = useState("");
+  const [voiceResult, setVoiceResult] = useState<any>(null);
+  const [voiceLoading, setVoiceLoading] = useState(false);
+  const [recording, setRecording] = useState(false);
+  const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const chunksRef = useRef<Blob[]>([]);
+  const audioFileRef = useRef<HTMLInputElement>(null);
 
   async function handleParseUrl() {
     if (!url) { setError("Enter a URL first."); return; }
@@ -42,6 +51,49 @@ export default function EvidencePage() {
       setError("URL parse failed: " + (e.message ?? "unknown error"));
     } finally {
       setParsing(false);
+    }
+  }
+
+  async function startRecording() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mr = new MediaRecorder(stream);
+      chunksRef.current = [];
+      mr.ondataavailable = (e) => { if (e.data.size > 0) chunksRef.current.push(e.data); };
+      mr.onstop = () => {
+        const blob = new Blob(chunksRef.current, { type: "audio/webm" });
+        setAudioBlob(blob);
+        setAudioUrl(URL.createObjectURL(blob));
+        stream.getTracks().forEach((t) => t.stop());
+      };
+      mr.start();
+      mediaRecorderRef.current = mr;
+      setRecording(true);
+    } catch (e: any) {
+      setError("Microphone access denied: " + (e.message ?? "check browser permissions"));
+    }
+  }
+
+  function stopRecording() {
+    mediaRecorderRef.current?.stop();
+    setRecording(false);
+  }
+
+  async function handleVoiceUpload(blob: Blob, filename: string) {
+    if (!voiceContext) { setError("Enter analyst context before uploading voice."); return; }
+    setVoiceLoading(true);
+    setError(null);
+    try {
+      const form = new FormData();
+      form.append("audio", blob, filename);
+      form.append("analyst_context", voiceContext);
+      const res = await fetch(`${API_BASE}/evidence/voice`, { method: "POST", body: form });
+      const data = await res.json();
+      setVoiceResult(data);
+    } catch (e: any) {
+      setError("Voice upload failed: " + (e.message ?? "unknown error"));
+    } finally {
+      setVoiceLoading(false);
     }
   }
 
@@ -229,6 +281,72 @@ export default function EvidencePage() {
               </p>
             ))}
             {imageResult.error && <p className="text-xs text-red-400">{imageResult.error}</p>}
+          </div>
+        )}
+      </div>
+
+      {/* Voice note section */}
+      <div className="mt-6 bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
+        <h2 className="text-base font-semibold text-white">Record Voice Note</h2>
+        <p className="text-xs text-slate-400">
+          Speak your analyst note — Whisper transcribes it, Claude extracts claims.
+        </p>
+        <div>
+          <label className="block text-xs text-slate-400 mb-1">Analyst Context (required)</label>
+          <textarea
+            value={voiceContext}
+            onChange={(e) => setVoiceContext(e.target.value)}
+            placeholder="What topic is this voice note about? e.g. 'Transformer supply chain bottlenecks Q4 2024'"
+            className="w-full h-16 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder:text-slate-500 resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </div>
+        <div className="flex items-center gap-3">
+          {!recording ? (
+            <button onClick={startRecording} disabled={voiceLoading}
+              className="px-4 py-2 rounded-lg bg-red-700 text-white text-sm font-medium hover:bg-red-600 disabled:opacity-40 transition-colors flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-red-300 inline-block" /> Record
+            </button>
+          ) : (
+            <button onClick={stopRecording}
+              className="px-4 py-2 rounded-lg bg-red-500 text-white text-sm font-medium hover:bg-red-400 animate-pulse transition-colors">
+              Stop Recording
+            </button>
+          )}
+          {audioBlob && (
+            <button onClick={() => handleVoiceUpload(audioBlob, "recording.webm")} disabled={voiceLoading || !voiceContext}
+              className="px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium disabled:opacity-40 hover:bg-indigo-500 transition-colors">
+              {voiceLoading ? "Processing..." : "Extract Claims"}
+            </button>
+          )}
+          <span className="text-xs text-slate-500">or</span>
+          <input ref={audioFileRef} type="file" accept=".mp3,.wav,.m4a,.webm,.mp4"
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) { setAudioBlob(f); setAudioUrl(URL.createObjectURL(f)); }
+            }}
+            className="hidden" />
+          <button onClick={() => audioFileRef.current?.click()}
+            className="px-3 py-1.5 rounded bg-slate-700 text-slate-300 text-xs hover:bg-slate-600 transition-colors">
+            Upload file
+          </button>
+        </div>
+        {audioUrl && (
+          <audio controls src={audioUrl} className="w-full h-8" />
+        )}
+        {voiceResult && (
+          <div className="bg-slate-800 rounded-lg p-3 space-y-1">
+            <p className="text-xs text-emerald-400 font-medium">
+              {voiceResult.claims_accepted ?? 0} claims accepted
+            </p>
+            {voiceResult.transcript && (
+              <p className="text-xs text-slate-500 italic">&ldquo;{voiceResult.transcript}&rdquo;</p>
+            )}
+            {voiceResult.claims?.map((c: any, i: number) => (
+              <p key={i} className="text-xs text-slate-400">
+                {c.subject} —{c.predicate}→ {c.object}
+              </p>
+            ))}
+            {voiceResult.error && <p className="text-xs text-red-400">{voiceResult.error}</p>}
           </div>
         )}
       </div>

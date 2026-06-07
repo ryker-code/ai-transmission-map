@@ -133,3 +133,51 @@ async def ingest_image(
     except Exception as e:
         logger.error(f"Image ingest failed: {e}")
         return {"error": str(e), "claims": []}
+
+
+@router.post("/voice", response_model=dict)
+async def ingest_voice(
+    audio: UploadFile = File(...),
+    analyst_context: str = Form(..., min_length=10),
+):
+    """
+    Transcribe an audio note via OpenAI Whisper, then extract transmission claims via Claude.
+    Accepted formats: .mp3, .mp4, .wav, .m4a, .webm (max 25 MB).
+    Runs extracted claims through the critic → scorer pipeline.
+    """
+    allowed_types = {
+        "audio/mpeg", "audio/mp4", "audio/wav", "audio/x-wav",
+        "audio/m4a", "audio/x-m4a", "audio/webm", "video/webm",
+        "audio/ogg", "application/octet-stream",
+    }
+    allowed_exts = {".mp3", ".mp4", ".wav", ".m4a", ".webm", ".ogg"}
+    import os
+    ext = os.path.splitext(audio.filename or "")[1].lower()
+    if audio.content_type not in allowed_types and ext not in allowed_exts:
+        return {"error": f"Unsupported format: {audio.content_type}. Use MP3, WAV, M4A, or WebM.", "claims": []}
+
+    audio_bytes = await audio.read()
+    if len(audio_bytes) > 25 * 1024 * 1024:
+        return {"error": "Audio file too large (max 25 MB)", "claims": []}
+
+    try:
+        from backend.tools.voice_intake import transcribe_audio, extract_claims_from_transcript
+        from backend.agents.critic import run_critic, run_scorer
+
+        transcript = await transcribe_audio(audio_bytes, audio.filename or "audio.wav")
+        raw_claims = await extract_claims_from_transcript(transcript, analyst_context)
+        critiqued = run_critic(raw_claims, analyst_context)
+        run_scorer(critiqued)
+
+        accepted = [c for c in critiqued if c.get("status") != "rejected"]
+        return {
+            "status": "processed",
+            "transcript": transcript[:500] + "..." if len(transcript) > 500 else transcript,
+            "analyst_context": analyst_context,
+            "claims_extracted": len(raw_claims),
+            "claims_accepted": len(accepted),
+            "claims": accepted[:10],
+        }
+    except Exception as e:
+        logger.error(f"Voice ingest failed: {e}")
+        return {"error": str(e), "claims": []}
