@@ -16,6 +16,34 @@ export interface EvidenceResponse {
   status: string;
 }
 
+export interface ClaimSummary {
+  claim_id: string;
+  subject: string;
+  predicate: string;
+  object: string;
+  direction: string;
+  confidence: number;
+  horizon: string;
+  regime_tag: string;
+  analyst_note?: string;
+}
+
+export interface EntityDetailResponse {
+  id: string;
+  canonical_name: string;
+  entity_type: string;
+  ticker?: string;
+  sector?: string;
+  sub_sector?: string;
+  aliases: string[];
+  bottleneck_score?: number;
+  bottleneck_components?: Record<string, number>;
+  outbound_claims: ClaimSummary[];
+  inbound_claims: ClaimSummary[];
+  house_view?: { conviction: string; weight_override: number; analyst_note?: string; pinned_thesis?: string };
+  related_entities: { id: string; canonical_name: string; entity_type: string; claim_count: number }[];
+}
+
 export interface EntityCreate {
   canonical_name: string;
   aliases: string[];
@@ -46,6 +74,31 @@ export interface GraphEdge {
   direction: string;
   confidence: number;
   horizon: string;
+  claim_id?: string;
+}
+
+export interface EvidenceAuditEntry {
+  source_id: string;
+  title: string;
+  source_type: string;
+  url?: string;
+  publish_date?: string;
+  trust_score: number;
+  analyst_note?: string;
+}
+
+export interface ClaimAuditResponse {
+  claim_id: string;
+  subject: string;
+  predicate: string;
+  object: string;
+  direction: string;
+  confidence: number;
+  horizon: string;
+  regime_tag: string;
+  evidence: EvidenceAuditEntry[];
+  supporting_sources: number;
+  analyst_summary: string;
 }
 
 export interface GraphResponse {
@@ -113,4 +166,18 @@ export interface HouseViewUpdate {
   analyst_note?: string;
   conviction: "high" | "medium" | "low";
   pinned_thesis?: string;
+}
+
+export interface RegimeTimelineEntry {
+  timestamp: string;
+  regime_tag: string;
+  confidence: number;
+  dominant_claim_count: number;
+  note?: string;
+}
+
+export interface RegimeTimelineResponse {
+  entries: RegimeTimelineEntry[];
+  current_regime: string;
+  computed_at: string;
 }

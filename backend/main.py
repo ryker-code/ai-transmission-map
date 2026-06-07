@@ -2,7 +2,7 @@ import logging
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from backend.api.routes import evidence, entities, graph, bottlenecks, thesis, memo, house_view, regime
+from backend.api.routes import evidence, entities, graph, bottlenecks, thesis, memo, house_view, regime, claims
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -33,6 +33,7 @@ app.include_router(thesis.router, prefix="/thesis", tags=["thesis"])
 app.include_router(memo.router, prefix="/memo", tags=["memo"])
 app.include_router(house_view.router, prefix="/house-view", tags=["house-view"])
 app.include_router(regime.router, prefix="/regime", tags=["regime"])
+app.include_router(claims.router, prefix="/claims", tags=["claims"])
 
 
 @app.get("/health")

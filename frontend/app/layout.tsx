@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
-import { LayoutDashboard, Network, Brain, FileText, Inbox, Star } from "lucide-react";
+import { LayoutDashboard, Network, Brain, FileText, Inbox, Star, TrendingUp } from "lucide-react";
+import EntitySearch from "@/components/EntitySearch";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -18,6 +19,7 @@ const navItems = [
   { href: "/memo", label: "Memo", icon: FileText },
   { href: "/evidence", label: "Evidence", icon: Inbox },
   { href: "/house-view", label: "House View", icon: Star },
+  { href: "/regime", label: "Regime", icon: TrendingUp },
 ];
 
 export default function RootLayout({
@@ -49,6 +51,9 @@ export default function RootLayout({
                   {label}
                 </Link>
               ))}
+              <div className="pt-3">
+                <EntitySearch />
+              </div>
             </nav>
             <div className="p-4 border-t border-slate-800">
               <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-emerald-900/40 border border-emerald-700/40 text-xs text-emerald-400">

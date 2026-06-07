@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 import useSWR from "swr";
 import dynamic from "next/dynamic";
 import type { GraphResponse, GraphNode } from "@/lib/types";
@@ -105,6 +106,14 @@ export default function GraphPage() {
                 <p className="text-lg font-bold text-indigo-400">{selectedNode.bottleneck_score.toFixed(3)}</p>
               </div>
             )}
+            <div className="mt-3 pt-3 border-t border-slate-800">
+              <Link
+                href={`/entities/${selectedNode.id}`}
+                className="text-xs text-indigo-400 hover:text-indigo-300"
+              >
+                View full detail →
+              </Link>
+            </div>
           </div>
         )}
       </div>

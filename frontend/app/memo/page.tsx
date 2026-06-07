@@ -108,6 +108,15 @@ export default function MemoPage() {
               </div>
             </div>
           )}
+          <div className="pt-2 border-t border-slate-800">
+            <a
+              href={`${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000"}/memo/${memo.memo_id}/pdf`}
+              download
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-sm text-white transition-colors"
+            >
+              ↓ Download PDF
+            </a>
+          </div>
         </div>
       )}
     </div>

@@ -12,7 +12,7 @@
 ![BigQuery](https://img.shields.io/badge/BigQuery-Google_Cloud-4285F4?logo=google-cloud)
 ![Claude AI](https://img.shields.io/badge/Claude-Opus--4--5-orange)
 ![Gemini](https://img.shields.io/badge/Gemini-2.0_Flash-blue?logo=google)
-![Tests](https://img.shields.io/badge/tests-38_passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-59_passing-brightgreen)
 
 ## Live Demo
 
@@ -129,20 +129,48 @@ See [docs/demo_theses.md](docs/demo_theses.md) for three interview-ready thesis 
 2. **Thermal Management / Liquid Cooling** — Vertiv Holdings, Eaton Corporation
 3. **Transmission Equipment / Transformer Bottleneck** — GE Vernova, Hitachi Energy
 
+## Interview Showcase
+
+See [`docs/INTERVIEW_GUIDE.md`](docs/INTERVIEW_GUIDE.md) for:
+- 30-second pitch
+- Five technical deep-dives
+- Worked example of bottleneck score calculation
+- Common interview questions with answers
+- 3-minute live demo flow
+
+## Technical Highlights
+
+| Highlight | Detail |
+|-----------|--------|
+| **5-component scorer** | `evidence_intensity(0.30) + recency_decay(0.20) + cross_source(0.25) + market_confirmation(0.15) + house_view(0.10)` normalized 0–100 |
+| **LangGraph determinism** | Typed `GraphState`, 5-node pipeline prevents prompt soup; each node has single responsibility |
+| **Alias resolver singleton** | Built once, cached; handles tickers + partial names + multi-word sliding window |
+| **Three intake modalities** | Bloomberg URL (no HTTP), Claude Opus vision, Whisper + Claude claim extraction |
+| **Real-time regime shift** | New evidence updates `_dynamic_claims` pool; regime recomputed on every `/regime/` request |
+| **PDF export** | reportlab renders investor memo with bottleneck table and key entity section |
+| **59 tests** | scorer, resolver, house_view, bloomberg_parser, image_intake, voice_intake, phase4 routes |
+| **SQLite offline mode** | Full dev loop without GCP credentials — `USE_BIGQUERY=false` flag |
+
 ## API Reference
 
 ```
-GET  /health                  — liveness check
-GET  /graph/?regime=          — transmission graph (nodes + edges)
-GET  /bottlenecks/?limit=     — ranked bottleneck scores
-POST /thesis/run              — thesis interrogation
-POST /memo/generate           — investor memo from thesis run
-POST /evidence/               — ingest note → async pipeline
-GET  /evidence/parse-url?url= — URL metadata extraction
-POST /evidence/image          — multimodal chart/slide intake
-GET  /entities/?sector=       — entity registry
-PUT  /house-view/             — analyst conviction override
-GET  /regime/                 — current dominant regime
+GET  /health                         — liveness check
+GET  /graph/?regime=                 — transmission graph (nodes + edges)
+GET  /bottlenecks/?limit=            — ranked bottleneck scores
+POST /thesis/run                     — thesis interrogation
+POST /memo/generate                  — investor memo from thesis run
+GET  /memo/{memo_id}/pdf             — PDF export (reportlab)
+POST /evidence/                      — ingest note → async pipeline
+GET  /evidence/parse-url?url=        — URL metadata extraction
+POST /evidence/image                 — multimodal chart/slide intake
+POST /evidence/voice                 — voice note → Whisper → claims
+GET  /entities/?search=              — entity search by name/ticker/alias
+GET  /entities/{id}                  — entity detail (claims, score, house view)
+PUT  /house-view/                    — analyst conviction override
+GET  /house-view/narrative           — Claude Opus 3-paragraph positioning narrative
+GET  /regime/                        — current dominant regime
+GET  /regime/timeline                — 30-day regime evolution
+GET  /claims/{id}/evidence           — claim audit trail
 ```
 
 ## Deployment
@@ -157,7 +185,7 @@ cd frontend && npx vercel --prod
 ## Test Suite
 
 ```bash
-make test          # 38 tests across scorer, resolver, house view, bloomberg parser, image intake
+make test          # 59 tests across scorer, resolver, house view, bloomberg parser, image intake, voice, phase4 routes
 ```
 
 ## Project Structure
@@ -166,13 +194,15 @@ make test          # 38 tests across scorer, resolver, house view, bloomberg par
 ai-transmission-map/
 ├── backend/
 │   ├── agents/          # LangGraph pipeline (scout, extractor, resolver, critic, scorer, house_view, memo)
-│   ├── api/routes/      # FastAPI routes (8 routers)
+│   ├── agents/          # LangGraph pipeline + scorer, resolver, house_view, memo
+│   ├── api/routes/      # FastAPI routes (10 routers incl. claims, regime/timeline)
 │   ├── db/              # BigQuery client, SQLite fallback, seed data (100 entities, 30 chains)
-│   ├── tools/           # Regime detector, Bloomberg parser, image intake
-│   └── tests/           # 38 tests
+│   ├── scripts/         # demo_run.py quick-demo
+│   ├── tools/           # Regime detector, Bloomberg parser, image/voice intake, PDF export
+│   └── tests/           # 59 tests
 ├── frontend/
-│   ├── app/             # 7 Next.js App Router pages
-│   ├── components/      # TransmissionGraph.tsx, BottleneckBoard.tsx
+│   ├── app/             # 9 Next.js App Router pages (+ entities/[id], regime)
+│   ├── components/      # TransmissionGraph.tsx, BottleneckBoard.tsx, EntitySearch.tsx
 │   └── lib/             # API client, TypeScript types
 ├── infrastructure/
 │   └── cloud_run/       # Dockerfile, cloudbuild.yaml

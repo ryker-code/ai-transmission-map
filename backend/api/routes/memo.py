@@ -1,11 +1,15 @@
 import logging
 import uuid
 from fastapi import APIRouter
+from fastapi.responses import StreamingResponse
 from backend.api.schemas import MemoRequest, MemoResponse
 from datetime import datetime, timezone
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
+
+# In-memory memo store for PDF generation
+_memo_store: dict = {}
 
 
 @router.post("/generate", response_model=MemoResponse)
@@ -51,12 +55,44 @@ async def generate_memo(payload: MemoRequest):
         max_words=payload.max_words,
     )
 
-    return MemoResponse(
-        memo_id=str(uuid.uuid4()),
+    memo_id = str(uuid.uuid4())
+    response = MemoResponse(
+        memo_id=memo_id,
         memo_text=memo_text,
         regime=regime,
         key_bottlenecks=key_bottlenecks[:5],
         affected_names=exposed_entities[:6],
         model_used="claude-opus-4-5",
         created_at=datetime.now(timezone.utc),
+    )
+    _memo_store[memo_id] = {"memo": response.model_dump(), "thesis": thesis}
+    return response
+
+
+@router.get("/{memo_id}/pdf")
+async def download_memo_pdf(memo_id: str):
+    """Generate and stream a PDF of the investment memo identified by memo_id."""
+    import io
+    from backend.tools.pdf_export import generate_memo_pdf
+
+    entry = _memo_store.get(memo_id)
+    if entry is None:
+        # Stub memo for demo when memo_id not in store
+        entry = {
+            "memo": {
+                "memo_id": memo_id,
+                "memo_text": "This memo was generated from a prior session and is no longer in memory. Re-generate via /memo/generate.",
+                "regime": "AI_CAPEX_EXPANSION",
+                "key_bottlenecks": ["Transformer Lead Times", "Grid Interconnection Queue"],
+                "affected_names": ["GE Vernova", "Vertiv", "Constellation Energy"],
+                "model_used": "claude-opus-4-5",
+            },
+            "thesis": "",
+        }
+
+    pdf_bytes = generate_memo_pdf(entry["memo"], entry.get("thesis", ""))
+    return StreamingResponse(
+        io.BytesIO(pdf_bytes),
+        media_type="application/pdf",
+        headers={"Content-Disposition": f'attachment; filename="memo-{memo_id[:8]}.pdf"'},
     )

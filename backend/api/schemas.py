@@ -46,6 +46,7 @@ class GraphEdge(BaseModel):
     direction: str
     confidence: float
     horizon: str
+    claim_id: Optional[str] = None
 
 class GraphResponse(BaseModel):
     nodes: List[GraphNode]
@@ -100,9 +101,69 @@ class MemoResponse(BaseModel):
     model_used: str
     created_at: datetime
 
+class ClaimSummary(BaseModel):
+    claim_id: str
+    subject: str
+    predicate: str
+    object: str
+    direction: str
+    confidence: float
+    horizon: str
+    regime_tag: str
+    analyst_note: Optional[str] = None
+
+class EntityDetailResponse(BaseModel):
+    id: str
+    canonical_name: str
+    entity_type: str
+    ticker: Optional[str] = None
+    sector: Optional[str] = None
+    sub_sector: Optional[str] = None
+    aliases: List[str] = []
+    bottleneck_score: Optional[float] = None
+    bottleneck_components: Optional[dict] = None
+    outbound_claims: List[ClaimSummary] = []
+    inbound_claims: List[ClaimSummary] = []
+    house_view: Optional[dict] = None
+    related_entities: List[dict] = []
+
 class HouseViewUpdate(BaseModel):
     entity_id: str
     weight_override: float = Field(1.0, ge=0.1, le=3.0)
     analyst_note: Optional[str] = None
     conviction: Literal["high","medium","low"]
     pinned_thesis: Optional[str] = None
+
+class EvidenceAuditEntry(BaseModel):
+    source_id: str
+    title: str
+    source_type: str
+    url: Optional[str] = None
+    publish_date: Optional[str] = None
+    trust_score: float
+    analyst_note: Optional[str] = None
+
+class ClaimAuditResponse(BaseModel):
+    claim_id: str
+    subject: str
+    predicate: str
+    object: str
+    direction: str
+    confidence: float
+    horizon: str
+    regime_tag: str
+    evidence: List[EvidenceAuditEntry]
+    supporting_sources: int
+    analyst_summary: str
+
+class RegimeTimelineEntry(BaseModel):
+    timestamp: str
+    regime_tag: str
+    confidence: float
+    dominant_claim_count: int
+    note: Optional[str] = None
+
+class RegimeTimelineResponse(BaseModel):
+    entries: List[RegimeTimelineEntry]
+    current_regime: str
+    computed_at: datetime
