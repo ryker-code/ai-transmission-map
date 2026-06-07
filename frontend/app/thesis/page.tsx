@@ -104,6 +104,7 @@ export default function ThesisPage() {
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4 mb-6">
         <label className="block text-sm text-slate-300 font-medium">Investment Thesis</label>
         <textarea
+          data-testid="thesis-text"
           value={thesis}
           onChange={(e) => setThesis(e.target.value)}
           placeholder="e.g. Transformer lead times will keep GE Vernova backlog elevated through 2026, supporting margin expansion and order visibility"
@@ -123,6 +124,7 @@ export default function ThesisPage() {
             </button>
           ))}
           <button
+            data-testid="run-thesis"
             onClick={handleRun}
             disabled={loading || thesis.length < 30}
             className="ml-auto px-5 py-2.5 rounded-lg bg-indigo-600 text-white text-sm font-medium disabled:opacity-40 disabled:cursor-not-allowed hover:bg-indigo-500 transition-colors"
@@ -155,7 +157,7 @@ export default function ThesisPage() {
         <div className="space-y-4">
           {/* Score cards */}
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-slate-900 border border-emerald-800/40 rounded-xl p-4">
+            <div data-testid="support-score" className="bg-slate-900 border border-emerald-800/40 rounded-xl p-4">
               <p className="text-xs text-slate-400 mb-1">Support Score</p>
               <p className="text-2xl font-bold text-emerald-400">{(result.support_score * 100).toFixed(0)}%</p>
             </div>
@@ -206,6 +208,7 @@ export default function ThesisPage() {
                         <p className="text-xs text-slate-400 mt-0.5">{preset.description}</p>
                       </div>
                       <button
+                        data-testid={preset.name.toLowerCase().includes("ferc") ? "scenario-ferc" : undefined}
                         onClick={() => runScenario(preset)}
                         disabled={scenarioLoading === preset.name}
                         className="shrink-0 px-3 py-1.5 rounded-lg bg-indigo-600/70 hover:bg-indigo-600 text-white text-xs font-medium transition-colors disabled:opacity-50"
@@ -215,7 +218,7 @@ export default function ThesisPage() {
                     </div>
 
                     {match && (
-                      <div className="mt-3 pt-3 border-t border-slate-700/60">
+                      <div data-testid="scenario-delta" className="mt-3 pt-3 border-t border-slate-700/60">
                         <div className="grid grid-cols-2 gap-3 mb-3">
                           <div>
                             <p className="text-xs text-slate-500 mb-1">Support</p>

@@ -152,6 +152,7 @@ export default function MemoPage() {
 
         <div className="flex items-center gap-3">
           <button
+            data-testid="stream-toggle"
             onClick={() => setStreamMode((v) => !v)}
             className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
               streamMode
@@ -167,6 +168,7 @@ export default function MemoPage() {
 
         <div className="flex items-center gap-4">
           <button
+            data-testid="generate-memo"
             onClick={handleGenerate}
             disabled={loading}
             className="px-5 py-2.5 rounded-lg bg-indigo-600 text-white text-sm font-medium disabled:opacity-40 disabled:cursor-not-allowed hover:bg-indigo-500 transition-colors"
@@ -209,10 +211,10 @@ export default function MemoPage() {
             </div>
           </div>
 
-          <div className="bg-slate-800 border border-slate-700 rounded-lg px-4 py-4 text-sm text-slate-200 whitespace-pre-wrap leading-relaxed min-h-[120px]">
+          <div data-testid="memo-text" className="bg-slate-800 border border-slate-700 rounded-lg px-4 py-4 text-sm text-slate-200 whitespace-pre-wrap leading-relaxed min-h-[120px]">
             {displayText}
             {streamMode && loading && (
-              <span className="inline-block w-0.5 h-4 bg-indigo-400 ml-0.5 animate-pulse align-middle" />
+              <span data-testid="memo-cursor" className="inline-block w-0.5 h-4 bg-indigo-400 ml-0.5 animate-pulse align-middle" />
             )}
           </div>
 

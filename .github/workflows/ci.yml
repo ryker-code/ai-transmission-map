@@ -51,9 +51,19 @@ jobs:
         env:
           NEXT_PUBLIC_API_URL: http://localhost:8000
 
+      - name: Install Playwright browsers
+        run: cd frontend && npx playwright install chromium --with-deps
+        continue-on-error: true
+
+      - name: Run Playwright E2E tests
+        run: cd frontend && npx playwright test --reporter=list
+        continue-on-error: true
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:8000
+
       - name: Report test summary
         if: always()
         run: |
           echo "## CI Summary" >> $GITHUB_STEP_SUMMARY
           echo "- Python tests: \`$(python -m pytest backend/tests/ --co -q 2>/dev/null | tail -1)\`" >> $GITHUB_STEP_SUMMARY
-          echo "- Next.js routes: 7" >> $GITHUB_STEP_SUMMARY
+          echo "- Next.js pages: 14+" >> $GITHUB_STEP_SUMMARY

@@ -53,9 +53,9 @@ export default function Home() {
   });
 
   const statCards = [
-    { label: "Total Entities", value: graph?.nodes?.length?.toString(), loading: graphLoading },
-    { label: "Active Claims", value: graph?.edges?.length?.toString(), loading: graphLoading },
-    { label: "Current Regime", value: regime?.regime, loading: regimeLoading },
+    { label: "Total Entities", value: graph?.nodes?.length?.toString(), loading: graphLoading, testId: "stat-entity-count" },
+    { label: "Active Claims", value: graph?.edges?.length?.toString(), loading: graphLoading, testId: "stat-claims" },
+    { label: "Current Regime", value: regime?.regime, loading: regimeLoading, testId: "stat-regime" },
   ];
 
   return (
@@ -66,11 +66,11 @@ export default function Home() {
       </p>
 
       <div className="grid grid-cols-3 gap-4 mb-6">
-        {statCards.map(({ label, value, loading }) =>
+        {statCards.map(({ label, value, loading, testId }) =>
           loading ? (
             <SkeletonStatCard key={label} />
           ) : (
-            <div key={label} className="bg-slate-900 border border-slate-800 rounded-xl p-4">
+            <div key={label} data-testid={testId} className="bg-slate-900 border border-slate-800 rounded-xl p-4">
               <p className="text-xs text-slate-400 mb-1">{label}</p>
               <p className="text-xl font-semibold text-white">{value ?? "—"}</p>
             </div>

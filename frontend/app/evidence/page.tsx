@@ -3,7 +3,7 @@ import { useState, useRef } from "react";
 import { api } from "@/lib/api-client";
 import type { EvidenceResponse } from "@/lib/types";
 
-const SOURCE_TYPES = ["bloomberg", "sec", "utility_filing", "public"] as const;
+const SOURCE_TYPES = ["bloomberg", "sec", "utility_filing", "public", "news"] as const;
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
 export default function EvidencePage() {
@@ -152,6 +152,7 @@ export default function EvidencePage() {
             <label className="block text-xs text-slate-400 mb-1">URL</label>
             <div className="flex gap-2">
               <input
+                data-testid="evidence-url"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="https://bloomberg.com/..."
@@ -174,6 +175,7 @@ export default function EvidencePage() {
           <div className="col-span-2">
             <label className="block text-xs text-slate-400 mb-1">Title</label>
             <input
+              data-testid="evidence-title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Article or report title"
@@ -183,6 +185,7 @@ export default function EvidencePage() {
           <div>
             <label className="block text-xs text-slate-400 mb-1">Source Type</label>
             <select
+              data-testid="source-type"
               value={sourceType}
               onChange={(e) => setSourceType(e.target.value as any)}
               className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -227,6 +230,7 @@ export default function EvidencePage() {
             />
           </div>
           <button
+            data-testid="submit-evidence"
             onClick={handleSubmit}
             disabled={loading}
             className="px-5 py-2.5 rounded-lg bg-indigo-600 text-white text-sm font-medium disabled:opacity-40 hover:bg-indigo-500 transition-colors"
@@ -352,7 +356,7 @@ export default function EvidencePage() {
       </div>
 
       {result && (
-        <div className="mt-4 bg-slate-900 border border-emerald-800/40 rounded-xl p-4 space-y-2">
+        <div data-testid="evidence-success" className="mt-4 bg-slate-900 border border-emerald-800/40 rounded-xl p-4 space-y-2">
           <p className="text-sm font-medium text-emerald-400">Evidence accepted — pipeline running</p>
           <p className="text-xs text-slate-400">Source ID: {result.source_id}</p>
           <p className="text-xs text-slate-400">Note ID: {result.note_id}</p>
