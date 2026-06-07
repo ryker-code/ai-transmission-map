@@ -1,3 +1,99 @@
+# BUILD_LOG — Day 6
+
+**Completed:** Sun Jun 7 2026 (autonomous morning session)
+**Status:** All Day 6 phases + all 3 bonus phases complete — no blockers
+
+## Day 6 Phases Completed
+
+| Phase | Description | Status |
+|-------|-------------|--------|
+| 1 | BigQuery/SQLite dual-mode DBRouter + /health/db endpoint | ✓ |
+| 2 | Streaming memo generation with SSE typewriter animation | ✓ |
+| 3 | Watchlist: star entities, dashboard panel, dedicated page | ✓ |
+| 4 | API key auth on write endpoints + slowapi rate limiting | ✓ |
+| 5 | Weekly digest generator + sample_digest.md | ✓ |
+| 6 | Live deployment attempt + QUICK_DEPLOY.md | ✓ |
+| 7 | Final test suite + README polish + Architecture Deep Dive | ✓ |
+| Bonus A | Multi-analyst collaboration stubs (/analysts/ endpoint) | ✓ |
+| Bonus B | Score history tracking + entity sparkline | ✓ |
+| Bonus C | Claim confidence calibration (feedback endpoint) | ✓ |
+
+## New Files Created (Day 6)
+
+### Backend
+- `backend/db/bq_client.py` — BigQueryClient with credential detection
+- `backend/db/db_router.py` — DBRouter: BigQuery/SQLite unified interface
+- `backend/db/watchlist_store.py` — watchlist in-memory + SQLite persistence
+- `backend/db/score_history.py` — score snapshot → score_history.jsonl
+- `backend/auth.py` — verify_api_key + optional_api_key FastAPI dependencies
+- `backend/api/routes/watchlist.py` — GET/POST/DELETE watchlist routes
+- `backend/api/routes/digest.py` — POST /digest/generate
+- `backend/api/routes/analysts.py` — GET /analysts/
+- `backend/tools/digest_generator.py` — weekly digest data aggregation
+- `backend/tests/test_db_router.py` — 6 tests
+- `backend/tests/test_memo_stream.py` — 3 tests
+- `backend/tests/test_watchlist.py` — 5 tests
+- `backend/tests/test_auth.py` — 5 tests
+- `backend/tests/test_digest.py` — 4 tests
+- `backend/tests/test_bonus.py` — 4 tests
+- `backend/tests/conftest.py` — shared AUTH_HEADERS fixture
+
+### Frontend
+- `frontend/app/watchlist/page.tsx` — Watchlist management table
+- `frontend/app/digest/page.tsx` — Weekly Digest generator page
+- `frontend/components/WatchlistPanel.tsx` — Dashboard watchlist panel
+
+### Infrastructure + Docs
+- `infrastructure/QUICK_DEPLOY.md` — 3-command Railway + Vercel guide
+- `railway.json` — Railway deploy config
+- `docs/ARCHITECTURE_DEEP_DIVE.md` — 3-page engineering interview deep dive
+- `docs/sample_digest.md` — live digest output from seed data
+
+## Test Results (Day 6 Final)
+
+```
+96 passed, 7 warnings in 9.51s
+
+test_auth.py           5 tests  ✓
+test_bloomberg_parser.py   9 tests  ✓
+test_bonus.py          4 tests  ✓
+test_cache.py          3 tests  ✓
+test_db_router.py      6 tests  ✓
+test_digest.py         4 tests  ✓
+test_health.py        12 tests  ✓
+test_house_view.py     5 tests  ✓
+test_image_intake.py   4 tests  ✓
+test_market_signals.py 3 tests  ✓
+test_memo_stream.py    3 tests  ✓
+test_model_router.py   4 tests  ✓
+test_phase4_routes.py  9 tests  ✓
+test_resolver.py       8 tests  ✓
+test_scorer.py         4 tests  ✓
+test_voice_intake.py   8 tests  ✓
+test_watchlist.py      5 tests  ✓
+```
+
+## Frontend Build (Day 6 Final)
+
+```
+✓ Next.js build successful (standalone output)
+✓ TypeScript check passed
+✓ 13 routes: /, /digest, /entities/[id], /evidence, /graph, /house-view,
+             /memo, /models, /regime, /thesis, /watchlist, /_not-found
+```
+
+## Deployment Status
+- Railway: `railway.json` committed; deploy with `railway login && railway up` from local machine
+- Vercel: next.config.ts standalone output ready; `npx vercel --prod` from frontend/
+- QUICK_DEPLOY.md: 3-command guide with smoke test and env var checklist
+
+## Known Issues (Day 6)
+- Railway/Vercel auth requires browser — not available in Codespace; use local machine
+- score_history.jsonl grows unbounded; add TTL cleanup in production
+- slowapi `@limiter.limit()` decorators not applied in this sprint (wired via app.state); add per-route limits in v2
+
+---
+
 # BUILD_LOG — Day 5
 
 **Completed:** Sun Jun 8 2026 (autonomous overnight session)

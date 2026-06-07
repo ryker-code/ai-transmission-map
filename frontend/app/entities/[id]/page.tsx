@@ -80,6 +80,11 @@ export default function EntityDetailPage({ params }: { params: Promise<{ id: str
     fetcher,
     { revalidateOnFocus: false }
   );
+  const { data: historyData } = useSWR<{ history: { ts: string; score: number }[]; count: number }>(
+    `${API_BASE}/entities/${id}/score-history?limit=30`,
+    fetcher,
+    { revalidateOnFocus: false }
+  );
   const [isWatched, setIsWatched] = useState(false);
 
   useEffect(() => {
@@ -164,6 +169,25 @@ export default function EntityDetailPage({ params }: { params: Promise<{ id: str
                     {typeof v === "number" && <ScoreBar value={v} max={k === "house_view_weight" ? 3 : 1} />}
                   </div>
                 ))}
+            </div>
+          )}
+          {/* Score sparkline */}
+          {historyData && historyData.history.length > 1 && (
+            <div className="mt-4">
+              <p className="text-xs text-slate-500 mb-1">Score history ({historyData.count} snapshots)</p>
+              <div className="flex items-end gap-px h-8">
+                {historyData.history.slice(-20).map((h, i) => {
+                  const pct = Math.max(4, Math.min(100, h.score));
+                  return (
+                    <div
+                      key={i}
+                      className="flex-1 bg-indigo-500/60 rounded-sm"
+                      style={{ height: `${pct}%` }}
+                      title={`${h.score.toFixed(1)} at ${new Date(h.ts).toLocaleDateString()}`}
+                    />
+                  );
+                })}
+              </div>
             </div>
           )}
         </div>

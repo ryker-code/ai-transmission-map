@@ -44,6 +44,14 @@ async def get_bottlenecks(
             computed_at=datetime.now(timezone.utc),
         )
         _cache.set(cache_key, result, ttl_seconds=30)
+        # Record score snapshot to history (non-blocking)
+        try:
+            from backend.db.score_history import record_scores
+            from backend.agents.scorer import compute_bottleneck_scores
+            all_scores = compute_bottleneck_scores()
+            record_scores(all_scores)
+        except Exception as hist_exc:
+            logger.warning(f"score history write failed: {hist_exc}")
         return result
     except Exception as e:
         logger.error(f"Bottlenecks scorer failed: {e}")

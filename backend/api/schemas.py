@@ -111,6 +111,7 @@ class ClaimCreate(BaseModel):
     regime_tag: str
     extracted_by: Optional[str] = None
     rationale: Optional[str] = None
+    user_id: Optional[str] = None
 
 class ClaimSummary(BaseModel):
     claim_id: str
@@ -158,6 +159,12 @@ class HouseViewUpdate(BaseModel):
     analyst_note: Optional[str] = None
     conviction: Literal["high","medium","low"]
     pinned_thesis: Optional[str] = None
+    user_id: Optional[str] = None
+
+class ClaimFeedback(BaseModel):
+    analyst_verdict: Literal["confirm", "reject", "uncertain"]
+    note: Optional[str] = None
+    user_id: Optional[str] = None
 
 class EvidenceAuditEntry(BaseModel):
     source_id: str

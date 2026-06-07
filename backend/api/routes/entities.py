@@ -151,6 +151,14 @@ async def get_entity_detail(entity_id: str):
     )
 
 
+@router.get("/{entity_id}/score-history", response_model=dict)
+async def get_score_history(entity_id: str, limit: int = 30):
+    """Return the last N score snapshots for an entity (from score_history.jsonl)."""
+    from backend.db.score_history import get_entity_history
+    entries = get_entity_history(entity_id, limit=limit)
+    return {"entity_id": entity_id, "history": entries, "count": len(entries)}
+
+
 @router.post("/", response_model=EntityResponse)
 async def create_entity(payload: EntityCreate):
     """Create a new entity node in the graph."""

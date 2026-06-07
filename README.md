@@ -13,13 +13,13 @@
 ![BigQuery](https://img.shields.io/badge/BigQuery-Google_Cloud-4285F4?logo=google-cloud)
 ![Claude AI](https://img.shields.io/badge/Claude-Opus--4--5-orange)
 ![Gemini](https://img.shields.io/badge/Gemini-2.0_Flash-blue?logo=google)
-![Tests](https://img.shields.io/badge/tests-92_passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-96_passing-brightgreen)
 
 ## Project Stats
 
 | Metric | Value |
 |--------|-------|
-| Backend tests | 92 passing |
+| Backend tests | 96 passing |
 | Frontend pages | 13 |
 | Entities in graph | 200 |
 | Transmission claims | 80 |
@@ -166,7 +166,7 @@ See [`docs/INTERVIEW_GUIDE.md`](docs/INTERVIEW_GUIDE.md) for:
 | **Three intake modalities** | Bloomberg URL (no HTTP), Claude Opus vision, Whisper + Claude claim extraction |
 | **Real-time regime shift** | New evidence updates `_dynamic_claims` pool; regime recomputed on every `/regime/` request |
 | **PDF export** | reportlab renders investor memo with bottleneck table and key entity section |
-| **92 tests** | DB router, auth, streaming memo, watchlist, digest, model router, cache, scorer, resolver, and more |
+| **96 tests** | DB router, auth, streaming memo, watchlist, digest, analysts, score history, claim feedback, and more |
 | **SQLite offline mode** | Full dev loop without GCP credentials — `USE_BIGQUERY=false` flag |
 | **BigQuery dual-mode** | `DBRouter` auto-detects credentials; falls back to seed JSON gracefully |
 | **Streaming memo** | `POST /memo/stream` returns SSE; frontend renders typewriter animation per token |
