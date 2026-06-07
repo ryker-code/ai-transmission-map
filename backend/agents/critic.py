@@ -121,7 +121,13 @@ def _compute_bottleneck_score(entity_name: str, claims: List[dict]) -> dict:
     recency_score = avg_confidence  # proxy; real impl uses claim timestamps
     cross_source_agreement = avg_confidence * 0.9
     market_confirmation = avg_confidence * 0.8  # proxy; real impl uses price data
-    house_view_weight = 1.0  # default; overridden by house_view table
+
+    # Apply analyst house view weight override if set
+    try:
+        from backend.db.house_view_store import get_weight
+        house_view_weight = min(3.0, get_weight(entity_name, default=1.0))
+    except Exception:
+        house_view_weight = 1.0
 
     score = (
         WEIGHTS["evidence_intensity"] * evidence_intensity

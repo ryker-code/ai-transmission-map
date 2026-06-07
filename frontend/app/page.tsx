@@ -1,12 +1,22 @@
+"use client";
+import useSWR from "swr";
 import BottleneckBoard from "@/components/BottleneckBoard";
 
-const statCards = [
-  { label: "Total Entities", value: "100" },
-  { label: "Active Claims", value: "30" },
-  { label: "Current Regime", value: "AI_CAPEX_EXPANSION" },
-];
+const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 export default function Home() {
+  const apiBase = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+  const { data: regime } = useSWR(`${apiBase}/regime/`, fetcher, {
+    refreshInterval: 60000,
+  });
+  const { data: graph } = useSWR(`${apiBase}/graph/`, fetcher);
+
+  const statCards = [
+    { label: "Total Entities", value: graph?.nodes?.length?.toString() ?? "100" },
+    { label: "Active Claims", value: graph?.edges?.length?.toString() ?? "30" },
+    { label: "Current Regime", value: regime?.regime ?? "AI_CAPEX_EXPANSION" },
+  ];
+
   return (
     <div>
       <h1 className="text-2xl font-bold text-white mb-1">Bottleneck Dashboard</h1>

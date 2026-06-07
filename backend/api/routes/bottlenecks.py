@@ -52,10 +52,20 @@ def _compute_static_bottlenecks(limit: int) -> list:
             regime_counts[tag] = regime_counts.get(tag, 0) + 1
         dominant_regime = max(regime_counts, key=regime_counts.get)
         entity = entity_index.get(name, {})
+
+        # Apply house view weight override
+        house_weight = 1.0
+        try:
+            from backend.db.house_view_store import get_weight
+            house_weight = get_weight(entity.get("id", name), default=1.0)
+        except Exception:
+            pass
+        weighted_score = min(1.0, round(avg * house_weight, 4))
+
         entries.append(BottleneckEntry(
             entity_id=entity.get("id", name),
             entity_name=name,
-            score=round(avg, 4),
+            score=weighted_score,
             rank=i + 1,
             regime_tag=dominant_regime,
             top_evidence=evidence[name][:3],
@@ -63,6 +73,7 @@ def _compute_static_bottlenecks(limit: int) -> list:
                 "evidence_intensity": round(min(1.0, data["count"] / 5.0), 4),
                 "avg_confidence": round(avg, 4),
                 "claim_count": data["count"],
+                "house_view_weight": house_weight,
             },
         ))
 
