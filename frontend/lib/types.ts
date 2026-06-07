@@ -227,6 +227,21 @@ export interface ScenarioResponse {
   narrative: string;
 }
 
+export interface WatchlistEntry {
+  entity_id: string;
+  name: string;
+  ticker?: string;
+  bottleneck_score?: number;
+  score_delta_24h: number;
+  momentum: string;
+  is_watched: boolean;
+}
+
+export interface WatchlistResponse {
+  entries: WatchlistEntry[];
+  total: number;
+}
+
 export interface RegimeTimelineEntry {
   timestamp: string;
   regime_tag: string;

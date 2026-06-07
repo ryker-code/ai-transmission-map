@@ -219,6 +219,19 @@ class ScenarioResponse(BaseModel):
     changed_bottlenecks: List[dict]
     narrative: str
 
+class WatchlistEntry(BaseModel):
+    entity_id: str
+    name: str
+    ticker: Optional[str] = None
+    bottleneck_score: Optional[float] = None
+    score_delta_24h: float = 0.0
+    momentum: str = "neutral"
+    is_watched: bool = True
+
+class WatchlistResponse(BaseModel):
+    entries: List[WatchlistEntry]
+    total: int
+
 class RegimeTimelineEntry(BaseModel):
     timestamp: str
     regime_tag: str

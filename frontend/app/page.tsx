@@ -3,6 +3,7 @@ import useSWR from "swr";
 import BottleneckBoard from "@/components/BottleneckBoard";
 import { SkeletonStatCard } from "@/components/ui/LoadingSkeleton";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { WatchlistPanel } from "@/components/WatchlistPanel";
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
@@ -81,6 +82,9 @@ export default function Home() {
       <ErrorBoundary fallbackMessage="Bottleneck board failed to load">
         <BottleneckBoard limit={20} />
       </ErrorBoundary>
+      <div className="mt-6">
+        <WatchlistPanel />
+      </div>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
-import { LayoutDashboard, Network, Brain, FileText, Inbox, Star, TrendingUp, Cpu } from "lucide-react";
+import { LayoutDashboard, Network, Brain, FileText, Inbox, Star, TrendingUp, Cpu, Bookmark, Mail } from "lucide-react";
 import EntitySearch from "@/components/EntitySearch";
 import "./globals.css";
 
@@ -21,6 +21,8 @@ const navItems = [
   { href: "/house-view", label: "House View", icon: Star },
   { href: "/regime", label: "Regime", icon: TrendingUp },
   { href: "/models", label: "Models", icon: Cpu },
+  { href: "/watchlist", label: "Watchlist", icon: Bookmark },
+  { href: "/digest", label: "Digest", icon: Mail },
 ];
 
 export default function RootLayout({

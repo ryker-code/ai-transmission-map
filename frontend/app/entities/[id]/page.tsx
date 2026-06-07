@@ -1,8 +1,10 @@
 "use client";
-import { use } from "react";
+import { use, useState, useEffect } from "react";
 import useSWR from "swr";
 import Link from "next/link";
 import type { EntityDetailResponse, ClaimSummary, MarketSignalEntry } from "@/lib/types";
+
+const API_URL_GLOBAL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
@@ -78,6 +80,24 @@ export default function EntityDetailPage({ params }: { params: Promise<{ id: str
     fetcher,
     { revalidateOnFocus: false }
   );
+  const [isWatched, setIsWatched] = useState(false);
+
+  useEffect(() => {
+    if (!id) return;
+    fetch(`${API_URL_GLOBAL}/watchlist/`)
+      .then((r) => r.json())
+      .then((d) => {
+        const watched = (d.entries ?? []).some((e: { entity_id: string }) => e.entity_id === id);
+        setIsWatched(watched);
+      })
+      .catch(() => {});
+  }, [id]);
+
+  async function toggleWatch() {
+    const method = isWatched ? "DELETE" : "POST";
+    const resp = await fetch(`${API_URL_GLOBAL}/watchlist/${id}`, { method });
+    if (resp.ok) setIsWatched(!isWatched);
+  }
 
   const marketSignal = data?.ticker
     ? marketData?.signals.find((s) => s.ticker === data.ticker?.toUpperCase())
@@ -114,7 +134,16 @@ export default function EntityDetailPage({ params }: { params: Promise<{ id: str
             <p className="text-xs text-slate-500 mt-1">Also known as: {data.aliases.join(", ")}</p>
           )}
         </div>
-        <Link href="/graph" className="text-xs text-indigo-400 hover:text-indigo-300">← Graph</Link>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={toggleWatch}
+            className={`text-xl transition-colors ${isWatched ? "text-amber-400 hover:text-slate-400" : "text-slate-600 hover:text-amber-400"}`}
+            title={isWatched ? "Remove from watchlist" : "Add to watchlist"}
+          >
+            {isWatched ? "★" : "☆"}
+          </button>
+          <Link href="/graph" className="text-xs text-indigo-400 hover:text-indigo-300">← Graph</Link>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
