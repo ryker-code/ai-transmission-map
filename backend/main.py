@@ -28,7 +28,13 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://*.vercel.app"],
+    allow_origins=[
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "https://*.vercel.app",
+        "https://improved-meme-gxq4v9pp49vg3vgv-3000.app.github.dev",
+        "https://*.app.github.dev",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

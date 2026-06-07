@@ -25,13 +25,19 @@ def _load_graph_from_seed() -> GraphResponse:
 
     entity_map = {e["canonical_name"]: e["id"] for e in entities}
 
+    try:
+        from backend.agents.scorer import compute_bottleneck_scores
+        score_map = {b.entity_id: b.score for b in compute_bottleneck_scores()}
+    except Exception:
+        score_map = {}
+
     nodes = [
         GraphNode(
             id=e["id"],
             label=e["canonical_name"],
             entity_type=e["entity_type"],
             sector=e.get("sector"),
-            bottleneck_score=None,
+            bottleneck_score=score_map.get(e["id"]),
         )
         for e in entities
     ]
