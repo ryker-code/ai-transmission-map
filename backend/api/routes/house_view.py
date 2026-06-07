@@ -2,8 +2,9 @@ import logging
 import sqlite3
 import os
 import time
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from backend.api.schemas import HouseViewUpdate
+from backend.auth import verify_api_key
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -43,7 +44,7 @@ def _persist_to_sqlite(payload: HouseViewUpdate) -> None:
         logger.warning(f"SQLite house_view persist failed: {e}")
 
 
-@router.put("/", response_model=dict)
+@router.put("/", response_model=dict, dependencies=[Depends(verify_api_key)])
 async def update_house_view(payload: HouseViewUpdate):
     """
     Update analyst conviction weight and annotations for an entity.

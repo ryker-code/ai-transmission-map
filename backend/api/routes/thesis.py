@@ -2,8 +2,9 @@ import json
 import logging
 import uuid
 from pathlib import Path
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from backend.api.schemas import ThesisRunRequest, ThesisRunResponse, GraphResponse, GraphNode, GraphEdge, ScenarioRequest, ScenarioResponse
+from backend.auth import verify_api_key
 from datetime import datetime, timezone
 
 logger = logging.getLogger(__name__)
@@ -82,7 +83,7 @@ def _bfs_subgraph(thesis: str, entities: list, chains: list, depth: int):
     return subgraph_entities, subgraph_chains
 
 
-@router.post("/run", response_model=ThesisRunResponse)
+@router.post("/run", response_model=ThesisRunResponse, dependencies=[Depends(verify_api_key)])
 async def run_thesis(payload: ThesisRunRequest):
     """
     Run a thesis interrogation against the transmission graph.
@@ -204,7 +205,7 @@ _scenario_store: dict[str, dict] = {}
 _base_to_scenarios: dict[str, list[str]] = {}
 
 
-@router.post("/scenario", response_model=ScenarioResponse)
+@router.post("/scenario", response_model=ScenarioResponse, dependencies=[Depends(verify_api_key)])
 async def run_scenario(payload: ScenarioRequest):
     """
     Branch from a base thesis run with claim/entity weight overrides.

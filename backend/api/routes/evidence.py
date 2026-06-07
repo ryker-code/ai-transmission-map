@@ -1,7 +1,8 @@
 import logging
 import uuid
-from fastapi import APIRouter, BackgroundTasks, File, Form, Query, UploadFile
+from fastapi import APIRouter, BackgroundTasks, Depends, File, Form, Query, UploadFile
 from backend.api.schemas import EvidenceIngest, EvidenceResponse
+from backend.auth import verify_api_key
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -26,7 +27,7 @@ async def parse_evidence_url(url: str = Query(..., description="bloomberg.com or
                 "url": url, "detected_entities": [], "error": str(e)}
 
 
-@router.post("/", response_model=EvidenceResponse)
+@router.post("/", response_model=EvidenceResponse, dependencies=[Depends(verify_api_key)])
 async def ingest_evidence(payload: EvidenceIngest, background_tasks: BackgroundTasks):
     """
     Ingest a Bloomberg or public evidence note and trigger the full LangGraph pipeline.
@@ -100,7 +101,7 @@ async def _run_pipeline_background(source_id: str, note_id: str,
         logger.error(f"Pipeline background task failed for note_id={note_id}: {e}")
 
 
-@router.post("/image", response_model=dict)
+@router.post("/image", response_model=dict, dependencies=[Depends(verify_api_key)])
 async def ingest_image(
     image: UploadFile = File(...),
     analyst_context: str = Form(..., min_length=10),
@@ -141,7 +142,7 @@ async def ingest_image(
         return {"error": str(e), "claims": []}
 
 
-@router.post("/voice", response_model=dict)
+@router.post("/voice", response_model=dict, dependencies=[Depends(verify_api_key)])
 async def ingest_voice(
     audio: UploadFile = File(...),
     analyst_context: str = Form(..., min_length=10),

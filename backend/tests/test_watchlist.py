@@ -2,6 +2,7 @@
 import pytest
 from fastapi.testclient import TestClient
 from backend.main import app
+from tests.conftest import AUTH_HEADERS
 
 client = TestClient(app)
 
@@ -31,7 +32,7 @@ def test_watchlist_empty_initially():
 
 def test_add_to_watchlist():
     entity_id = _find_valid_entity_id()
-    resp = client.post(f"/watchlist/{entity_id}")
+    resp = client.post(f"/watchlist/{entity_id}", headers=AUTH_HEADERS)
     assert resp.status_code == 200
     data = resp.json()
     assert data["status"] == "added"
@@ -40,7 +41,7 @@ def test_add_to_watchlist():
 
 def test_watchlist_contains_added_entity():
     entity_id = _find_valid_entity_id()
-    client.post(f"/watchlist/{entity_id}")
+    client.post(f"/watchlist/{entity_id}", headers=AUTH_HEADERS)
     resp = client.get("/watchlist/")
     assert resp.status_code == 200
     data = resp.json()
@@ -50,13 +51,13 @@ def test_watchlist_contains_added_entity():
 
 def test_remove_from_watchlist():
     entity_id = _find_valid_entity_id()
-    client.post(f"/watchlist/{entity_id}")
-    resp = client.delete(f"/watchlist/{entity_id}")
+    client.post(f"/watchlist/{entity_id}", headers=AUTH_HEADERS)
+    resp = client.delete(f"/watchlist/{entity_id}", headers=AUTH_HEADERS)
     assert resp.status_code == 200
     data = resp.json()
     assert data["status"] == "removed"
 
 
 def test_watchlist_unknown_entity_returns_404():
-    resp = client.post("/watchlist/nonexistent-entity-xyz")
+    resp = client.post("/watchlist/nonexistent-entity-xyz", headers=AUTH_HEADERS)
     assert resp.status_code == 404

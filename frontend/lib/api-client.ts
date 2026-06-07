@@ -1,8 +1,14 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "dev-key-change-in-production";
 
 async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
+  const method = (options?.method ?? "GET").toUpperCase();
+  const isWriteMethod = ["POST", "PUT", "DELETE", "PATCH"].includes(method);
   const res = await fetch(`${API_BASE}${path}`, {
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      ...(isWriteMethod ? { "X-Api-Key": API_KEY } : {}),
+    },
     ...options,
   });
   if (!res.ok) throw new Error(`API error ${res.status}: ${await res.text()}`);

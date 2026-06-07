@@ -1,8 +1,9 @@
 import logging
 import uuid
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from fastapi.responses import StreamingResponse
 from backend.api.schemas import MemoRequest, MemoResponse
+from backend.auth import verify_api_key
 from datetime import datetime, timezone
 
 logger = logging.getLogger(__name__)
@@ -12,7 +13,7 @@ router = APIRouter()
 _memo_store: dict = {}
 
 
-@router.post("/generate", response_model=MemoResponse)
+@router.post("/generate", response_model=MemoResponse, dependencies=[Depends(verify_api_key)])
 async def generate_memo(payload: MemoRequest):
     """
     Generate an investor-style memo from a thesis run using Claude claude-opus-4-5.
@@ -69,7 +70,7 @@ async def generate_memo(payload: MemoRequest):
     return response
 
 
-@router.post("/stream")
+@router.post("/stream", dependencies=[Depends(verify_api_key)])
 async def stream_memo(payload: MemoRequest):
     """
     Stream memo generation via Server-Sent Events.

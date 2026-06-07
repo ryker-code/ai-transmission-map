@@ -1,6 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
 from backend.main import app
+from tests.conftest import AUTH_HEADERS
 
 client = TestClient(app)
 
@@ -44,7 +45,7 @@ def test_evidence_ingest():
         "source_type": "bloomberg",
         "analyst_note": "Transformer lead times now exceeding 120 weeks for large orders",
         "tags": ["transformers", "grid"]
-    })
+    }, headers=AUTH_HEADERS)
     assert response.status_code == 200
     data = response.json()
     assert data["status"] == "processing"
@@ -63,7 +64,7 @@ def test_thesis_run():
         "thesis": "Transformer lead times will keep GE Vernova backlog elevated through 2026 supporting margin expansion",
         "depth": 2,
         "include_private": True
-    })
+    }, headers=AUTH_HEADERS)
     assert response.status_code == 200
     data = response.json()
     assert "run_id" in data
@@ -76,7 +77,7 @@ def test_thesis_run_returns_falsifiers():
     response = client.post("/thesis/run", json={
         "thesis": "Constellation Energy will outperform as hyperscalers pay premium for clean firm nuclear power",
         "depth": 2,
-    })
+    }, headers=AUTH_HEADERS)
     assert response.status_code == 200
     data = response.json()
     assert isinstance(data["falsification_triggers"], list)
@@ -89,7 +90,7 @@ def test_memo_generates_text():
         "thesis_run_id": "nonexistent-run-uses-stub-data",
         "style": "internal_brief",
         "max_words": 400,
-    })
+    }, headers=AUTH_HEADERS)
     assert response.status_code == 200
     data = response.json()
     assert "memo_text" in data

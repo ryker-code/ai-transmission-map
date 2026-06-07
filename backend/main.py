@@ -1,14 +1,18 @@
 import logging
 import time
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 from backend.api.routes import evidence, entities, graph, bottlenecks, thesis, memo, house_view, regime, claims, models, market, watchlist
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 _START_TIME = time.monotonic()
+limiter = Limiter(key_func=get_remote_address)
 
 
 @asynccontextmanager
@@ -18,7 +22,9 @@ async def lifespan(app: FastAPI):
     logger.info("AITM Backend shutting down.")
 
 
-app = FastAPI(title="AI Transmission Map API", version="0.1.0", lifespan=lifespan)
+app = FastAPI(title="AI Transmission Map API", version="1.0.0", lifespan=lifespan)
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 app.add_middleware(
     CORSMiddleware,

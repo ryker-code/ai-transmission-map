@@ -2,8 +2,9 @@
 import json
 import logging
 from pathlib import Path
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from backend.api.schemas import WatchlistEntry, WatchlistResponse
+from backend.auth import verify_api_key
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -65,7 +66,7 @@ async def get_watchlist():
     return WatchlistResponse(entries=entries, total=len(entries))
 
 
-@router.post("/{entity_id}", response_model=dict)
+@router.post("/{entity_id}", response_model=dict, dependencies=[Depends(verify_api_key)])
 async def add_to_watchlist(entity_id: str):
     """Add an entity to the watchlist."""
     from backend.db.watchlist_store import add
@@ -77,7 +78,7 @@ async def add_to_watchlist(entity_id: str):
     return {"status": "added", "entity_id": entity_id}
 
 
-@router.delete("/{entity_id}", response_model=dict)
+@router.delete("/{entity_id}", response_model=dict, dependencies=[Depends(verify_api_key)])
 async def remove_from_watchlist(entity_id: str):
     """Remove an entity from the watchlist."""
     from backend.db.watchlist_store import remove, is_watched
