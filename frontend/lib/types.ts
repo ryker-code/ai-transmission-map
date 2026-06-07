@@ -183,6 +183,36 @@ export interface HouseViewUpdate {
   pinned_thesis?: string;
 }
 
+export interface ClaimOverride {
+  claim_id: string;
+  confidence_override: number;
+  direction_override?: "bullish" | "bearish" | "neutral";
+}
+
+export interface EntityWeightOverride {
+  entity_id: string;
+  weight_override: number;
+}
+
+export interface ScenarioRequest {
+  base_run_id: string;
+  scenario_name: string;
+  claim_overrides: ClaimOverride[];
+  entity_weight_overrides: EntityWeightOverride[];
+}
+
+export interface ScenarioResponse {
+  scenario_id: string;
+  scenario_name: string;
+  base_run_id: string;
+  support_score: number;
+  contradiction_score: number;
+  delta_support: number;
+  delta_contradiction: number;
+  changed_bottlenecks: { entity_id: string; entity_name: string; weight_override: number; direction: string }[];
+  narrative: string;
+}
+
 export interface RegimeTimelineEntry {
   timestamp: string;
   regime_tag: string;

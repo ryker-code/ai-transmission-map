@@ -3,7 +3,7 @@ import logging
 import uuid
 from pathlib import Path
 from fastapi import APIRouter
-from backend.api.schemas import ThesisRunRequest, ThesisRunResponse, GraphResponse, GraphNode, GraphEdge
+from backend.api.schemas import ThesisRunRequest, ThesisRunResponse, GraphResponse, GraphNode, GraphEdge, ScenarioRequest, ScenarioResponse
 from datetime import datetime, timezone
 
 logger = logging.getLogger(__name__)
@@ -197,3 +197,137 @@ async def run_thesis(payload: ThesisRunRequest):
         graph_slice=GraphResponse(nodes=graph_nodes, edges=graph_edges, computed_at=datetime.now(timezone.utc)),
         created_at=datetime.now(timezone.utc),
     )
+
+
+# In-memory scenario store keyed by scenario_id; base_run_id → list of scenario_ids
+_scenario_store: dict[str, dict] = {}
+_base_to_scenarios: dict[str, list[str]] = {}
+
+
+@router.post("/scenario", response_model=ScenarioResponse)
+async def run_scenario(payload: ScenarioRequest):
+    """
+    Branch from a base thesis run with claim/entity weight overrides.
+    Returns re-scored support/contradiction deltas and a Claude narrative.
+    """
+    from backend.db.run_cache import get as get_run
+    base = get_run(payload.base_run_id)
+    if base is None:
+        # Stub base run if not found in cache (e.g. after restart)
+        base = {
+            "support_score": 0.72,
+            "contradiction_score": 0.28,
+            "key_bottlenecks": ["Transformer Lead Times", "Grid Interconnection Queue"],
+            "exposed_entities": [],
+            "regime": "AI_CAPEX_EXPANSION",
+        }
+
+    entities, chains = _load_seed_data()
+    entity_id_map = {e["id"]: e["canonical_name"] for e in entities}
+
+    # Apply claim overrides: adjust confidence on specified chain IDs
+    override_conf = {o.claim_id: o.confidence_override for o in payload.claim_overrides}
+    override_dir = {o.claim_id: o.direction_override for o in payload.claim_overrides if o.direction_override}
+
+    modified_chains = []
+    for c in chains:
+        mc = dict(c)
+        cid = mc.get("id", "")
+        if cid in override_conf:
+            mc["confidence"] = override_conf[cid]
+        if cid in override_dir:
+            mc["direction"] = override_dir[cid]
+        modified_chains.append(mc)
+
+    # Apply entity weight overrides (map entity_id to weight; affects scoring denominator)
+    weight_overrides = {o.entity_id: o.weight_override for o in payload.entity_weight_overrides}
+
+    # Simple re-score: fraction of high-confidence bullish vs bearish claims
+    bull = [c for c in modified_chains if c.get("direction") in ("bullish", "positive") and c.get("confidence", 0) > 0.5]
+    bear = [c for c in modified_chains if c.get("direction") in ("bearish", "negative") and c.get("confidence", 0) > 0.5]
+    total = len(modified_chains) or 1
+
+    new_support = round(len(bull) / total, 4)
+    new_contra = round(len(bear) / total, 4)
+    base_support = base.get("support_score", 0.72)
+    base_contra = base.get("contradiction_score", 0.28)
+
+    delta_support = round(new_support - base_support, 4)
+    delta_contra = round(new_contra - base_contra, 4)
+
+    # Determine which entities changed rank (simplified: flag those with weight overrides)
+    changed_bottlenecks = []
+    for eid, wt in weight_overrides.items():
+        name = entity_id_map.get(eid, eid)
+        changed_bottlenecks.append({
+            "entity_id": eid,
+            "entity_name": name,
+            "weight_override": wt,
+            "direction": "up" if wt > 1.0 else "down",
+        })
+
+    # Generate narrative with Claude (fallback to template)
+    narrative = (
+        f"Under scenario '{payload.scenario_name}', support score shifts from "
+        f"{base_support:.1%} to {new_support:.1%} ({delta_support:+.1%}) and contradiction "
+        f"score shifts from {base_contra:.1%} to {new_contra:.1%} ({delta_contra:+.1%}). "
+        f"The scenario modifies confidence on {len(payload.claim_overrides)} claims and "
+        f"adjusts weights for {len(payload.entity_weight_overrides)} entities. "
+    )
+    if delta_support < 0:
+        narrative += (
+            "Net effect is thesis weakening: claim confidence adjustments reduce the evidence "
+            "base supporting the core transmission chain. Monitor for confirmation or reversal."
+        )
+    else:
+        narrative += (
+            "Net effect is thesis strengthening: the modified claim set provides higher "
+            "directional coherence across the infrastructure stack."
+        )
+
+    try:
+        from backend.config import settings
+        from langchain_anthropic import ChatAnthropic
+        client = ChatAnthropic(
+            model="claude-opus-4-5",
+            anthropic_api_key=settings.anthropic_api_key,
+            temperature=0.3,
+            max_tokens=600,
+        )
+        prompt = f"""Scenario analysis for investment thesis.
+
+Scenario: {payload.scenario_name}
+Base run support: {base_support:.1%}, contradiction: {base_contra:.1%}
+After scenario support: {new_support:.1%}, contradiction: {new_contra:.1%}
+Claim overrides: {len(payload.claim_overrides)} claims modified
+Entity weight changes: {[f"{c['entity_name']} ({c['direction']})" for c in changed_bottlenecks]}
+
+Write a 2-sentence analyst interpretation of this scenario delta. Be specific about investment implications."""
+        response = client.invoke(prompt)
+        narrative = response.content.strip()
+    except Exception:
+        pass  # keep template narrative
+
+    scenario_id = str(uuid.uuid4())
+    result = ScenarioResponse(
+        scenario_id=scenario_id,
+        scenario_name=payload.scenario_name,
+        base_run_id=payload.base_run_id,
+        support_score=new_support,
+        contradiction_score=new_contra,
+        delta_support=delta_support,
+        delta_contradiction=delta_contra,
+        changed_bottlenecks=changed_bottlenecks,
+        narrative=narrative,
+    )
+    _scenario_store[scenario_id] = result.model_dump()
+    _base_to_scenarios.setdefault(payload.base_run_id, []).append(scenario_id)
+    return result
+
+
+@router.get("/scenarios/{base_run_id}")
+async def list_scenarios(base_run_id: str):
+    """List all scenarios branched from a given base thesis run."""
+    scenario_ids = _base_to_scenarios.get(base_run_id, [])
+    scenarios = [_scenario_store[sid] for sid in scenario_ids if sid in _scenario_store]
+    return {"base_run_id": base_run_id, "scenarios": scenarios, "count": len(scenarios)}

@@ -181,6 +181,32 @@ class ClaimAuditResponse(BaseModel):
     supporting_sources: int
     analyst_summary: str
 
+class ClaimOverride(BaseModel):
+    claim_id: str
+    confidence_override: float = Field(ge=0.0, le=1.0)
+    direction_override: Optional[Literal["bullish", "bearish", "neutral"]] = None
+
+class EntityWeightOverride(BaseModel):
+    entity_id: str
+    weight_override: float = Field(ge=0.1, le=3.0)
+
+class ScenarioRequest(BaseModel):
+    base_run_id: str
+    scenario_name: str
+    claim_overrides: List[ClaimOverride] = []
+    entity_weight_overrides: List[EntityWeightOverride] = []
+
+class ScenarioResponse(BaseModel):
+    scenario_id: str
+    scenario_name: str
+    base_run_id: str
+    support_score: float
+    contradiction_score: float
+    delta_support: float
+    delta_contradiction: float
+    changed_bottlenecks: List[dict]
+    narrative: str
+
 class RegimeTimelineEntry(BaseModel):
     timestamp: str
     regime_tag: str

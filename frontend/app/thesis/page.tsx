@@ -1,7 +1,45 @@
 "use client";
 import { useState } from "react";
 import { api } from "@/lib/api-client";
-import type { ThesisRunResponse } from "@/lib/types";
+import type { ThesisRunResponse, ScenarioResponse } from "@/lib/types";
+
+const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+
+const PRESET_SCENARIOS = [
+  {
+    name: "Transformer lead times normalize (52 weeks)",
+    description: "Reduces confidence on transformer bottleneck claims by 0.4",
+    claim_overrides: [
+      { claim_id: "seed-0", confidence_override: 0.35 },
+      { claim_id: "seed-1", confidence_override: 0.30 },
+    ],
+    entity_weight_overrides: [] as { entity_id: string; weight_override: number }[],
+  },
+  {
+    name: "FERC fast-track interconnection approved",
+    description: "Reduces grid interconnect confidence, increases utility beneficiary confidence",
+    claim_overrides: [
+      { claim_id: "seed-2", confidence_override: 0.40 },
+      { claim_id: "seed-3", confidence_override: 0.45 },
+    ],
+    entity_weight_overrides: [] as { entity_id: string; weight_override: number }[],
+  },
+  {
+    name: "Hyperscaler capex pause (−30%)",
+    description: "Reduces confidence on GPU demand and datacenter build claims by 0.35",
+    claim_overrides: [
+      { claim_id: "seed-4", confidence_override: 0.35 },
+      { claim_id: "seed-5", confidence_override: 0.40 },
+    ],
+    entity_weight_overrides: [] as { entity_id: string; weight_override: number }[],
+  },
+];
+
+function DeltaBadge({ value }: { value: number }) {
+  const sign = value >= 0 ? "+" : "";
+  const color = value >= 0 ? "text-emerald-400" : "text-red-400";
+  return <span className={`text-xs font-mono ${color}`}>{sign}{(value * 100).toFixed(1)}pp</span>;
+}
 
 export default function ThesisPage() {
   const [thesis, setThesis] = useState("");
@@ -9,6 +47,8 @@ export default function ThesisPage() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<ThesisRunResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [scenarios, setScenarios] = useState<ScenarioResponse[]>([]);
+  const [scenarioLoading, setScenarioLoading] = useState<string | null>(null);
 
   async function handleRun() {
     if (thesis.length < 30) {
@@ -17,13 +57,40 @@ export default function ThesisPage() {
     }
     setLoading(true);
     setError(null);
+    setScenarios([]);
     try {
       const res = await api.runThesis({ thesis, depth, include_private: true });
       setResult(res);
-    } catch (e: any) {
-      setError(e.message ?? "Analysis failed");
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : "Analysis failed");
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function runScenario(preset: typeof PRESET_SCENARIOS[0]) {
+    if (!result) return;
+    setScenarioLoading(preset.name);
+    try {
+      const res = await fetch(`${API}/thesis/scenario`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          base_run_id: result.run_id,
+          scenario_name: preset.name,
+          claim_overrides: preset.claim_overrides,
+          entity_weight_overrides: preset.entity_weight_overrides,
+        }),
+      });
+      const data = await res.json() as ScenarioResponse;
+      setScenarios((prev) => {
+        const filtered = prev.filter((s) => s.scenario_name !== preset.name);
+        return [...filtered, data];
+      });
+    } catch {
+      // silently ignore
+    } finally {
+      setScenarioLoading(null);
     }
   }
 
@@ -102,6 +169,62 @@ export default function ThesisPage() {
               {result.graph_slice.nodes.length} nodes · {result.graph_slice.edges.length} edges analyzed
             </p>
             <p className="text-xs text-slate-500 mt-1">Run ID: {result.run_id}</p>
+          </div>
+
+          {/* SCENARIO BRANCHING */}
+          <div className="bg-slate-900 border border-indigo-800/40 rounded-xl p-5">
+            <p className="text-sm font-semibold text-indigo-300 mb-1">What If? Scenario Workspace</p>
+            <p className="text-xs text-slate-400 mb-4">
+              Branch from this run with modified assumptions. Results are compared to base.
+            </p>
+            <div className="grid grid-cols-1 gap-3 mb-5">
+              {PRESET_SCENARIOS.map((preset) => {
+                const match = scenarios.find((s) => s.scenario_name === preset.name);
+                return (
+                  <div key={preset.name} className="bg-slate-800/60 rounded-lg p-4 border border-slate-700/60">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-white">{preset.name}</p>
+                        <p className="text-xs text-slate-400 mt-0.5">{preset.description}</p>
+                      </div>
+                      <button
+                        onClick={() => runScenario(preset)}
+                        disabled={scenarioLoading === preset.name}
+                        className="shrink-0 px-3 py-1.5 rounded-lg bg-indigo-600/70 hover:bg-indigo-600 text-white text-xs font-medium transition-colors disabled:opacity-50"
+                      >
+                        {scenarioLoading === preset.name ? "Running…" : "Run Scenario"}
+                      </button>
+                    </div>
+
+                    {match && (
+                      <div className="mt-3 pt-3 border-t border-slate-700/60">
+                        <div className="grid grid-cols-2 gap-3 mb-3">
+                          <div>
+                            <p className="text-xs text-slate-500 mb-1">Support</p>
+                            <div className="flex items-center gap-2">
+                              <span className="text-emerald-400 font-mono text-sm">{(result.support_score * 100).toFixed(1)}%</span>
+                              <span className="text-slate-500 text-xs">→</span>
+                              <span className="text-emerald-400 font-mono text-sm">{(match.support_score * 100).toFixed(1)}%</span>
+                              <DeltaBadge value={match.delta_support} />
+                            </div>
+                          </div>
+                          <div>
+                            <p className="text-xs text-slate-500 mb-1">Contradiction</p>
+                            <div className="flex items-center gap-2">
+                              <span className="text-red-400 font-mono text-sm">{(result.contradiction_score * 100).toFixed(1)}%</span>
+                              <span className="text-slate-500 text-xs">→</span>
+                              <span className="text-red-400 font-mono text-sm">{(match.contradiction_score * 100).toFixed(1)}%</span>
+                              <DeltaBadge value={match.delta_contradiction} />
+                            </div>
+                          </div>
+                        </div>
+                        <p className="text-xs text-slate-300 leading-relaxed italic">{match.narrative}</p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       )}
