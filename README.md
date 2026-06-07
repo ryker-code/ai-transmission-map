@@ -13,7 +13,20 @@
 ![BigQuery](https://img.shields.io/badge/BigQuery-Google_Cloud-4285F4?logo=google-cloud)
 ![Claude AI](https://img.shields.io/badge/Claude-Opus--4--5-orange)
 ![Gemini](https://img.shields.io/badge/Gemini-2.0_Flash-blue?logo=google)
-![Tests](https://img.shields.io/badge/tests-69_passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-92_passing-brightgreen)
+
+## Project Stats
+
+| Metric | Value |
+|--------|-------|
+| Backend tests | 92 passing |
+| Frontend pages | 13 |
+| Entities in graph | 200 |
+| Transmission claims | 80 |
+| Agent models | 3 (Claude Opus, Gemini Flash, Whisper) |
+| Evidence intake modes | 4 (URL, Image, Voice, Bloomberg) |
+| API endpoints | 25+ |
+| Days to build | 6 (fully autonomous overnight sessions) |
 
 ## Live Demo
 
@@ -153,8 +166,13 @@ See [`docs/INTERVIEW_GUIDE.md`](docs/INTERVIEW_GUIDE.md) for:
 | **Three intake modalities** | Bloomberg URL (no HTTP), Claude Opus vision, Whisper + Claude claim extraction |
 | **Real-time regime shift** | New evidence updates `_dynamic_claims` pool; regime recomputed on every `/regime/` request |
 | **PDF export** | reportlab renders investor memo with bottleneck table and key entity section |
-| **59 tests** | scorer, resolver, house_view, bloomberg_parser, image_intake, voice_intake, phase4 routes |
+| **92 tests** | DB router, auth, streaming memo, watchlist, digest, model router, cache, scorer, resolver, and more |
 | **SQLite offline mode** | Full dev loop without GCP credentials — `USE_BIGQUERY=false` flag |
+| **BigQuery dual-mode** | `DBRouter` auto-detects credentials; falls back to seed JSON gracefully |
+| **Streaming memo** | `POST /memo/stream` returns SSE; frontend renders typewriter animation per token |
+| **Watchlist** | Star entities from any page; live score + momentum panel on dashboard |
+| **API key auth** | `X-Api-Key` header required on all write endpoints; `slowapi` rate limits |
+| **Weekly digest** | `POST /digest/generate` aggregates regime + scores + analyst calls into LP email |
 
 ## API Reference
 
@@ -176,6 +194,16 @@ GET  /house-view/narrative           — Claude Opus 3-paragraph positioning nar
 GET  /regime/                        — current dominant regime
 GET  /regime/timeline                — 30-day regime evolution
 GET  /claims/{id}/evidence           — claim audit trail
+GET  /models/status                  — per-model call counts, latency, success rate
+GET  /market/signals                 — 25-ticker momentum signals (mock → live)
+POST /thesis/scenario                — What-if scenario branching from base run
+GET  /watchlist/                     — starred entities with live scores
+POST /watchlist/{entity_id}          — add to watchlist  [auth required]
+DELETE /watchlist/{entity_id}        — remove from watchlist  [auth required]
+POST /memo/stream                    — streaming SSE memo generation  [auth required]
+POST /digest/generate                — weekly LP digest  [auth required]
+GET  /health/db                      — DB backend status (BigQuery or SQLite)
+GET  /cache/stats                    — cache hit/miss stats
 ```
 
 ## Deployment

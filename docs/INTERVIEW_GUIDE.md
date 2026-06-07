@@ -87,6 +87,34 @@ Dominant regime = argmax of confidence-weighted claim tag distribution. New evid
 
 ---
 
+## Three Hard Engineering Questions
+
+**Q: "Why not just use a vector DB for the claims?"**
+
+A: Vector similarity retrieves claims *semantically close* to a query — not claims that *corroborate*
+a thesis with distinct evidence. Ten Bloomberg articles about the same transformer backlog event score
+identically high on vector similarity, but they represent one data point, not ten. The 5-component
+scorer's `cross_source_agreement` component measures predicate diversity across entities, explicitly
+penalizing this. Vector DBs are optimal for document retrieval; the bottleneck scorer is a structured
+evidence aggregation problem where corroboration quality matters more than semantic closeness.
+
+**Q: "How does the scorer handle conflicting evidence?"**
+
+A: The Critic node rejects claims below confidence 0.5. For claims that pass Critic, conflicting
+evidence (bullish + bearish predicates on the same entity) *reduces* the `cross_source_agreement`
+score — not because we detect contradiction explicitly, but because predicate diversity decreases
+when half the claims point in the same direction. The house view layer lets the analyst express
+conviction when they have edge-case knowledge the model can't capture from the claim graph alone.
+
+**Q: "What would you change if you had 6 months instead of 6 days?"**
+
+A: Three things: (1) Real market data — Alpha Vantage/Polygon.io replacing the 25-ticker mock
+(`backend/tools/market_signals.py` has exact `TODO` integration points). (2) Score history —
+every scorer run writes to BigQuery time series; entity detail page shows 90-day sparkline.
+(3) Multi-analyst collaboration — house view and watchlist scoped per-user via JWT. The interface
+in `house_view_store.py` and `watchlist_store.py` already has the right shape; they just need a
+`user_id` partition key and a BigQuery backend instead of the in-memory dict.
+
 ## Common Interview Questions
 
 **Q: How does the house view interact with the LangGraph pipeline?**
@@ -115,6 +143,34 @@ A: `POST /thesis/scenario` accepts a `base_run_id` plus a list of `ClaimOverride
 **Q: Walk me through a bottleneck score of 58.5 for Hyperscaler GPU Clusters.**
 
 A: evidence_intensity ≈ 0.70 (many inbound claims), × 0.30 = 0.21. Recency ≈ 0.65 (mix of 2023–2024 claims), × 0.20 = 0.13. Cross-source ≈ 0.75 (3+ distinct predicates), × 0.25 = 0.19. Market_confirmation = 0.50 (default), × 0.15 = 0.075. House_view_weight = 1.0 (no override), normalized × 0.10 = small contribution. Raw ≈ 0.70, normalized to ~58.5/100.
+
+---
+
+## Day 6 Additions (Final Polish)
+
+### D. BigQuery/SQLite Dual-Mode DB Router
+`DBRouter` auto-detects credentials at startup. If BigQuery is unavailable (Codespace, no GCP creds),
+all reads fall back to seed JSON files and writes go to `aitm_stub.db`. Swap `GOOGLE_CLOUD_PROJECT`
+to a real project and the full 200-entity graph moves to BigQuery with zero code change.
+
+**File**: `backend/db/db_router.py`, `backend/db/bq_client.py`
+
+### E. API Key Auth + Rate Limiting
+All write endpoints (`POST`, `PUT`, `DELETE`) require `X-Api-Key` header matching `AITM_API_KEY` env var.
+Rate limits: `POST /evidence/` → 10/min, `POST /thesis/run` → 30/min, image/voice → 5/min.
+`slowapi` handles limiting; `backend/auth.py` handles key validation.
+
+### F. Weekly Digest Generator
+`POST /digest/generate` aggregates regime, top score movers, house view calls, and falsification
+alerts into a 400-word LP-style email. Claude claude-opus-4-5 formats it when the API key is configured;
+a structured stub runs offline. See `docs/sample_digest.md` for a live example.
+
+**File**: `backend/tools/digest_generator.py`, `backend/api/routes/digest.py`
+
+### G. Architecture Deep Dive
+`docs/ARCHITECTURE_DEEP_DIVE.md` covers: why LangGraph vs raw chains, why BigQuery vs Neo4j/Postgres,
+5-component scorer weight rationale, why house view is a separate layer, TTL cache vs Redis,
+multi-model routing cost/accuracy tradeoffs, and what changes in a production v2.
 
 ---
 
