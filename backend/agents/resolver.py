@@ -12,7 +12,7 @@ from typing import Optional
 
 logger = logging.getLogger(__name__)
 
-_SEED_PATH = Path("backend/db/seed_data/entities.json")
+_SEED_PATH = Path(__file__).parent.parent / "db/seed_data/entities.json"
 
 
 class EntityResolver:

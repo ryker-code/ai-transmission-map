@@ -10,9 +10,12 @@ import uuid
 from typing import List
 from datetime import datetime, timezone
 
+import time
 from backend.config import settings
+from backend.tools.model_router import get_router
 
 logger = logging.getLogger(__name__)
+_router = get_router()
 
 CRITIC_PROMPT = """You are a skeptical sell-side equity analyst reviewing transmission claims about AI infrastructure.
 
@@ -59,27 +62,31 @@ def run_critic(resolved_claims: List[dict], analyst_note: str) -> List[dict]:
 
     try:
         from langchain_anthropic import ChatAnthropic
+        import json
+        model = _router.route("critic_scoring")
         client = ChatAnthropic(
-            model="claude-opus-4-5",
+            model=model,
             anthropic_api_key=settings.anthropic_api_key,
             temperature=0.1,
             max_tokens=4096,
         )
-
-        import json
         claims_json = json.dumps(resolved_claims, indent=2)
         prompt = CRITIC_PROMPT.format(note=analyst_note, claims=claims_json)
+        t0 = time.monotonic()
         response = client.invoke(prompt)
+        latency_ms = int((time.monotonic() - t0) * 1000)
         content = response.content.strip()
         if content.startswith("```"):
             content = content.split("```")[1]
             if content.startswith("json"):
                 content = content[4:]
         result = json.loads(content)
+        _router.log_call("critic_scoring", model, len(prompt), len(content), latency_ms, True)
         if isinstance(result, list):
             return result
     except Exception as e:
         logger.warning(f"Critic LLM failed ({e}), applying heuristic evaluation")
+        _router.log_call("critic_scoring", _router.route("critic_scoring"), 0, 0, 0, False)
 
     # Heuristic fallback: accept claims with confidence >= 0.6
     critiqued = []

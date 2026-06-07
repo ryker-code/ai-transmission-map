@@ -76,7 +76,7 @@ def test_claim_audit_seed_claim(client):
     """Fetch first seed chain by its actual ID and verify audit structure."""
     import json
     from pathlib import Path
-    chains = json.loads(Path("backend/db/seed_data/transmission_chains.json").read_text())
+    chains = json.loads((Path(__file__).parent.parent / "db/seed_data/transmission_chains.json").read_text())
     if not chains:
         pytest.skip("No seed chains available")
     first_id = chains[0].get("id", "seed-0")

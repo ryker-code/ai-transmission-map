@@ -34,7 +34,7 @@ def detect_regime(regime_filter: Optional[str] = None) -> dict:
     Detect the dominant regime from seed/live claim data.
     Returns regime tag, description, confidence, and per-regime scores.
     """
-    chains_path = Path("backend/db/seed_data/transmission_chains.json")
+    chains_path = Path(__file__).parent.parent / "db/seed_data/transmission_chains.json"
     if not chains_path.exists():
         return {"regime": "AI_CAPEX_EXPANSION", "confidence": 0.7, "description": REGIME_DESCRIPTIONS["AI_CAPEX_EXPANSION"], "scores": {}}
 

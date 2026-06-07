@@ -9,9 +9,12 @@ import json
 import logging
 from typing import List
 
+import time
 from backend.config import settings
+from backend.tools.model_router import get_router
 
 logger = logging.getLogger(__name__)
+_router = get_router()
 
 VALID_PREDICATES = [
     "depends_on", "constrained_by", "benefits_from", "exposed_to",
@@ -110,21 +113,29 @@ def _get_claude_client():
         return None
 
 
-def _invoke_llm(client, prompt: str, stub_response: list) -> list:
+def _invoke_llm(client, prompt: str, stub_response: list, task_type: str = "structured_json") -> list:
     """Invoke an LLM and parse JSON response; return stub_response on failure."""
+    model = _router.route(task_type)
     if client is None:
         logger.info("LLM client not available — returning stub response")
+        _router.log_call(task_type, model, 0, 0, 0, False)
         return stub_response
+    t0 = time.monotonic()
     try:
         response = client.invoke(prompt)
+        latency_ms = int((time.monotonic() - t0) * 1000)
         content = response.content.strip()
         if content.startswith("```"):
             content = content.split("```")[1]
             if content.startswith("json"):
                 content = content[4:]
-        return json.loads(content)
+        result = json.loads(content)
+        _router.log_call(task_type, model, len(prompt), len(content), latency_ms, True)
+        return result
     except Exception as e:
+        latency_ms = int((time.monotonic() - t0) * 1000)
         logger.error(f"LLM invocation failed: {e}")
+        _router.log_call(task_type, model, len(prompt), 0, latency_ms, False)
         return stub_response
 
 
@@ -141,7 +152,7 @@ def run_scout(analyst_note: str, source_type: str) -> List[dict]:
         {"name": "GE Vernova", "type": "public_co", "ticker": "GEV"},
         {"name": "Dominion Energy", "type": "utility", "ticker": "D"},
     ]
-    result = _invoke_llm(client, prompt, stub)
+    result = _invoke_llm(client, prompt, stub, task_type="entity_extraction")
     if not isinstance(result, list):
         return stub
     return result
@@ -171,7 +182,7 @@ def run_extractor(analyst_note: str, entity_candidates: List[dict], source_type:
             "rationale": "Vertiv supplies critical power and cooling to data center operators.",
         }
     ]
-    result = _invoke_llm(client, prompt, stub)
+    result = _invoke_llm(client, prompt, stub, task_type="causal_reasoning")
     if not isinstance(result, list):
         return stub
     # Validate and filter
@@ -188,6 +199,7 @@ def run_extractor(analyst_note: str, entity_candidates: List[dict], source_type:
         claim["confidence"] = max(0.0, min(1.0, float(claim.get("confidence", 0.7))))
         claim.setdefault("regime_tag", "AI_CAPEX_EXPANSION")
         claim.setdefault("rationale", "")
+        claim["extracted_by"] = _router.route("causal_reasoning")
         valid.append(claim)
     return valid
 

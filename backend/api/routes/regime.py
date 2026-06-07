@@ -37,7 +37,7 @@ async def get_regime_timeline():
     import json
     from pathlib import Path
 
-    chains_path = Path("backend/db/seed_data/transmission_chains.json")
+    chains_path = Path(__file__).parent.parent.parent / "db/seed_data/transmission_chains.json"
     chains = json.loads(chains_path.read_text()) if chains_path.exists() else []
 
     REGIMES = ["AI_CAPEX_EXPANSION", "SUPPLY_CHAIN_STRESS", "GRID_BOTTLENECK", "POWER_PRICE_SPREAD", "REGULATORY"]

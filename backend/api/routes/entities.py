@@ -10,8 +10,8 @@ from datetime import datetime, timezone
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
-_ENTITIES_PATH = Path("backend/db/seed_data/entities.json")
-_CHAINS_PATH = Path("backend/db/seed_data/transmission_chains.json")
+_ENTITIES_PATH = Path(__file__).parent.parent.parent / "db/seed_data/entities.json"
+_CHAINS_PATH = Path(__file__).parent.parent.parent / "db/seed_data/transmission_chains.json"
 
 
 def _load_seed():

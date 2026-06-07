@@ -11,8 +11,8 @@ router = APIRouter()
 
 def _load_graph_from_seed() -> GraphResponse:
     """Load graph nodes and edges from seed JSON files (SQLite stub path)."""
-    entities_path = Path("backend/db/seed_data/entities.json")
-    chains_path = Path("backend/db/seed_data/transmission_chains.json")
+    entities_path = Path(__file__).parent.parent.parent / "db/seed_data/entities.json"
+    chains_path = Path(__file__).parent.parent.parent / "db/seed_data/transmission_chains.json"
 
     if not entities_path.exists() or not chains_path.exists():
         return GraphResponse(nodes=[], edges=[], regime_tag="AI_CAPEX_EXPANSION",
@@ -71,10 +71,10 @@ async def get_graph(regime: str = Query(None, description="Filter by regime tag"
         if regime:
             # Filter edges to only those matching the regime
             # (nodes are always returned in full for context)
-            chains_path = Path("backend/db/seed_data/transmission_chains.json")
+            chains_path = Path(__file__).parent.parent.parent / "db/seed_data/transmission_chains.json"
             if chains_path.exists():
                 chains = json.loads(chains_path.read_text())
-                entities_path = Path("backend/db/seed_data/entities.json")
+                entities_path = Path(__file__).parent.parent.parent / "db/seed_data/entities.json"
                 entities = json.loads(entities_path.read_text())
                 entity_map = {e["canonical_name"]: e["id"] for e in entities}
                 filtered_edges = [

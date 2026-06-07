@@ -101,6 +101,17 @@ class MemoResponse(BaseModel):
     model_used: str
     created_at: datetime
 
+class ClaimCreate(BaseModel):
+    subject: str
+    predicate: str
+    object: str
+    direction: str
+    confidence: float
+    horizon: str
+    regime_tag: str
+    extracted_by: Optional[str] = None
+    rationale: Optional[str] = None
+
 class ClaimSummary(BaseModel):
     claim_id: str
     subject: str
@@ -110,7 +121,21 @@ class ClaimSummary(BaseModel):
     confidence: float
     horizon: str
     regime_tag: str
+    extracted_by: Optional[str] = None
     analyst_note: Optional[str] = None
+
+class ModelStatusEntry(BaseModel):
+    model_config = ConfigDict(protected_namespaces=())
+    name: str
+    task_types: List[str]
+    call_count: int
+    avg_latency_ms: int
+    success_rate: float
+
+class ModelStatusResponse(BaseModel):
+    models: List[ModelStatusEntry]
+    is_live: bool = True
+    last_updated: datetime
 
 class EntityDetailResponse(BaseModel):
     id: str

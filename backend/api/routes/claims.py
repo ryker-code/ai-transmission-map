@@ -7,8 +7,8 @@ from backend.api.schemas import ClaimAuditResponse, EvidenceAuditEntry
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
-_CHAINS_PATH = Path("backend/db/seed_data/transmission_chains.json")
-_EVIDENCE_PATH = Path("backend/db/seed_data/evidence_sources.json")
+_CHAINS_PATH = Path(__file__).parent.parent.parent / "db/seed_data/transmission_chains.json"
+_EVIDENCE_PATH = Path(__file__).parent.parent.parent / "db/seed_data/evidence_sources.json"
 
 
 @router.get("/{claim_id}/evidence", response_model=ClaimAuditResponse)

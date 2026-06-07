@@ -31,8 +31,8 @@ WEIGHTS = {
 }
 MAX_RAW_SCORE = 1.20  # theoretical max when all components at ceiling
 
-_SEED_ENTITIES_PATH = Path("backend/db/seed_data/entities.json")
-_SEED_CHAINS_PATH = Path("backend/db/seed_data/transmission_chains.json")
+_SEED_ENTITIES_PATH = Path(__file__).parent.parent / "db/seed_data/entities.json"
+_SEED_CHAINS_PATH = Path(__file__).parent.parent / "db/seed_data/transmission_chains.json"
 
 
 def _load_all_claims() -> list[dict]:

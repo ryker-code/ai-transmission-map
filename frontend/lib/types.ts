@@ -25,7 +25,22 @@ export interface ClaimSummary {
   confidence: number;
   horizon: string;
   regime_tag: string;
+  extracted_by?: string;
   analyst_note?: string;
+}
+
+export interface ModelStatusEntry {
+  name: string;
+  task_types: string[];
+  call_count: number;
+  avg_latency_ms: number;
+  success_rate: number;
+}
+
+export interface ModelStatusResponse {
+  models: ModelStatusEntry[];
+  is_live: boolean;
+  last_updated: string;
 }
 
 export interface EntityDetailResponse {

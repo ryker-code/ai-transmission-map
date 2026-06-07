@@ -1,0 +1,11 @@
+{"ts": 1780831424.6239047, "task_type": "entity_extraction", "model": "gemini-2.0-flash", "tokens_in": 796, "tokens_out": 0, "latency_ms": 51, "success": false}
+{"ts": 1780831425.6602924, "task_type": "causal_reasoning", "model": "claude-opus-4-5", "tokens_in": 1344, "tokens_out": 0, "latency_ms": 101, "success": false}
+{"ts": 1780831425.8203292, "task_type": "critic_scoring", "model": "claude-opus-4-5", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780831426.3860052, "task_type": "memo_generation", "model": "claude-opus-4-5", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780831426.5155892, "task_type": "image_extraction", "model": "claude-opus-4-5", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780831426.6393878, "task_type": "image_extraction", "model": "claude-opus-4-5", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780831426.7562888, "task_type": "image_extraction", "model": "claude-opus-4-5", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780831427.0891225, "task_type": "causal_reasoning", "model": "claude-opus-4-5", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780831427.2904513, "task_type": "causal_reasoning", "model": "claude-opus-4-5", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780831427.5256476, "task_type": "causal_reasoning", "model": "claude-opus-4-5", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}
+{"ts": 1780831427.7099879, "task_type": "critic_scoring", "model": "claude-opus-4-5", "tokens_in": 0, "tokens_out": 0, "latency_ms": 0, "success": false}

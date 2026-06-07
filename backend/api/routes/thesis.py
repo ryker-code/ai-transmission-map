@@ -36,8 +36,8 @@ Return ONLY the JSON object."""
 
 def _load_seed_data():
     """Load entities and chains from seed files."""
-    entities_path = Path("backend/db/seed_data/entities.json")
-    chains_path = Path("backend/db/seed_data/transmission_chains.json")
+    entities_path = Path(__file__).parent.parent.parent / "db/seed_data/entities.json"
+    chains_path = Path(__file__).parent.parent.parent / "db/seed_data/transmission_chains.json"
     entities = json.loads(entities_path.read_text()) if entities_path.exists() else []
     chains = json.loads(chains_path.read_text()) if chains_path.exists() else []
     return entities, chains

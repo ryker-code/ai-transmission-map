@@ -5,8 +5,8 @@ from datetime import datetime, timezone
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-ENTITIES_FILE = Path("backend/db/seed_data/entities.json")
-CHAINS_FILE = Path("backend/db/seed_data/transmission_chains.json")
+ENTITIES_FILE = Path(__file__).parent / "seed_data/entities.json"
+CHAINS_FILE = Path(__file__).parent / "seed_data/transmission_chains.json"
 
 def load_seed_data():
     from backend.config import settings

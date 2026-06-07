@@ -7,9 +7,13 @@ Accepts PNG/JPG image bytes. Returns a list of claim dicts matching ClaimCreate 
 import base64
 import json
 import logging
+import time
 from typing import Optional
 
 logger = logging.getLogger(__name__)
+
+from backend.tools.model_router import get_router as _get_router
+_router = _get_router()
 
 IMAGE_PROMPT = """You are a senior equity analyst reviewing a chart, diagram, or slide
 about AI infrastructure investment.
@@ -79,9 +83,11 @@ async def extract_claims_from_image(
         if image_bytes[:2] == b"\xff\xd8":
             media_type = "image/jpeg"
 
+        model = _router.route("image_extraction")
         client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
+        t0 = time.monotonic()
         message = client.messages.create(
-            model="claude-opus-4-5",
+            model=model,
             max_tokens=2048,
             messages=[
                 {
@@ -104,6 +110,7 @@ async def extract_claims_from_image(
             ],
         )
 
+        latency_ms = int((time.monotonic() - t0) * 1000)
         content = message.content[0].text.strip()
         if content.startswith("```"):
             content = content.split("```")[1]
@@ -111,10 +118,11 @@ async def extract_claims_from_image(
                 content = content[4:]
 
         claims = json.loads(content)
+        _router.log_call("image_extraction", model, len(IMAGE_PROMPT), len(content), latency_ms, True)
         if not isinstance(claims, list):
             return STUB_CLAIMS
 
-        # Validate fields
+        # Validate fields and stamp extracted_by
         valid = []
         for claim in claims:
             if all(k in claim for k in ["subject", "predicate", "object", "direction"]):
@@ -124,6 +132,7 @@ async def extract_claims_from_image(
                 claim.setdefault("rationale", "")
                 claim.setdefault("source_url", source_url or "")
                 claim.setdefault("source_type", "image")
+                claim["extracted_by"] = model
                 valid.append(claim)
 
         logger.info(f"image_intake: extracted {len(valid)} claims from image")
@@ -131,4 +140,5 @@ async def extract_claims_from_image(
 
     except Exception as e:
         logger.warning(f"image_intake: vision extraction failed ({e}), returning stub")
+        _router.log_call("image_extraction", _router.route("image_extraction"), 0, 0, 0, False)
         return STUB_CLAIMS

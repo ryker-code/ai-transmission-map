@@ -3,11 +3,14 @@ Memo agent: generates investor-style memos from thesis run results.
 Uses Claude claude-opus-4-5 with style-specific prompts for buyside LP, sellside note, and internal brief formats.
 """
 import logging
+import time
 from typing import Literal
 
 from backend.config import settings
+from backend.tools.model_router import get_router
 
 logger = logging.getLogger(__name__)
+_router = get_router()
 
 BUYSIDE_LP_PROMPT = """You are a senior portfolio manager writing an LP-facing investment note.
 
@@ -118,16 +121,22 @@ async def generate_memo(
 
     try:
         from langchain_anthropic import ChatAnthropic
+        model = _router.route("memo_generation")
         client = ChatAnthropic(
-            model="claude-opus-4-5",
+            model=model,
             anthropic_api_key=settings.anthropic_api_key,
             temperature=0.4,
             max_tokens=min(max_words * 2, 4096),
         )
+        t0 = time.monotonic()
         response = client.invoke(prompt)
-        return response.content.strip()
+        latency_ms = int((time.monotonic() - t0) * 1000)
+        content = response.content.strip()
+        _router.log_call("memo_generation", model, len(prompt), len(content), latency_ms, True)
+        return content
     except Exception as e:
         logger.warning(f"Memo LLM generation failed ({e}), returning stub")
+        _router.log_call("memo_generation", _router.route("memo_generation"), 0, 0, 0, False)
 
     # Stub memo when API is unavailable
     return f"""[STUB MEMO — API key not configured]
