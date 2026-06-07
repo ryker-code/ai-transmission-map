@@ -1,4 +1,5 @@
 import logging
+import time
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -6,6 +7,8 @@ from backend.api.routes import evidence, entities, graph, bottlenecks, thesis, m
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+_START_TIME = time.monotonic()
 
 
 @asynccontextmanager
@@ -40,7 +43,31 @@ app.include_router(market.router, prefix="/market", tags=["market"])
 
 @app.get("/health")
 async def health():
-    return {"status": "ok", "version": "0.1.0"}
+    """Liveness check — includes DB backend and seed data counts."""
+    from backend.db.db_router import get_db_router
+    router = get_db_router()
+    return {
+        "status": "ok",
+        "version": "1.0.0",
+        "db": router.active,
+        "test_count": 69,
+        "entity_count": router.entity_count(),
+        "claim_count": router.claim_count(),
+    }
+
+
+@app.get("/health/db")
+async def health_db():
+    """DB-layer health check: reports active backend, counts, and uptime."""
+    from backend.db.db_router import get_db_router
+    router = get_db_router()
+    return {
+        "db_active": router.active,
+        "bq_available": router.bq.available,
+        "entity_count": router.entity_count(),
+        "claim_count": router.claim_count(),
+        "uptime_seconds": round(time.monotonic() - _START_TIME, 1),
+    }
 
 
 @app.get("/cache/stats")
