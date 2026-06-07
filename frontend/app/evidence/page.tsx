@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { api } from "@/lib/api-client";
 import type { EvidenceResponse } from "@/lib/types";
 
@@ -18,6 +18,11 @@ export default function EvidencePage() {
   const [result, setResult] = useState<EvidenceResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [parsedEntities, setParsedEntities] = useState<string[]>([]);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageContext, setImageContext] = useState("");
+  const [imageResult, setImageResult] = useState<any>(null);
+  const [imageLoading, setImageLoading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   async function handleParseUrl() {
     if (!url) { setError("Enter a URL first."); return; }
@@ -37,6 +42,24 @@ export default function EvidencePage() {
       setError("URL parse failed: " + (e.message ?? "unknown error"));
     } finally {
       setParsing(false);
+    }
+  }
+
+  async function handleImageUpload() {
+    if (!imageFile || !imageContext) { setError("Select an image and enter context."); return; }
+    setImageLoading(true);
+    setError(null);
+    try {
+      const form = new FormData();
+      form.append("image", imageFile);
+      form.append("analyst_context", imageContext);
+      const res = await fetch(`${API_BASE}/evidence/image`, { method: "POST", body: form });
+      const data = await res.json();
+      setImageResult(data);
+    } catch (e: any) {
+      setError("Image upload failed: " + (e.message ?? "unknown error"));
+    } finally {
+      setImageLoading(false);
     }
   }
 
@@ -160,6 +183,54 @@ export default function EvidencePage() {
           </button>
         </div>
         {error && <p className="text-red-400 text-sm">{error}</p>}
+      </div>
+
+      {/* Image upload section */}
+      <div className="mt-6 bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
+        <h2 className="text-base font-semibold text-white">Upload Chart / Slide</h2>
+        <p className="text-xs text-slate-400">
+          Extract transmission claims from a PNG/JPG chart or presentation slide via Claude vision.
+        </p>
+        <div>
+          <label className="block text-xs text-slate-400 mb-1">Image File (PNG or JPEG)</label>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".png,.jpg,.jpeg"
+            onChange={(e) => setImageFile(e.target.files?.[0] ?? null)}
+            className="block text-sm text-slate-300 file:mr-3 file:py-1 file:px-3 file:rounded file:border-0 file:bg-slate-700 file:text-slate-200 hover:file:bg-slate-600"
+          />
+          {imageFile && <p className="text-xs text-slate-500 mt-1">{imageFile.name} ({(imageFile.size / 1024).toFixed(0)} KB)</p>}
+        </div>
+        <div>
+          <label className="block text-xs text-slate-400 mb-1">Analyst Context (required)</label>
+          <textarea
+            value={imageContext}
+            onChange={(e) => setImageContext(e.target.value)}
+            placeholder="Describe what this chart depicts — e.g. 'Q3 2024 US power transformer lead times by vendor'"
+            className="w-full h-20 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder:text-slate-500 resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </div>
+        <button
+          onClick={handleImageUpload}
+          disabled={imageLoading || !imageFile || !imageContext}
+          className="px-5 py-2 rounded-lg bg-violet-600 text-white text-sm font-medium disabled:opacity-40 hover:bg-violet-500 transition-colors"
+        >
+          {imageLoading ? "Extracting..." : "Extract Claims from Image"}
+        </button>
+        {imageResult && (
+          <div className="bg-slate-800 rounded-lg p-3 space-y-1">
+            <p className="text-xs text-emerald-400 font-medium">
+              {imageResult.claims_accepted ?? 0} claims accepted from {imageResult.claims_extracted ?? 0} extracted
+            </p>
+            {imageResult.claims?.map((c: any, i: number) => (
+              <p key={i} className="text-xs text-slate-400">
+                {c.subject} —{c.predicate}→ {c.object} ({c.direction}, {(c.confidence * 100).toFixed(0)}%)
+              </p>
+            ))}
+            {imageResult.error && <p className="text-xs text-red-400">{imageResult.error}</p>}
+          </div>
+        )}
       </div>
 
       {result && (

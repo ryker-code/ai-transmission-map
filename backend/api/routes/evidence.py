@@ -1,6 +1,6 @@
 import logging
 import uuid
-from fastapi import APIRouter, BackgroundTasks, Query
+from fastapi import APIRouter, BackgroundTasks, File, Form, Query, UploadFile
 from backend.api.schemas import EvidenceIngest, EvidenceResponse
 
 logger = logging.getLogger(__name__)
@@ -92,3 +92,44 @@ async def _run_pipeline_background(source_id: str, note_id: str,
             logger.warning(f"Pipeline completed with error: {result['error']}")
     except Exception as e:
         logger.error(f"Pipeline background task failed for note_id={note_id}: {e}")
+
+
+@router.post("/image", response_model=dict)
+async def ingest_image(
+    image: UploadFile = File(...),
+    analyst_context: str = Form(..., min_length=10),
+    source_url: str = Form(""),
+):
+    """
+    Extract transmission claims from a chart, slide, or diagram image.
+    Uses Claude claude-opus-4-5 vision. Accepted formats: PNG, JPEG.
+    Runs extracted claims through the critic → scorer pipeline.
+    """
+    allowed_types = {"image/png", "image/jpeg", "image/jpg"}
+    if image.content_type not in allowed_types:
+        return {"error": f"Unsupported file type: {image.content_type}. Use PNG or JPEG.", "claims": []}
+
+    image_bytes = await image.read()
+    if len(image_bytes) > 10 * 1024 * 1024:  # 10 MB limit
+        return {"error": "Image too large (max 10 MB)", "claims": []}
+
+    try:
+        from backend.tools.image_intake import extract_claims_from_image
+        from backend.agents.critic import run_critic, run_scorer
+
+        raw_claims = await extract_claims_from_image(image_bytes, analyst_context, source_url or None)
+        critiqued = run_critic(raw_claims, analyst_context)
+        run_scorer(critiqued)
+
+        accepted = [c for c in critiqued if c.get("status") != "rejected"]
+        return {
+            "status": "processed",
+            "source_url": source_url,
+            "analyst_context": analyst_context,
+            "claims_extracted": len(raw_claims),
+            "claims_accepted": len(accepted),
+            "claims": accepted[:10],
+        }
+    except Exception as e:
+        logger.error(f"Image ingest failed: {e}")
+        return {"error": str(e), "claims": []}
