@@ -69,3 +69,52 @@ def test_thesis_run():
     assert "run_id" in data
     assert "support_score" in data
     assert "falsification_triggers" in data
+
+
+def test_thesis_run_returns_falsifiers():
+    """Thesis run always returns at least one falsification trigger."""
+    response = client.post("/thesis/run", json={
+        "thesis": "Constellation Energy will outperform as hyperscalers pay premium for clean firm nuclear power",
+        "depth": 2,
+    })
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data["falsification_triggers"], list)
+    assert len(data["falsification_triggers"]) >= 1
+
+
+def test_memo_generates_text():
+    """Memo generation returns non-empty memo_text for any thesis run ID."""
+    response = client.post("/memo/generate", json={
+        "thesis_run_id": "nonexistent-run-uses-stub-data",
+        "style": "internal_brief",
+        "max_words": 400,
+    })
+    assert response.status_code == 200
+    data = response.json()
+    assert "memo_text" in data
+    assert len(data["memo_text"]) > 50
+    assert "memo_id" in data
+
+
+def test_regime_detector_returns_dominant():
+    """Regime detector returns a recognized regime tag."""
+    from backend.tools.regime_detector import detect_regime
+    result = detect_regime()
+    valid_regimes = {
+        "AI_CAPEX_EXPANSION", "SUPPLY_CHAIN_STRESS", "GRID_BOTTLENECK",
+        "POWER_PRICE_SPREAD", "REGULATORY", "NUCLEAR_RENAISSANCE",
+    }
+    assert result["regime"] in valid_regimes
+    assert 0 < result["confidence"] <= 1.0
+    assert "description" in result
+
+
+def test_parse_url_endpoint():
+    """GET /evidence/parse-url returns metadata for a bloomberg URL."""
+    response = client.get("/evidence/parse-url?url=https://www.bloomberg.com/energy/2024-03-15/ge-vernova-transformer-backlog")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["source_type"] == "bloomberg"
+    assert data["title"]
+    assert data["access_class"] == "metadata_only"

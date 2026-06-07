@@ -1,3 +1,87 @@
+# BUILD_LOG — Day 3
+
+**Completed:** Sun Jun 8 05:05 UTC 2026
+**Duration:** ~3.5 hours (Day 3 autonomous session)
+**Status:** All Day 3 phases complete — no blockers
+
+## Day 3 Files Created / Modified
+
+### New Backend Files
+- `backend/agents/scorer.py` — full 5-component weighted scorer (evidence×0.30 + recency×0.20 + cross_source×0.25 + market×0.15 + house_view×0.10), normalized 0-100
+- `backend/agents/resolver.py` — EntityResolver class with alias index, ticker resolution, merge_duplicate
+- `backend/agents/house_view.py` — apply_house_view() with conviction bonuses (±10pt), pinned entity tracking
+- `backend/db/claims_store.py` — in-memory accepted claims pool (pipeline → scorer continuity)
+- `backend/db/house_view_store.py` — in-memory conviction/weight store for bottleneck scoring
+- `backend/db/run_cache.py` — shared thesis run store (thesis→memo wiring)
+- `backend/tools/bloomberg_parser.py` — URL metadata parser (ToS-compliant, no article content)
+- `backend/tools/image_intake.py` — Claude Opus vision claim extraction from PNG/JPEG charts
+
+### Updated Backend Files
+- `backend/api/routes/bottlenecks.py` — calls scorer + apply_house_view
+- `backend/api/routes/evidence.py` — bloomberg enrichment + /evidence/image + /evidence/parse-url
+- `backend/api/routes/house_view.py` — SQLite persistence + list endpoint
+- `backend/api/routes/entities.py` — real implementation (seed + filters)
+- `backend/agents/extractor.py` — run_resolver() delegates to EntityResolver
+- `backend/agents/critic.py` — claims_store + regime update wiring
+- `backend/requirements.txt` — added python-multipart==0.0.9
+
+### New Tests
+- `backend/tests/test_scorer.py` — 4 tests (ranking, range, components, filter)
+- `backend/tests/test_resolver.py` — 8 tests (exact, ticker, alias, unknown, batch, merge, singleton)
+- `backend/tests/test_house_view.py` — 5 tests (weight, high bonus, low penalty, pinned, passthrough)
+- `backend/tests/test_bloomberg_parser.py` — 9 tests (5 parametrized URLs + 4 focused)
+- `backend/tests/test_image_intake.py` — 4 async tests (claims, structure, empty, range)
+- `backend/tests/test_health.py` — expanded +5 tests (falsifiers, memo, regime, parse-url)
+
+### Frontend Updates
+- `frontend/app/evidence/page.tsx` — Parse URL button, image upload section
+- `frontend/app/page.tsx` — live stat cards via SWR (entity count, claims, regime)
+- `frontend/next.config.ts` — standalone output, bloomberg image domain
+
+### Docs
+- `docs/demo_theses.md` — 3 interview-ready theses with live API output
+- `docs/OVERNIGHT_PROMPT_DAY3.md` — pulled from origin/main (user-authored)
+- `README.md` — polished with ASCII architecture diagram, badges, feature/agent tables
+
+## Test Results (Day 3 Final)
+
+```
+42 passed, 3 warnings in 4.51s
+
+test_bloomberg_parser.py  9 tests  ✓
+test_health.py           12 tests  ✓
+test_house_view.py        5 tests  ✓
+test_image_intake.py      4 tests  ✓
+test_resolver.py          8 tests  ✓
+test_scorer.py            4 tests  ✓
+```
+
+## Frontend Build (Day 3 Final)
+
+```
+✓ Next.js build successful (standalone output)
+✓ TypeScript check passed
+✓ 7 routes: /, /evidence, /graph, /house-view, /memo, /thesis, /_not-found
+```
+
+## Known Issues (Day 3)
+- All Day 1 + Day 2 deprecation items resolved
+- No first-party warnings in test suite
+- Third-party warnings (google.protobuf, pydantic v1 config) are non-blocking
+
+## Deployment Status
+- Vercel: configured (vercel.json + standalone next.config.ts); deploy with button in README
+- Cloud Run: Dockerfile + cloudbuild.yaml ready; pending GCP project setup
+
+## Day 4 Objectives
+1. Voice note intake (POST /evidence/voice — Whisper or Google Speech-to-Text)
+2. Regime timeline view (app/regime/page.tsx — how regime shifted over ingested evidence)
+3. Entity detail pages (app/entities/[id]/page.tsx — claims, score history, house view)
+4. PDF memo export (GET /export/thesis/{run_id}.pdf — reportlab or weasyprint)
+5. Live Vercel deployment with real API keys
+
+---
+
 # BUILD_LOG — Day 1
 
 **Completed:** Sun Jun 7 03:31 UTC 2026  
